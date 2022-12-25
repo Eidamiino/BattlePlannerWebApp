@@ -1,0 +1,27 @@
+﻿@model WebApplication3.Pages.Resources
+@{
+}
+<h1>Resources</h1>
+
+<ul>
+  @foreach (var x in Model.Items)
+  {
+    <li>@x.Name</li>
+    @foreach (var y in x.RequirementList)
+    {
+      <ul>
+        <li>@y.Key.Name - @y.Value</li>
+      </ul>
+    }
+  }
+  <h4>Total items: @Model.TotalItems</h4>
+</ul>
+<form method="post" asp-page-handler="CreateResource">
+  Name:
+  <input asp-for="NewResourceName" value="@Model.NewResourceName"/>
+  Requirement name:
+  <input asp-for="RequirementName" value="@Model.RequirementName"/>
+  Requirement amount:
+  <input asp-for="RequirementCapacity" value="@Model.RequirementCapacity"/>
+  <input type="submit" />
+</form>

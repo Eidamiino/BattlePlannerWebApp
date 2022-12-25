@@ -1,0 +1,18 @@
+﻿@model WebApplication3.Pages.Requirements
+@{
+}
+<h1>Requirements</h1>
+<ul>
+  @foreach (var x in Model.Items)
+  {
+      <li>@x.Name</li>
+  }
+
+  <h4>Total items: @Model.TotalItems</h4>
+</ul>
+<form method="post" asp-page-handler="CreateRequirement">
+  Add requirement:
+  Name:
+  <input asp-for="NewRequirementName" value="@Model.NewRequirementName"/>
+  <input type="submit"/>
+</form>
