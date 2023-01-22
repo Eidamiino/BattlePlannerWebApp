@@ -1,27 +1,48 @@
 ﻿@model WebApplication3.Pages.Resources
 @{
 }
+<script id="resources" type="x-tmpl-mustache">
+  <li>{{name}}</li>
+    <ul>
+      <li>{{#requirementList}}{{#requirement}}{{name}}{{/requirement}}{{/requirementList}}-{{#requirementList}}{{amount}}{{/requirementList}}</li>
+    </ul>
+</script>
 <h1>Resources</h1>
-
-<ul>
-  @foreach (var x in Model.Items)
+<ul id="resourceList">
+  @*@foreach (var x in Model.Items)
   {
     <li>@x.Name</li>
     @foreach (var y in x.RequirementList)
     {
       <ul>
-        <li>@y.Key.Name - @y.Value</li>
+        <li>@y.Requirement.Name - @y.Amount</li>
       </ul>
     }
-  }
+  }*@
   <h4>Total items: @Model.TotalItems</h4>
 </ul>
 <form method="post" asp-page-handler="CreateResource">
-  Name:
-  <input asp-for="NewResourceName" value="@Model.NewResourceName"/>
-  Requirement name:
-  <input asp-for="RequirementName" value="@Model.RequirementName"/>
-  Requirement amount:
-  <input asp-for="RequirementCapacity" value="@Model.RequirementCapacity"/>
-  <input type="submit" />
+  <div class="mb-3">
+    <div class="form-label">Name:</div> 
+    <input asp-for="NewResourceName" value="@Model.NewResourceName" class="form-control"/>
+  </div>
+  <div class="mb-3">
+    <div class="form-label">Requirement Name:</div>
+    <select asp-for="RequirementName" value="@Model.RequirementName" id="choices" class="form-control">
+    </select>
+    @*<input asp-for="RequirementName" value="@Model.RequirementName" class="form-control"/>*@
+  </div>
+  <div class="mb-3">
+    <div class="form-label">Requirement Amount:</div>
+    <input asp-for="RequirementCapacity" value="@Model.RequirementCapacity" class="form-control"/>
+  </div>
+  <div class="mb-3">
+    <input type="submit" class="btn btn-primary"/>
+  </div>
 </form>
+@if (Model.RequirementCapacity>=0)      
+{      
+  <div class="alert alert-danger" role="alert">    
+    The requirement amount is not valid    
+  </div>    
+}   

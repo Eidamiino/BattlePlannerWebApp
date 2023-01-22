@@ -20,7 +20,7 @@ public class RequirementProvider
 	{
 		RequirementsList.Add(new Requirement(name));
 	}
-	public static Requirement FindRequirementByName(string name)
+	public Requirement FindRequirementByName(string name)
 	{
 		return RequirementsList.Find(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
 	}

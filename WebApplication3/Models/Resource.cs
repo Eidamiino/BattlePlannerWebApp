@@ -3,9 +3,9 @@
 public class Resource
 {
 	public string Name { get; set; }
-	public Dictionary<Requirement,int> RequirementList { get; set; }
+	public List<RequirementAmount> RequirementList { get; set; }
 
-	public Resource(string name, Dictionary<Requirement,int> requirementList)
+	public Resource(string name, List<RequirementAmount> requirementList)
 	{
 		Name = name;
 		RequirementList = requirementList;

@@ -16,12 +16,14 @@ namespace WebApplication3.Pages
 		[BindProperty] public string RequirementName { get; set; }
 		[BindProperty] public int RequirementCapacity { get; set; }
 
+		public Microsoft.AspNetCore.Http.IFormCollection Form { get; set; }
+
 		public BattlePlannerModel(RequirementProvider requirementProvider, ResourceProvider resourceProvider)
 		{
 			this._requirementProvider = requirementProvider;
 			this._resourceProvider = resourceProvider;
 			Requirements = new Requirements(_requirementProvider);
-			Resources = new Resources(_resourceProvider);
+			Resources = new Resources(_resourceProvider,_requirementProvider);
 		}
 		public void OnGet()
 		{
@@ -32,6 +34,7 @@ namespace WebApplication3.Pages
 		public void OnPostCreateResource()
 		{
 			Resources.OnPost(NewResourceName,RequirementName,RequirementCapacity);
+			Console.WriteLine(Form);
 			OnGet();
 		}
 

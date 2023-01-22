@@ -5,7 +5,7 @@ using WebApplication3.Providers;
 
 namespace WebApplication3.Pages
 {
-	public class Requirements : PageModel
+	public class Requirements
 	{
 		private readonly RequirementProvider _provider;
 		public List<Requirement> Items { get; set; }
