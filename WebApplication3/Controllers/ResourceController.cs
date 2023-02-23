@@ -3,6 +3,7 @@ using System.Xml.Linq;
 using WebApplication3.Models;
 using WebApplication3.Pages;
 using WebApplication3.Providers;
+using Newtonsoft.Json.Linq;
 
 namespace WebApplication3.Controllers;
 
@@ -29,28 +30,39 @@ public class ResourceController : ControllerBase
 
 	[HttpPost]
 	[Route("")]
-	public IActionResult PostResources([FromBody] string name)
+	public IActionResult PostResources([FromBody] ResourceRequirementAmount input)
 	{
-		Resource resource = new Resource(name, new List<RequirementAmount>());
+		Resource resource = new Resource(input.Resource.Name, new List<RequirementAmount>());
 		_provider.AddResource(resource);
-		//resource.RequirementList.Add(RequirementProvider.FindRequirementByName(requirementName), amount);
-		return Ok();
+		resource.RequirementList.Add(new RequirementAmount(_requirementProvider.FindRequirementByName(input.RequirementAmount.Requirement.Name),input.RequirementAmount.Amount));
+		return Ok(resource);
 	}
 
-	[HttpPost]
-	[Route("{resourceName}/requirements")]
-	public IActionResult AddRequirement([FromRoute] string resourceName, [FromBody] RequirementAmount requirementAmount)
-	{
-		var requirement = _requirementProvider.FindRequirementByName(requirementAmount.Requirement.Name);
-		if (requirement == null) return NotFound("Requirement Not Found");
+	// [HttpPost]
+	// [Route("")]
+	// public IActionResult PostResources([FromBody] string name)
+	// {
+	// 	Resource resource = new Resource(name, new List<RequirementAmount>());
+	// 	_provider.AddResource(resource);
+	// 	//resource.RequirementList.Add(RequirementProvider.FindRequirementByName(requirementName), amount);
+	// 	return Ok();
+	// }
 
-		var resource = _provider.FindResourceByName(resourceName);
-		if (resource == null) return NotFound("Resource Not Found");
+	// [HttpPost]
+	// [Route("{resourceName}/requirements")]
+	// public IActionResult AddRequirement([FromRoute] string resourceName, [FromBody] RequirementAmount requirementAmount)
+	// {
+	// 	var requirement = _requirementProvider.FindRequirementByName(requirementAmount.Requirement.Name);
+	// 	if (requirement == null) return NotFound("Requirement Not Found");
+	//
+	// 	var resource = _provider.FindResourceByName(resourceName);
+	// 	if (resource == null) return NotFound("Resource Not Found");
+	//
+	// 	resource.RequirementList.Add(new RequirementAmount(requirement, requirementAmount.Amount));
+	// 	//resource.RequirementList.Add(RequirementProvider.FindRequirementByName(requirementName), amount);
+	// 	return Ok();
+	// }
 
-		resource.RequirementList.Add(new RequirementAmount(requirement, requirementAmount.Amount));
-		//resource.RequirementList.Add(RequirementProvider.FindRequirementByName(requirementName), amount);
-		return Ok();
-	}
 
 	[HttpGet]
 	[Route("{resourceName}/requirements")]
@@ -60,5 +72,15 @@ public class ResourceController : ControllerBase
 		if (resource == null) return NotFound("Resource Not Found");
 		//resource.RequirementList.Add(RequirementProvider.FindRequirementByName(requirementName), amount);
 		return Ok(resource.RequirementList);
+	}
+
+	[HttpGet]
+	[Route("{name}")]
+	public IActionResult GetResource([FromRoute] string name)
+	{
+		var resource = _provider.FindResourceByName(name);
+		if (resource == null) return NotFound("Resource Not Found");
+		//resource.RequirementList.Add(RequirementProvider.FindRequirementByName(requirementName), amount);
+		return Ok(resource);
 	}
 }

@@ -2,7 +2,7 @@
 @{
 }
 <script id="requirements" type="x-tmpl-mustache">
-  <li>{{name}}</li>
+  <li class="requirementItem">{{name}}</li>
 </script>
 
 <h1>Requirements</h1>
@@ -17,7 +17,7 @@
   </div>
 
   <div class="mb-3">
-    <button id="saveButton" onclick="onBtnCreateRequirement()" class="btn btn-primary"></button>
+    <button onclick="onBtnCreateRequirementAsync()" class="btn btn-primary">Submit</button>
   </div>
 </div>
 

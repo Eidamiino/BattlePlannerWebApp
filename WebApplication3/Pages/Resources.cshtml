@@ -9,22 +9,12 @@
 </script>
 <h1>Resources</h1>
 <ul id="resourceList">
-  @*@foreach (var x in Model.Items)
-  {
-    <li>@x.Name</li>
-    @foreach (var y in x.RequirementList)
-    {
-      <ul>
-        <li>@y.Requirement.Name - @y.Amount</li>
-      </ul>
-    }
-  }*@
   <h4>Total items: @Model.TotalItems</h4>
 </ul>
-<form method="post" asp-page-handler="CreateResource">
-  <div class="mb-3">
+<div class="mb-3">
     <div class="form-label">Name:</div> 
-    <input asp-for="NewResourceName" value="@Model.NewResourceName" class="form-control"/>
+    @* <input asp-for="NewResourceName" value="@Model.NewResourceName" class="form-control"/> *@
+    <input type="text" class="form-control" id="ResourceName"/>
   </div>
   <div class="mb-3">
     <div class="form-label">Requirement Name:</div>
@@ -34,15 +24,16 @@
   </div>
   <div class="mb-3">
     <div class="form-label">Requirement Amount:</div>
-    <input asp-for="RequirementCapacity" value="@Model.RequirementCapacity" class="form-control"/>
+    @* <input asp-for="RequirementCapacity" value="@Model.RequirementCapacity" class="form-control"/> *@
+    <input type="number" class="form-control" id="RequirementCapacity"/>
   </div>
-  <div class="mb-3">
-    <input type="submit" class="btn btn-primary"/>
-  </div>
-</form>
-@if (Model.RequirementCapacity>=0)      
-{      
-  <div class="alert alert-danger" role="alert">    
-    The requirement amount is not valid    
-  </div>    
-}   
+<div class="mb-3">
+  <button onclick="onBtnCreateResourceAsync()" class="btn btn-primary">Submit</button>
+</div>
+
+@* @if (Model.RequirementCapacity>=0)       *@
+@* {       *@
+@*   <div class="alert alert-danger" role="alert">     *@
+@*     The requirement amount is not valid     *@
+@*   </div>     *@
+@* }    *@

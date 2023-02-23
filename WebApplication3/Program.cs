@@ -14,7 +14,7 @@ namespace WebApplication3
 			builder.Services.AddRazorPages();
 			builder.Services.AddScoped<ResourceProvider>();
 			builder.Services.AddScoped<RequirementProvider>();
-			builder.Services.AddControllers();
+			builder.Services.AddControllers().AddNewtonsoftJson();
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen(c =>
 			{

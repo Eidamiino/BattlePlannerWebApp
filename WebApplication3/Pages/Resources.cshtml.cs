@@ -30,7 +30,7 @@ namespace WebApplication3.Pages
 		{
 			if (newRequirementCapacity < 1)
 			{
-
+			
 			}
 			Resource resource = new Resource(newResourceName, new List<RequirementAmount>());
 			RequirementAmount requirementAmount =

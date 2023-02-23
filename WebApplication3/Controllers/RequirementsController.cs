@@ -33,7 +33,7 @@ public class RequirementsController : ControllerBase
 
 	[HttpPost]
 	[Route("")]
-	public IActionResult PostRequirement(string name)
+	public IActionResult PostRequirement([FromBody] string name)
 	{
 		Requirement requirement = new Requirement(name);
 		_provider.AddRequirement(name);
