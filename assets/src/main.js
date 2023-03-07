@@ -7,9 +7,10 @@
 
 // export default app
 
-//import './bootstrap.css'
+// import './assets/bootstrap.css'
 import './assets/app.css'
 import App from './App.svelte'
+import "C:/Users/Adam/Desktop/WebApplication3/WebApplication3/WebApplication3/wwwroot/js/constants.js"
 
 const app = new App({
   target: document.getElementById('app'),

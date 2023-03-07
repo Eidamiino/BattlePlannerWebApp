@@ -24,10 +24,18 @@ public class RequirementsController : ControllerBase
 
 	[HttpGet]
 	[Route("{name}")]
-	public IActionResult GetRequirement([FromRoute] string name)
+	public IActionResult GetRequirement([FromRoute] string name, [FromQuery]bool returnList)
+	{
+		if (returnList) return Ok(_provider.GetRequirementsByQuery(name));
+		else return Ok(_provider.FindRequirementByName(name));
+	}
+
+	[HttpDelete]
+	[Route("{name}")]
+	public IActionResult DeleteRequirement([FromRoute] string name)
 	{
 		var requirement = _provider.FindRequirementByName(name);
-
+		_provider.DeleteRequirement(name);
 		return Ok(requirement);
 	}
 
@@ -39,4 +47,19 @@ public class RequirementsController : ControllerBase
 		_provider.AddRequirement(name);
 		return Ok(requirement);
 	}
+	/*[HttpGet]
+	[Route("")]
+	public IActionResult GetRequirementsByQuery([FromBody] string query)
+	{
+		return Ok(_provider.GetRequirementsByQuery(query));
+	}
+	*/
+	/*
+	[HttpGet]
+	[Route("{query}")]
+	public IActionResult GetRequirementsByQuery([FromQuery] string query)
+	{
+		return Ok(_provider.GetRequirementsByQuery(query));
+	}
+	*/
 }

@@ -20,9 +20,18 @@ public class RequirementProvider
 	{
 		RequirementsList.Add(new Requirement(name));
 	}
+	public void DeleteRequirement(string name)
+	{
+		var requirement = RequirementsList.Find(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+		RequirementsList.Remove(requirement);
+	}
 	public Requirement FindRequirementByName(string name)
 	{
 		return RequirementsList.Find(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+	}
+	public List<Requirement> GetRequirementsByQuery(string query)
+	{
+		return RequirementsList.Where(item => item.Name.StartsWith(query)).ToList();
 	}
 
 }

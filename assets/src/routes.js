@@ -4,6 +4,7 @@ import NotFound from './features/not-found/NotFound.svelte'
 
 export default {
     '/requirements': Requirements,
+    '/requirements/:reqName': Requirements,
     '/resources': Resources,
     '*': NotFound
 }

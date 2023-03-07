@@ -1,24 +1,38 @@
 <script>
     export let Requirements;
-    import { append } from "svelte/internal";
-    import { getRequirementAsync } from "./requirement-provider";
-    import { createEventDispatcher } from "svelte";
-    let dispatch = createEventDispatcher();
+    import {
+        deleteRequirementAsync,
+        getRequirementsAsync,
+    } from "./requirement-provider";
 </script>
 
 {#each Requirements as item}
     <tr>
         <td class="title"
-            ><a
-                href="javascript:;"
-                on:click={async () => {
+            ><a href="#/requirements/{item.name}">{item.name}</a></td
+        >
+        <button
+            on:click={async () => {
+                await deleteRequirementAsync(item.name);
+                await getRequirementsAsync();
+            }}
+            class="btn btn-danger btn-sm rounded-0"
+            type="button"
+            data-toggle="tooltip"
+            data-placement="top"
+            title="Delete"><i class="fa fa-trash" /></button
+        >
+    </tr>
+{/each}
+
+<!-- on:click={async () => {
                     dispatch(
                         "showDetail",
                         await getRequirementAsync(item.name)
                     );
-                    // console.log(await getRequirementAsync(item.name))}
-                }}>{item.name}</a
-            ></td
-        >
-    </tr>
-{/each}
+                }}
+             -->
+
+<!-- on:click={async () => {
+                await deleteRequirementAsync(item.name);
+            }} -->
