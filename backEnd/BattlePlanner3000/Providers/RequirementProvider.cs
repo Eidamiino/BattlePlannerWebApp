@@ -25,13 +25,13 @@ public class RequirementProvider
 		var requirement = RequirementsList.Find(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
 		RequirementsList.Remove(requirement);
 	}
-	public Requirement FindRequirementByName(string name)
+	public Requirement FindRequirement(string name)
 	{
 		return RequirementsList.Find(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
 	}
-	public List<Requirement> GetRequirementsByQuery(string query)
+	public List<Requirement> SearchRequirements(string query)
 	{
-		return RequirementsList.Where(item => item.Name.StartsWith(query)).ToList();
+		return RequirementsList.Where(item => item.Name.StartsWith(query,StringComparison.InvariantCultureIgnoreCase)).ToList();
 	}
 
 }

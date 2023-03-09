@@ -11,13 +11,13 @@ namespace BattlePlanner3000.Controllers;
 [Route("/api/[controller]")]
 public class ResourceController : ControllerBase
 {
-	private readonly ResourceProvider _provider;
-	private readonly RequirementProvider _requirementProvider;
+	private readonly ResourceProvider provider;
+	private readonly RequirementProvider requirementProvider;
 
 	public ResourceController(ResourceProvider provider, RequirementProvider requirementProvider)
 	{
-		this._provider = provider;
-		_requirementProvider = requirementProvider;
+		this.provider = provider;
+		this.requirementProvider = requirementProvider;
 	}
 
 	// GET
@@ -25,7 +25,7 @@ public class ResourceController : ControllerBase
 	[Route("")]
 	public IActionResult GetResources()
 	{
-		return Ok(_provider.GetResources());
+		return Ok(provider.GetResources());
 	}
 
 	[HttpPost]
@@ -33,8 +33,16 @@ public class ResourceController : ControllerBase
 	public IActionResult PostResources([FromBody] ResourceRequirementAmount input)
 	{
 		Resource resource = new Resource(input.Resource.Name, new List<RequirementAmount>());
-		_provider.AddResource(resource);
-		resource.RequirementList.Add(new RequirementAmount(_requirementProvider.FindRequirementByName(input.RequirementAmount.Requirement.Name),input.RequirementAmount.Amount));
+		provider.AddResource(resource);
+		resource.RequirementList.Add(new RequirementAmount(requirementProvider.FindRequirement(input.RequirementAmount.Requirement.Name),input.RequirementAmount.Amount));
+		return Ok(resource);
+	}
+	[HttpDelete]
+	[Route("{name}")]
+	public IActionResult DeleteResource([FromRoute] string name)
+	{
+		var resource = provider.FindResource(name);
+		provider.DeleteResource(name);
 		return Ok(resource);
 	}
 
@@ -43,8 +51,8 @@ public class ResourceController : ControllerBase
 	// public IActionResult PostResources([FromBody] string name)
 	// {
 	// 	Resource resource = new Resource(name, new List<RequirementAmount>());
-	// 	_provider.AddResource(resource);
-	// 	//resource.RequirementList.Add(RequirementProvider.FindRequirementByName(requirementName), amount);
+	// 	provider.AddResource(resource);
+	// 	//resource.RequirementList.Add(RequirementProvider.FindRequirement(requirementName), amount);
 	// 	return Ok();
 	// }
 
@@ -52,14 +60,14 @@ public class ResourceController : ControllerBase
 	// [Route("{resourceName}/requirements")]
 	// public IActionResult AddRequirement([FromRoute] string resourceName, [FromBody] RequirementAmount requirementAmount)
 	// {
-	// 	var requirement = _requirementProvider.FindRequirementByName(requirementAmount.Requirement.Name);
+	// 	var requirement = requirementProvider.FindRequirement(requirementAmount.Requirement.Name);
 	// 	if (requirement == null) return NotFound("Requirement Not Found");
 	//
-	// 	var resource = _provider.FindResourceByName(resourceName);
+	// 	var resource = provider.FindResource(resourceName);
 	// 	if (resource == null) return NotFound("Resource Not Found");
 	//
 	// 	resource.RequirementList.Add(new RequirementAmount(requirement, requirementAmount.Amount));
-	// 	//resource.RequirementList.Add(RequirementProvider.FindRequirementByName(requirementName), amount);
+	// 	//resource.RequirementList.Add(RequirementProvider.FindRequirement(requirementName), amount);
 	// 	return Ok();
 	// }
 
@@ -68,9 +76,9 @@ public class ResourceController : ControllerBase
 	[Route("{resourceName}/requirements")]
 	public IActionResult GetRequirements([FromRoute] string resourceName)
 	{
-		var resource = _provider.FindResourceByName(resourceName);
+		var resource = provider.FindResource(resourceName);
 		if (resource == null) return NotFound("Resource Not Found");
-		//resource.RequirementList.Add(RequirementProvider.FindRequirementByName(requirementName), amount);
+		//resource.RequirementList.Add(RequirementProvider.FindRequirement(requirementName), amount);
 		return Ok(resource.RequirementList);
 	}
 
@@ -78,9 +86,9 @@ public class ResourceController : ControllerBase
 	[Route("{name}")]
 	public IActionResult GetResource([FromRoute] string name)
 	{
-		var resource = _provider.FindResourceByName(name);
+		var resource = provider.FindResource(name);
 		if (resource == null) return NotFound("Resource Not Found");
-		//resource.RequirementList.Add(RequirementProvider.FindRequirementByName(requirementName), amount);
+		//resource.RequirementList.Add(RequirementProvider.FindRequirement(requirementName), amount);
 		return Ok(resource);
 	}
 }

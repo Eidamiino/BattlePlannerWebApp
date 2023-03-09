@@ -72,7 +72,7 @@
                                 </thead>
                                 <tbody>
                                     <!-- <RequirementsList {Requirements} on:showDetail={showDetail} /> -->
-                                    <RequirementsList {Requirements} />
+                                    <RequirementsList items={Requirements} />
                                 </tbody>
                             </table>
                         </div>

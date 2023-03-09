@@ -34,7 +34,7 @@ namespace BattlePlanner3000.Pages
 			}
 			Resource resource = new Resource(newResourceName, new List<RequirementAmount>());
 			RequirementAmount requirementAmount =
-				new RequirementAmount(_requirementProvider.FindRequirementByName(newRequirementName), newRequirementCapacity);
+				new RequirementAmount(_requirementProvider.FindRequirement(newRequirementName), newRequirementCapacity);
 			_provider.AddResource(resource);
 			resource.RequirementList.Add(requirementAmount);
 			LoadItems();

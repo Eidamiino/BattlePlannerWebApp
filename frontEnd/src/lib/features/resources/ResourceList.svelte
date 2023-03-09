@@ -14,13 +14,19 @@
     import {
         // deleteRequirementAsync,
         getResourcesAsync,
+        deleteResourceAsync,
     } from "./resource-provider";
+    const remove = async function (name) {
+        await deleteResourceAsync(name);
+        await getResourcesAsync();
+    };
 </script>
 
 {#each Resources as item}
     <tr>
         <td class="title"><a href="#/resources/{item.name}">{item.name}</a></td>
         <button
+            on:click={() => remove(item.name)}
             class="btn btn-danger btn-sm rounded-0"
             type="button"
             data-toggle="tooltip"

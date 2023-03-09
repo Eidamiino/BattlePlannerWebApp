@@ -18,8 +18,13 @@ public class ResourceProvider
 	{
 		ResourceList.Add(resource);
 	}
-	public Resource FindResourceByName(string name)
+	public Resource FindResource(string name)
 	{
 		return ResourceList.Find(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+	}
+	public void DeleteResource(string name)
+	{
+		var resource= ResourceList.Find(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+		ResourceList.Remove(resource);
 	}
 }

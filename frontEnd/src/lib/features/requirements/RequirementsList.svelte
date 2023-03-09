@@ -1,21 +1,22 @@
 <script>
-    export let Requirements;
+    export let items;
     import {
         deleteRequirementAsync,
         getRequirementsAsync,
     } from "./requirement-provider";
+    const remove = async function (name) {
+        await deleteRequirementAsync(name);
+        await getRequirementsAsync();
+    };
 </script>
 
-{#each Requirements as item}
+{#each items as item}
     <tr>
         <td class="title"
             ><a href="#/requirements/{item.name}">{item.name}</a></td
         >
         <button
-            on:click={async () => {
-                await deleteRequirementAsync(item.name);
-                await getRequirementsAsync();
-            }}
+            on:click={() => remove(item.name)}
             class="btn btn-danger btn-sm rounded-0"
             type="button"
             data-toggle="tooltip"
