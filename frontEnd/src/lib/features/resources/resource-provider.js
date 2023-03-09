@@ -26,6 +26,11 @@ export const getResourceAsync = async function (resourceName) {
     const data = await response.json()
     return data;
 }
+export const getResourcesQueryAsync = async function (resourceName, returnList) {
+    let response = await fetch("http://localhost:5266/api/Resource" + "/" + resourceName + "?returnList=" + returnList, { method: 'GET' })
+    const data = await response.json()
+    return data;
+}
 export const deleteResourceAsync = async function (name) {
     let response = await fetch("http://localhost:5266/api/Resource" + "/" + name, { method: 'DELETE' })
     const data = await response.json()

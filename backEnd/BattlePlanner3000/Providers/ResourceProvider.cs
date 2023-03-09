@@ -27,4 +27,8 @@ public class ResourceProvider
 		var resource= ResourceList.Find(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
 		ResourceList.Remove(resource);
 	}
+	public List<Resource> SearchResources(string query)
+	{
+		return ResourceList.Where(item => item.Name.StartsWith(query, StringComparison.InvariantCultureIgnoreCase)).ToList();
+	}
 }

@@ -28,6 +28,14 @@ public class ResourceController : ControllerBase
 		return Ok(provider.GetResources());
 	}
 
+	[HttpGet]
+	[Route("{name}")]
+	public IActionResult GetResource([FromRoute] string name, [FromQuery] bool returnList)
+	{
+		if (returnList) return Ok(provider.SearchResources(name));
+		else return Ok(provider.FindResource(name));
+	}
+
 	[HttpPost]
 	[Route("")]
 	public IActionResult PostResources([FromBody] ResourceRequirementAmount input)
@@ -70,25 +78,4 @@ public class ResourceController : ControllerBase
 	// 	//resource.RequirementList.Add(RequirementProvider.FindRequirement(requirementName), amount);
 	// 	return Ok();
 	// }
-
-
-	[HttpGet]
-	[Route("{resourceName}/requirements")]
-	public IActionResult GetRequirements([FromRoute] string resourceName)
-	{
-		var resource = provider.FindResource(resourceName);
-		if (resource == null) return NotFound("Resource Not Found");
-		//resource.RequirementList.Add(RequirementProvider.FindRequirement(requirementName), amount);
-		return Ok(resource.RequirementList);
-	}
-
-	[HttpGet]
-	[Route("{name}")]
-	public IActionResult GetResource([FromRoute] string name)
-	{
-		var resource = provider.FindResource(name);
-		if (resource == null) return NotFound("Resource Not Found");
-		//resource.RequirementList.Add(RequirementProvider.FindRequirement(requirementName), amount);
-		return Ok(resource);
-	}
 }

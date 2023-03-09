@@ -2,22 +2,12 @@
     import SearchBar from "./SearchBar.svelte";
     import { getRequirementQueryAsync } from "../features/requirements/requirement-provider";
     import { onMount, onDestroy } from "svelte";
+    import { createEventDispatcher } from "svelte";
 
-    let searchResults = [];
-    let showResults = false;
-    async function handleSearch(event) {
-        const query = event.detail;
-        searchResults = await performSearch(query);
-        showResults = true;
-    }
-
-    async function performSearch(query) {
-        let results = await getRequirementQueryAsync(query, true);
-        return results;
-    }
+    export let searchResults = [];
     async function handleClick(event) {
-        if (!event.target.closest(".search-results") && showResults) {
-            showResults = false;
+        if (!event.target.closest(".search-results")) {
+            searchResults = null;
         }
     }
     onMount(() => {
@@ -27,6 +17,7 @@
     onDestroy(() => {
         document.removeEventListener("click", handleClick);
     });
+    const dispatch = createEventDispatcher();
 </script>
 
 <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
@@ -36,16 +27,13 @@
         >Battle Planner 3000</a
     >
     <div class="position-relative w-100">
-        <SearchBar on:search={handleSearch} />
-        {#if showResults && searchResults.length > 0}
+        <SearchBar on:search />
+        {#if searchResults?.length > 0}
             <div class="position-absolute bg-white w-100 search-results">
                 <ul class="list-unstyled">
                     {#each searchResults as result}
-                        <a
-                            href="#/requirements/{result.name}"
-                            on:click={() => {
-                                showResults = false;
-                            }}><li>{result.name}</li></a
+                        <a on:click={() => dispatch("redirectSearch", result)}
+                            ><li>{result.name}</li></a
                         >
                     {/each}
                 </ul>

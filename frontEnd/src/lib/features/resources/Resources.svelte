@@ -40,6 +40,7 @@
 
     let detail = "";
     async function showDetail(name) {
+        if (name === undefined) return;
         let response = await getResourceAsync(name);
         // detail = JSON.stringify(response, null, 4);
         const formattedJson = JSON.stringify(response, null, 4);

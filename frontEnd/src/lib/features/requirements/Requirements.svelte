@@ -29,6 +29,7 @@
 
     let detail = "";
     async function showDetail(name) {
+        if (name === undefined) return;
         let response = await getRequirementQueryAsync(name, false);
         detail = JSON.stringify(response)
             .replace(/[{}]/g, "")
