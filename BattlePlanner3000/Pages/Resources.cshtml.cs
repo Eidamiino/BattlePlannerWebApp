@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using WebApplication3.Models;
-using WebApplication3.Providers;
+using BattlePlanner3000.Models;
+using BattlePlanner3000.Providers;
 
-namespace WebApplication3.Pages
+namespace BattlePlanner3000.Pages
 {
 	public class Resources
 	{

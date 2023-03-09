@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace WebApplication3.Controllers
+namespace BattlePlanner3000.Controllers
 {
 	public class HomeController : Controller
 	{

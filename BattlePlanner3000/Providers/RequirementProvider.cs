@@ -1,6 +1,6 @@
-﻿using WebApplication3.Models;
+﻿using BattlePlanner3000.Models;
 
-namespace WebApplication3.Providers;
+namespace BattlePlanner3000.Providers;
 
 public class RequirementProvider
 {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace WebApplication3.Pages
+namespace BattlePlanner3000.Pages
 {
 	public class PrivacyModel : PageModel
 	{

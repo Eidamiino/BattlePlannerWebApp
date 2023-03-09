@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WebApplication3.Models;
-using WebApplication3.Providers;
+using BattlePlanner3000.Models;
+using BattlePlanner3000.Providers;
 
-namespace WebApplication3.Controllers;
+namespace BattlePlanner3000.Controllers;
 
 [ApiController]
 [Route("/api/[controller]")]

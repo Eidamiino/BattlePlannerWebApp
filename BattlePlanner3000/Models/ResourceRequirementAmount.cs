@@ -1,4 +1,4 @@
-﻿namespace WebApplication3.Models
+﻿namespace BattlePlanner3000.Models
 {
 	public class ResourceRequirementAmount
 	{

@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.OpenApi.Models;
-using WebApplication3.Providers;
+using BattlePlanner3000.Providers;
 
-namespace WebApplication3
+namespace BattlePlanner3000
 {
 	public class Program
 	{
