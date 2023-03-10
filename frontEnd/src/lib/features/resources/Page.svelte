@@ -1,5 +1,5 @@
 <script>
-    import ResourceList from "./ResourceList.svelte";
+    import ResourceList from "./List.svelte";
     import {
         createResourceAsync,
         getResourceAsync,
@@ -9,23 +9,23 @@
     import ModalComponent from "../ModalComponent.svelte";
     export let params;
 
-    const req = async function () {
-        Resources = await getResourcesAsync();
+    const getItems = async function () {
+        items = await getResourcesAsync();
     };
 
-    let Resources = [];
-    req();
+    let items = [];
+    getItems();
 
+    let selectItems = [];
     const requirements = async function () {
-        Requirements = await getRequirementsAsync();
+        selectItems = await getRequirementsAsync();
     };
-    let Requirements = [];
     requirements();
 
     let selected;
     let resourceNameInput = "";
     let resourceCapacityInput = 0;
-    const addResource = async function () {
+    const addItem = async function () {
         await createResourceAsync(
             resourceNameInput,
             selected,
@@ -35,7 +35,7 @@
         resourceNameInput = "";
         resourceCapacityInput = 0;
         modalcomponent.hide();
-        req();
+        getItems();
     };
 
     let detail = "";
@@ -79,7 +79,7 @@
                     bind:value={selected}
                     style="background-color:light-gray;"
                 >
-                    {#each Requirements as item}
+                    {#each selectItems as item}
                         <option value={item.name}>{item.name}</option>
                     {/each}
                 </select>
@@ -92,7 +92,7 @@
                 />
 
                 <button
-                    on:click={addResource}
+                    on:click={addItem}
                     style="position:absolute;bottom: 1em;left:40%"
                     >Submit</button
                 >
@@ -110,7 +110,7 @@
                                 </thead>
                                 <tbody>
                                     <!-- <RequirementsList {Requirements} on:showDetail={showDetail} /> -->
-                                    <ResourceList {Resources} />
+                                    <ResourceList {items} />
                                 </tbody>
                             </table>
                         </div>

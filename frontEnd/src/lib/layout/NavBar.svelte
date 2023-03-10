@@ -1,4 +1,6 @@
 <script>
+    // @ts-nocheck
+
     import SearchBar from "./SearchBar.svelte";
     import { getRequirementQueryAsync } from "../features/requirements/requirement-provider";
     import { onMount, onDestroy } from "svelte";
@@ -18,6 +20,10 @@
         document.removeEventListener("click", handleClick);
     });
     const dispatch = createEventDispatcher();
+    function handleSearchClick(result) {
+        dispatch("redirectSearch", result);
+        searchResults = null;
+    }
 </script>
 
 <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
@@ -32,7 +38,9 @@
             <div class="position-absolute bg-white w-100 search-results">
                 <ul class="list-unstyled">
                     {#each searchResults as result}
-                        <a on:click={() => dispatch("redirectSearch", result)}
+                        <a
+                            href="javascript:void(0);"
+                            on:click={handleSearchClick(result)}
                             ><li>{result.name}</li></a
                         >
                     {/each}

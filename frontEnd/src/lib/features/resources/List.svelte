@@ -10,7 +10,7 @@
     >
 {/each} -->
 <script>
-    export let Resources;
+    export let items;
     import {
         // deleteRequirementAsync,
         getResourcesAsync,
@@ -22,7 +22,7 @@
     };
 </script>
 
-{#each Resources as item}
+{#each items as item}
     <tr>
         <td class="title"><a href="#/resources/{item.name}">{item.name}</a></td>
         <button

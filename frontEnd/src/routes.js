@@ -2,8 +2,8 @@ import Dashboard from './lib/features/home/Dashboard.svelte';
 // import Page1 from './lib/features/pages/Page1.svelte';
 // import Page2 from './lib/features/pages/Page2.svelte';
 // import Page3 from './lib/features/pages/Page3.svelte';
-import Requirements from './lib/features/requirements/Requirements.svelte';
-import Resources from './lib/features/resources/Resources.svelte';
+import Requirements from './lib/features/requirements/Page.svelte';
+import Resources from './lib/features/resources/Page.svelte';
 
 const Pages = [
     // {

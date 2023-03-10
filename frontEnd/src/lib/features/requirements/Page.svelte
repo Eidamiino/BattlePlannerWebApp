@@ -1,30 +1,27 @@
 <script>
-    import RequirementsList from "./RequirementsList.svelte";
+    import List from "./List.svelte";
     import {
         createRequirementsAsync,
         getRequirementsAsync,
-        getRequirementAsync,
         getRequirementQueryAsync,
     } from "./requirement-provider";
 
     import ModalComponent from "../ModalComponent.svelte";
-
     export let params;
 
-    const req = async function () {
-        Requirements = await getRequirementsAsync();
+    let items = [];
+    const getItems = async function () {
+        items = await getRequirementsAsync();
     };
-
-    let Requirements = [];
-    req();
+    getItems();
 
     let text = "";
-    const addRequirement = async function () {
+    const addItem = async function () {
         await createRequirementsAsync(text);
         location.href = "#/requirements/" + text;
         text = "";
         modalcomponent.hide();
-        req();
+        getItems();
     };
 
     let detail = "";
@@ -57,7 +54,7 @@
                 />
                 <button
                     style="position:absolute;bottom: 1em;left:40%"
-                    on:click={addRequirement}>Submit</button
+                    on:click={addItem}>Submit</button
                 >
             </ModalComponent>
 
@@ -73,7 +70,7 @@
                                 </thead>
                                 <tbody>
                                     <!-- <RequirementsList {Requirements} on:showDetail={showDetail} /> -->
-                                    <RequirementsList items={Requirements} />
+                                    <List {items} />
                                 </tbody>
                             </table>
                         </div>
