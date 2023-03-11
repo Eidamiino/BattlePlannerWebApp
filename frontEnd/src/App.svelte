@@ -6,6 +6,7 @@
   import routes from "./routes";
   import { getRequirementQueryAsync } from "./lib/features/requirements/requirement-provider";
   import { getResourcesQueryAsync } from "./lib/features/resources/resource-provider";
+  import { getUnitsQueryAsync } from "./lib/features/units/unit-provider";
 
   let searchResults;
   async function handleSearch(event) {
@@ -22,6 +23,9 @@
       }
       case "resources": {
         return await getResourcesQueryAsync(query, true);
+      }
+      case "units": {
+        return await getUnitsQueryAsync(query, true);
       }
       default: {
         console.log("hroch");

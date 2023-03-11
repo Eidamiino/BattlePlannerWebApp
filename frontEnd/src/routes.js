@@ -4,6 +4,7 @@ import Dashboard from './lib/features/home/Dashboard.svelte';
 // import Page3 from './lib/features/pages/Page3.svelte';
 import Requirements from './lib/features/requirements/Page.svelte';
 import Resources from './lib/features/resources/Page.svelte';
+import Units from './lib/features/units/Page.svelte';
 
 const Pages = [
     // {
@@ -34,6 +35,14 @@ const Pages = [
         name: "ResourceDetail",
         url: "/resources/:resName",
     },
+    {
+        name: "Units",
+        url: "/units",
+    },
+    {
+        name: "UnitDetail",
+        url: "/units/:unitName",
+    },
 ];
 
 const PageUrls = Pages.reduce((acc, x) => {
@@ -46,5 +55,7 @@ export default {
     [PageUrls.RequirementDetail]: Requirements,
     [PageUrls.Resources]: Resources,
     [PageUrls.ResourceDetail]: Resources,
-    '*': Dashboard,
+    [PageUrls.Units]: Units,
+    [PageUrls.UnitDetail]: Units,
+    '*': Requirements,
 };
