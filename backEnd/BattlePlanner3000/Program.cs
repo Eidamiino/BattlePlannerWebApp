@@ -22,6 +22,7 @@ namespace BattlePlanner3000
 
 			// Add services to the container.
 			builder.Services.AddRazorPages();
+			builder.Services.AddScoped<BattlePlanProvider>();
 			builder.Services.AddScoped<UnitProvider>();
 			builder.Services.AddScoped<ResourceProvider>();
 			builder.Services.AddScoped<RequirementProvider>();

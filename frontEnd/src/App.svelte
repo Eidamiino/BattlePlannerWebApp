@@ -7,6 +7,7 @@
   import { getRequirementQueryAsync } from "./lib/features/requirements/requirement-provider";
   import { getResourcesQueryAsync } from "./lib/features/resources/resource-provider";
   import { getUnitsQueryAsync } from "./lib/features/units/unit-provider";
+  import { getPlansQueryAsync } from "./lib/features/battlePlan/battlePlan-provider";
 
   let searchResults;
   async function handleSearch(event) {
@@ -26,6 +27,9 @@
       }
       case "units": {
         return await getUnitsQueryAsync(query, true);
+      }
+      case "planBattle": {
+        return await getPlansQueryAsync(query, true);
       }
       default: {
         console.log("hroch");
