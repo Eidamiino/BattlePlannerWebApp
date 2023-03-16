@@ -8,6 +8,7 @@
     import { getRequirementsAsync } from "../requirements/requirement-provider";
     import ModalComponent from "../ModalComponent.svelte";
     export let params;
+    import DetailCard from "./DetailCard.svelte";
 
     const getItems = async function () {
         items = await getResourcesAsync();
@@ -42,18 +43,25 @@
     async function showDetail(name) {
         if (name === undefined) return;
         let response = await getResourceAsync(name);
-        // detail = JSON.stringify(response, null, 4);
-        const formattedJson = JSON.stringify(response, null, 4);
+        const formattedJson = JSON.stringify(response);
         console.log(formattedJson);
-        const indentedJson = formattedJson
-            .replace(/"/g, "")
-            .replace(/({|}|\[|\])/g, "")
-            .trim()
-            .replace(/^(\s+)/gm, "$1&emsp;")
-            .replace(/ /g, "&nbsp;")
-            .replace(/\n/g, "<br>");
-        detail = indentedJson;
-        // console.log(JSON.stringify(response, null, 4));
+
+        detail = JSON.parse(formattedJson);
+
+        // const indentedJson = formattedJson
+        //     .replace(/"/g, "")
+        //     .replace(/({|}|\[|\])/g, "")
+        //     .trim()
+        //     .replace(/^(\s+)/gm, "$1&emsp;")
+        //     .replace(/ /g, "&nbsp;")
+        //     .replace(/\n/g, "<br>");
+        // detail = indentedJson;
+    }
+
+    async function detailName(name) {
+        if (name === undefined) return;
+        let response = getResourceAsync(name);
+        // return JSON.stringify(response);
     }
 
     $: showDetail(params?.resName);
@@ -123,7 +131,10 @@
         <div class="card card-primary card-outline card-tabs">
             <div class="card-body p-0" id="detailRequirement">
                 <h2>
-                    {@html detail}
+                    <!-- {@html detail} -->
+                    {#if detail !== ""}
+                        <DetailCard items={detail} />
+                    {/if}
                 </h2>
             </div>
         </div>

@@ -7,6 +7,7 @@
     } from "./requirement-provider";
 
     import ModalComponent from "../ModalComponent.svelte";
+    import DetailCard from "./DetailCard.svelte";
     export let params;
 
     let items = [];
@@ -28,10 +29,8 @@
     async function showDetail(name) {
         if (name === undefined) return;
         let response = await getRequirementQueryAsync(name, false);
-        detail = JSON.stringify(response)
-            .replace(/[{}]/g, "")
-            .replace(/\[|\]/g, "")
-            .replace(/"/g, "");
+        const formattedJson = JSON.stringify(response);
+        detail = JSON.parse(formattedJson);
     }
 
     $: showDetail(params?.reqName);
@@ -83,7 +82,9 @@
         <div class="card card-primary card-outline card-tabs">
             <div class="card-body p-0" id="detailRequirement">
                 <h2>
-                    {@html detail}
+                    {#if detail !== ""}
+                        <DetailCard items={detail} />
+                    {/if}
                 </h2>
             </div>
         </div>
