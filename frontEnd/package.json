@@ -14,7 +14,10 @@
     "vite": "^4.1.0"
   },
   "dependencies": {
+    "sass": "^1.59.3",
     "svelte-modals": "^1.2.1",
+    "svelte-multiselect": "github:keenmate/svelte-multiselect",
+    "svelte-preprocess": "^5.0.3",
     "svelte-spa-router": "^3.3.0"
   }
 }

@@ -4,6 +4,7 @@ using BattlePlanner3000.Models;
 using BattlePlanner3000.Pages;
 using BattlePlanner3000.Providers;
 using Newtonsoft.Json.Linq;
+using System.Linq;
 
 namespace BattlePlanner3000.Controllers;
 
@@ -42,7 +43,7 @@ public class ResourceController : ControllerBase
 	{
 		Resource resource = new Resource(input.Resource.Name, new List<RequirementAmount>());
 		provider.AddResource(resource);
-		resource.RequirementList.Add(new RequirementAmount(requirementProvider.FindRequirement(input.RequirementAmount.Requirement.Name),input.RequirementAmount.Amount));
+		resource.RequirementList.Add(new RequirementAmount(requirementProvider.FindRequirement(input.RequirementAmount.Requirement.Name), input.RequirementAmount.Amount));
 		return Ok(resource);
 	}
 	[HttpDelete]

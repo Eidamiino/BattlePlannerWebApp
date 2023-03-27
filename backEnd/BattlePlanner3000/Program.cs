@@ -10,6 +10,7 @@ namespace BattlePlanner3000
 		{
 			var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 			var builder = WebApplication.CreateBuilder(args);
+			
 
 			builder.Services.AddCors(options =>
 			{
@@ -26,6 +27,7 @@ namespace BattlePlanner3000
 			builder.Services.AddScoped<UnitProvider>();
 			builder.Services.AddScoped<ResourceProvider>();
 			builder.Services.AddScoped<RequirementProvider>();
+			builder.Services.AddScoped<DbProvider>();
 			builder.Services.AddControllers().AddNewtonsoftJson();
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen(c =>
@@ -49,6 +51,7 @@ namespace BattlePlanner3000
 				});
 				c.DocInclusionPredicate((name, api) => true);
 			});
+			builder.Services.Configure<ConnectionStrings>(builder.Configuration.GetSection(ConnectionStrings.WebApiDatabase));
 
 			var app = builder.Build();
 

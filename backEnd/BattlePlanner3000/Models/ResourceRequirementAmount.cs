@@ -5,7 +5,7 @@
 		public ResourceRequirementAmount(string resourceName, string requirementName, int requirementCapacity)
 		{
 			this.Resource = new Resource(resourceName, new List<RequirementAmount>());
-			this.RequirementAmount = new RequirementAmount(new Requirement(requirementName),requirementCapacity);
+			this.RequirementAmount = new RequirementAmount(new Requirement(requirementName), requirementCapacity);
 		}
 
 		public Resource Resource { get; set; }

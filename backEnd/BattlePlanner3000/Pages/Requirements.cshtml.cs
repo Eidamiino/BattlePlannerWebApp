@@ -29,8 +29,9 @@ namespace BattlePlanner3000.Pages
 		}
 		private void LoadItems()
 		{
-			Items = _provider.GetRequirements();
+			// Items = _provider.GetRequirementsAsync("requirements");
 			TotalItems = Items?.Count ?? 0;
 		}
+
 	}
 }

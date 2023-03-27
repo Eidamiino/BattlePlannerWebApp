@@ -9,6 +9,7 @@ namespace BattlePlanner3000.Controllers;
 public class RequirementsController : ControllerBase
 {
 	private readonly RequirementProvider provider;
+	
 	public RequirementsController(RequirementProvider provider)
 	{
 		this.provider = provider;
@@ -17,9 +18,9 @@ public class RequirementsController : ControllerBase
 	// GET
 	[HttpGet]
 	[Route("")]
-	public IActionResult GetRequirements()
+	public async Task<IActionResult> GetRequirements()
 	{
-		return Ok(provider.GetRequirements());
+		return Ok(await provider.GetRequirementsAsync("requirement"));
 	}
 
 	[HttpGet]
@@ -62,4 +63,5 @@ public class RequirementsController : ControllerBase
 		return Ok(provider.SearchRequirements(query));
 	}
 	*/
+
 }

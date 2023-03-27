@@ -9,6 +9,7 @@
     import ModalComponent from "../ModalComponent.svelte";
     export let params;
     import DetailCard from "./DetailCard.svelte";
+    import Multiselect from "svelte-multiselect/src/Multiselect.svelte";
 
     const getItems = async function () {
         items = await getResourcesAsync();
@@ -29,7 +30,7 @@
     const addItem = async function () {
         await createResourceAsync(
             resourceNameInput,
-            selected,
+            selected.name,
             resourceCapacityInput
         );
         location.href = "#/resources/" + resourceNameInput;
@@ -82,15 +83,29 @@
                     id="requirementName"
                     bind:value={resourceNameInput}
                 />
+
                 <h4>Requirement Name:</h4>
-                <select
+
+                <Multiselect
+                    small
+                    bind:value={selected}
+                    options={selectItems}
+                    multiple={false}
+                    closeOnSelect={true}
+                    clearOnSelect={false}
+                    placeholder="Select items to add"
+                    trackBy="name"
+                    label="name"
+                />
+                <!-- <select
                     bind:value={selected}
                     style="background-color:light-gray;"
                 >
                     {#each selectItems as item}
                         <option value={item.name}>{item.name}</option>
                     {/each}
-                </select>
+                </select> -->
+
                 <h4>Requirement Amount</h4>
                 <input
                     type="number"
