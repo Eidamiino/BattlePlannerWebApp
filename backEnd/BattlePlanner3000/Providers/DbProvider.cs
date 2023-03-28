@@ -30,6 +30,22 @@ namespace BattlePlanner3000.Providers
 
 			return reader;
 		}
+		public async Task<IDataReader> GetItemAsync(string tableName, string col, string query)
+		{
+			var connection = await OpenConnectionAsync();
+			var command = new NpgsqlCommand($"SELECT * FROM {tableName} WHERE {col}='{query}'", connection);
+			var reader = await command.ExecuteReaderAsync();
+
+			return reader;
+		}
+		public async Task<IDataReader> GetItemsStartsWith(string tableName, string col, string query)
+		{
+			var connection = await OpenConnectionAsync();
+			var command = new NpgsqlCommand($"SELECT * FROM {tableName} WHERE {col} like '{query}%'", connection);
+			var reader = await command.ExecuteReaderAsync();
+
+			return reader;
+		}
 
 	}
 }

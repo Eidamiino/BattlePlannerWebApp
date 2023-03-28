@@ -20,15 +20,15 @@ public class RequirementsController : ControllerBase
 	[Route("")]
 	public async Task<IActionResult> GetRequirements()
 	{
-		return Ok(await provider.GetRequirementsAsync("requirement"));
+		return Ok(await provider.GetRequirementsAsync());
 	}
 
 	[HttpGet]
 	[Route("{name}")]
-	public IActionResult GetRequirement([FromRoute] string name, [FromQuery]bool returnList)
+	public async Task<IActionResult> GetRequirement([FromRoute] string name, [FromQuery]bool returnList)
 	{
-		if (returnList) return Ok(provider.SearchRequirements(name));
-		else return Ok(provider.FindRequirement(name));
+		if (returnList) return Ok(await provider.SeachRequirementsAsync(name));
+		return Ok(await provider.FindRequirementAsync(name));
 	}
 
 	[HttpDelete]

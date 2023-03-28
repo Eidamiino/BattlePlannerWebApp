@@ -3,7 +3,6 @@ using Newtonsoft.Json;
 using System.Data;
 
 namespace BattlePlanner3000.Providers;
-
 public class RequirementProvider
 {
 	private readonly DbProvider dbProvider;
@@ -14,17 +13,49 @@ public class RequirementProvider
 		this.dbProvider = dbProvider;
 	}
 
-	public async Task<IEnumerable<Requirement>> GetRequirementsAsync(string tableName)
+	public async Task<IEnumerable<Requirement>> GetRequirementsAsync()
 	{
-		var dataReader = await dbProvider.GetAllItemsAsync(tableName);
+		var dataReader = await dbProvider.GetAllItemsAsync(@Constants.RequirementsTable);
 		if (!dataReader.IsClosed)
 		{
 			return dataReader.Select(r =>
-					new Requirement(r.GetString(r.GetOrdinal("title"))))
+					new Requirement(r.GetString(r.GetOrdinal(@Constants.RequirementsSearchCol))))
 				.ToList();
 		}
 
 		return new List<Requirement>();
+	}
+	public async Task<IEnumerable<Requirement>> FindRequirementAsync(string query)
+	{
+		var dataReader = await dbProvider.GetItemAsync(@Constants.RequirementsTable, @Constants.RequirementsSearchCol,query);
+		if (!dataReader.IsClosed)
+		{
+			return dataReader.Select(r =>
+					new Requirement(r.GetString(r.GetOrdinal(@Constants.RequirementsSearchCol))))
+				.ToList();
+		}
+
+		return new List<Requirement>();
+	}
+	public async Task<IEnumerable<Requirement>> SeachRequirementsAsync(string query)
+	{
+		var dataReader = await dbProvider.GetItemsStartsWith(@Constants.RequirementsTable, @Constants.RequirementsSearchCol, query);
+		if (!dataReader.IsClosed)
+		{
+			return dataReader.Select(r =>
+					new Requirement(r.GetString(r.GetOrdinal(@Constants.RequirementsSearchCol))))
+				.ToList();
+		}
+
+		return new List<Requirement>();
+	}
+	public List<Requirement> SearchRequirements(string query)
+	{
+		return RequirementsList.Where(item => item.Name.StartsWith(query, StringComparison.InvariantCultureIgnoreCase)).ToList();
+	}
+	public Requirement FindRequirement(string name)
+	{
+		return RequirementsList.Find(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
 	}
 
 	// public async Task<IEnumerable<Requirement>> GetRequirementsAsync(string tableName)
@@ -43,13 +74,7 @@ public class RequirementProvider
 		var requirement = RequirementsList.Find(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
 		RequirementsList.Remove(requirement);
 	}
-	public Requirement FindRequirement(string name)
-	{
-		return RequirementsList.Find(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
-	}
-	public List<Requirement> SearchRequirements(string query)
-	{
-		return RequirementsList.Where(item => item.Name.StartsWith(query,StringComparison.InvariantCultureIgnoreCase)).ToList();
-	}
+
+	
 
 }
