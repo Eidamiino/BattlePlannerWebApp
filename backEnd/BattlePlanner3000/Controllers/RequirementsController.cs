@@ -42,11 +42,11 @@ public class RequirementsController : ControllerBase
 
 	[HttpPost]
 	[Route("")]
-	public IActionResult PostRequirement([FromBody] string name)
+	public async Task<IActionResult> PostRequirement([FromBody] string name)
 	{
 		Requirement requirement = new Requirement(name);
-		provider.AddRequirement(name);
-		return Ok(requirement);
+		return Ok(await provider.InsertRequirementAsync(requirement));
+		// provider.AddRequirement(name);
 	}
 	/*[HttpGet]
 	[Route("")]

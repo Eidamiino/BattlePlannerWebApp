@@ -25,11 +25,12 @@ namespace BattlePlanner3000.Providers
 		public async Task<IDataReader> GetAllItemsAsync(string tableName)
 		{
 			var connection = await OpenConnectionAsync();
-			var command = new NpgsqlCommand($"SELECT * FROM {tableName}", connection); 
+			var command = new NpgsqlCommand($"SELECT * FROM {tableName}", connection);
 			var reader = await command.ExecuteReaderAsync();
 
 			return reader;
 		}
+
 		public async Task<IDataReader> GetItemAsync(string tableName, string col, string query)
 		{
 			var connection = await OpenConnectionAsync();
@@ -38,6 +39,7 @@ namespace BattlePlanner3000.Providers
 
 			return reader;
 		}
+
 		public async Task<IDataReader> GetItemsStartsWith(string tableName, string col, string query)
 		{
 			var connection = await OpenConnectionAsync();
@@ -47,5 +49,23 @@ namespace BattlePlanner3000.Providers
 			return reader;
 		}
 
+		public async Task<int> InsertItemAsync(string tableName, Dictionary<string, object> values)
+		{
+			var connection = await OpenConnectionAsync();
+			var columns = string.Join(",", values.Keys);
+			var parameters = string.Join(",", values.Keys.Select(x => $"@{x}"));
+			var commandText = $"INSERT INTO {tableName} ({columns}) VALUES ({parameters})";
+
+			var command = new NpgsqlCommand(commandText, connection);
+			{
+				foreach (var kvp in values)
+				{
+					command.Parameters.AddWithValue($"@{kvp.Key}", kvp.Value);
+				}
+
+				return await command.ExecuteNonQueryAsync();
+			}
+
+		}
 	}
 }

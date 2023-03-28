@@ -22,7 +22,7 @@ public class RequirementProvider
 					new Requirement(r.GetString(r.GetOrdinal(@Constants.RequirementsSearchCol))))
 				.ToList();
 		}
-
+		
 		return new List<Requirement>();
 	}
 	public async Task<IEnumerable<Requirement>> FindRequirementAsync(string query)
@@ -31,8 +31,7 @@ public class RequirementProvider
 		if (!dataReader.IsClosed)
 		{
 			return dataReader.Select(r =>
-					new Requirement(r.GetString(r.GetOrdinal(@Constants.RequirementsSearchCol))))
-				.ToList();
+					new Requirement(r.GetString(r.GetOrdinal(@Constants.RequirementsSearchCol)))).ToList();
 		}
 
 		return new List<Requirement>();
@@ -49,10 +48,20 @@ public class RequirementProvider
 
 		return new List<Requirement>();
 	}
-	public List<Requirement> SearchRequirements(string query)
+
+	public async Task<int> InsertRequirementAsync(Requirement requirement)
 	{
-		return RequirementsList.Where(item => item.Name.StartsWith(query, StringComparison.InvariantCultureIgnoreCase)).ToList();
+		var values = new Dictionary<string, object>()
+		{
+			{ @Constants.RequirementsSearchCol, requirement.Name}
+		};
+		return await dbProvider.InsertItemAsync(Constants.RequirementsTable, values);
 	}
+
+	// public List<Requirement> SearchRequirements(string query)
+	// {
+	// 	return RequirementsList.Where(item => item.Name.StartsWith(query, StringComparison.InvariantCultureIgnoreCase)).ToList();
+	// }
 	public Requirement FindRequirement(string name)
 	{
 		return RequirementsList.Find(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));

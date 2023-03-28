@@ -16,7 +16,7 @@
             ><a href="#/requirements/{item.name}">{item.name}</a></td
         >
         <button
-            on:click={() => remove(item.name)}
+            on:click={async () => await remove(item.name)}
             class="btn btn-danger btn-sm rounded-0"
             type="button"
             data-toggle="tooltip"
