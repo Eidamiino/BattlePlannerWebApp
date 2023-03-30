@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BattlePlanner3000.Models;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Npgsql;
 using System.Data;
@@ -22,14 +23,7 @@ namespace BattlePlanner3000.Providers
 			return connection;
 		}
 
-		public async Task<IDataReader> GetAllItemsAsync(string tableName)
-		{
-			var connection = await OpenConnectionAsync();
-			var command = new NpgsqlCommand($"SELECT * FROM {tableName}", connection);
-			var reader = await command.ExecuteReaderAsync();
-
-			return reader;
-		}
+		
 
 		public async Task<IDataReader> GetItemAsync(string tableName, string col, string query)
 		{
@@ -67,5 +61,29 @@ namespace BattlePlanner3000.Providers
 			}
 
 		}
+		public async Task<int> DeleteItemAsync(string tableName, string col, string query)
+		{
+			var connection = await OpenConnectionAsync();
+			var command = new NpgsqlCommand($"DELETE FROM {tableName} WHERE {col}='{query}'", connection);
+			var rowsAffected = await command.ExecuteNonQueryAsync();
+
+			return rowsAffected;
+		}
+		public async Task<IDataReader> GetAllItemsMtoN(string query)
+		{
+			var connection = await OpenConnectionAsync();
+			var command = new NpgsqlCommand(query, connection);
+			var dataReader = await command.ExecuteReaderAsync();
+			return dataReader;
+		}
+		public async Task<IDataReader> GetAllItemsAsync(string tableName)
+		{
+			var connection = await OpenConnectionAsync();
+			var command = new NpgsqlCommand($"SELECT * FROM {tableName}", connection);
+			var reader = await command.ExecuteReaderAsync();
+
+			return reader;
+		}
+
 	}
 }

@@ -21,12 +21,11 @@ public class ResourceController : ControllerBase
 		this.requirementProvider = requirementProvider;
 	}
 
-	// GET
 	[HttpGet]
 	[Route("")]
-	public IActionResult GetResources()
+	public async Task<IActionResult> GetResources()
 	{
-		return Ok(provider.GetResources());
+		return Ok(await provider.GetResourcesAsync());
 	}
 
 	[HttpGet]

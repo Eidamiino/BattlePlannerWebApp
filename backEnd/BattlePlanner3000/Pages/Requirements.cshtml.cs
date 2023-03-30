@@ -23,7 +23,7 @@ namespace BattlePlanner3000.Pages
 		}
 		public void OnPost(string newRequirementName)
 		{
-			_provider.AddRequirement(newRequirementName);
+			// _provider.AddRequirement(newRequirementName);
 			LoadItems();
 			newRequirementName = String.Empty;
 		}

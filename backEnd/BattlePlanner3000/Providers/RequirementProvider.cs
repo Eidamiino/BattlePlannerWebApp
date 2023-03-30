@@ -36,7 +36,8 @@ public class RequirementProvider
 
 		return new List<Requirement>();
 	}
-	public async Task<IEnumerable<Requirement>> SeachRequirementsAsync(string query)
+	
+	public async Task<IEnumerable<Requirement>> SearchRequirementsAsync(string query)
 	{
 		var dataReader = await dbProvider.GetItemsStartsWith(@Constants.RequirementsTable, @Constants.RequirementsSearchCol, query);
 		if (!dataReader.IsClosed)
@@ -57,32 +58,18 @@ public class RequirementProvider
 		};
 		return await dbProvider.InsertItemAsync(Constants.RequirementsTable, values);
 	}
-
-	// public List<Requirement> SearchRequirements(string query)
-	// {
-	// 	return RequirementsList.Where(item => item.Name.StartsWith(query, StringComparison.InvariantCultureIgnoreCase)).ToList();
-	// }
+	public async Task<int> DeleteRequirementAsync(string query)
+	{
+		return await dbProvider.DeleteItemAsync(Constants.RequirementsTable, Constants.RequirementsSearchCol, query);
+	}
 	public Requirement FindRequirement(string name)
 	{
 		return RequirementsList.Find(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
 	}
 
-	// public async Task<IEnumerable<Requirement>> GetRequirementsAsync(string tableName)
-	// {
-	// 	var json = await dbProvider.GetAllItemsAsync(tableName);
-	// 	var dataTable = JsonConvert.DeserializeObject<DataTable>(json);
-	// 	return dataTable.AsEnumerable().Select(r => new Requirement(r.Field<string>("title"))).ToList();
-	// }
+	
 
-	public void AddRequirement(string name)
-	{
-		RequirementsList.Add(new Requirement(name));
-	}
-	public void DeleteRequirement(string name)
-	{
-		var requirement = RequirementsList.Find(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
-		RequirementsList.Remove(requirement);
-	}
+	
 
 	
 

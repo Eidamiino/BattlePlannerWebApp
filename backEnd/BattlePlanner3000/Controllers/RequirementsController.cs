@@ -27,17 +27,17 @@ public class RequirementsController : ControllerBase
 	[Route("{name}")]
 	public async Task<IActionResult> GetRequirement([FromRoute] string name, [FromQuery]bool returnList)
 	{
-		if (returnList) return Ok(await provider.SeachRequirementsAsync(name));
+		if (returnList) return Ok(await provider.SearchRequirementsAsync(name));
 		return Ok(await provider.FindRequirementAsync(name));
 	}
 
 	[HttpDelete]
 	[Route("{name}")]
-	public IActionResult DeleteRequirement([FromRoute] string name)
+	public async Task<IActionResult> DeleteRequirement([FromRoute] string name)
 	{
-		var requirement = provider.FindRequirement(name);
-		provider.DeleteRequirement(name);
-		return Ok(requirement);
+		// var requirement = provider.FindRequirement(name);
+		// provider.DeleteRequirement(name);
+		return Ok(await provider.DeleteRequirementAsync(name));
 	}
 
 	[HttpPost]
