@@ -29,7 +29,7 @@
     async function showDetail(name) {
         if (name === undefined) return;
         let response = await getRequirementQueryAsync(name, false);
-        const formattedJson = JSON.stringify(response);
+        const formattedJson = JSON.stringify(response[0]); //nevim bracho
         detail = JSON.parse(formattedJson);
     }
 

@@ -23,24 +23,20 @@ namespace BattlePlanner3000.Providers
 			return connection;
 		}
 
-		
-
-		public async Task<IDataReader> GetItemAsync(string tableName, string col, string query)
+		public async Task<List<T>> QueryGetDataAsync<T>(string query, Func<IDataReader, T> mapper)
 		{
 			var connection = await OpenConnectionAsync();
-			var command = new NpgsqlCommand($"SELECT * FROM {tableName} WHERE {col}='{query}'", connection);
-			var reader = await command.ExecuteReaderAsync();
+			var command = new NpgsqlCommand(query, connection);
+			var dataReader = await command.ExecuteReaderAsync();
 
-			return reader;
+			var result = dataReader.Select(mapper).ToList();
+			return result;
 		}
-
-		public async Task<IDataReader> GetItemsStartsWith(string tableName, string col, string query)
+		//genericka query
+		public async Task<List<T>> GetAllItemsAsync<T>(string tableName, Func<IDataReader,T> mapper)
 		{
-			var connection = await OpenConnectionAsync();
-			var command = new NpgsqlCommand($"SELECT * FROM {tableName} WHERE {col} like '{query}%'", connection);
-			var reader = await command.ExecuteReaderAsync();
-
-			return reader;
+			var query= $"SELECT * FROM {tableName}";
+			return await QueryGetDataAsync(query,mapper);
 		}
 
 		public async Task<int> InsertItemAsync(string tableName, Dictionary<string, object> values)
@@ -76,14 +72,14 @@ namespace BattlePlanner3000.Providers
 			var dataReader = await command.ExecuteReaderAsync();
 			return dataReader;
 		}
-		public async Task<IDataReader> GetAllItemsAsync(string tableName)
-		{
-			var connection = await OpenConnectionAsync();
-			var command = new NpgsqlCommand($"SELECT * FROM {tableName}", connection);
-			var reader = await command.ExecuteReaderAsync();
-
-			return reader;
-		}
+		// public async Task<IDataReader> GetAllItemsAsync(string tableName)
+		// {
+		// 	var connection = await OpenConnectionAsync();
+		// 	var command = new NpgsqlCommand($"SELECT * FROM {tableName}", connection);
+		// 	var reader = await command.ExecuteReaderAsync();
+		//
+		// 	return reader;
+		// }
 
 	}
 }

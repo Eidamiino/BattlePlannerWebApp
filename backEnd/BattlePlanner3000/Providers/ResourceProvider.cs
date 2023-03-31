@@ -38,25 +38,25 @@ public class ResourceProvider
 	}
 	public async Task<IEnumerable<Resource>> FindResourceAsync(string query)
 	{
-		var dataReader = await dbProvider.GetItemAsync(@Constants.ResourcesTable, @Constants.ResourcesSearchCol, query);
-		if (!dataReader.IsClosed)
-		{
-			return dataReader.Select(r =>
-				new Resource(r.GetString(r.GetOrdinal(@Constants.ResourcesSearchCol)),new List<RequirementAmount>())).ToList();
-		}
+		// var dataReader = await dbProvider.GetItemAsync(@Constants.ResourcesTable, @Constants.ResourcesSearchCol, query);
+		// if (!dataReader.IsClosed)
+		// {
+		// 	return dataReader.Select(r =>
+		// 		new Resource(r.GetString(r.GetOrdinal(@Constants.ResourcesSearchCol)),new List<RequirementAmount>())).ToList();
+		// }
 
 		return new List<Resource>();
 	}
 
 	public async Task<IEnumerable<Requirement>> SearchRequirementsAsync(string query)
 	{
-		var dataReader = await dbProvider.GetItemsStartsWith(@Constants.RequirementsTable, @Constants.RequirementsSearchCol, query);
-		if (!dataReader.IsClosed)
-		{
-			return dataReader.Select(r =>
-					new Requirement(r.GetString(r.GetOrdinal(@Constants.RequirementsSearchCol))))
-				.ToList();
-		}
+		// var dataReader = await dbProvider.GetItemsStartsWith(@Constants.RequirementsTable, @Constants.RequirementsSearchCol, query);
+		// if (!dataReader.IsClosed)
+		// {
+		// 	return dataReader.Select(r =>
+		// 			new Requirement(r.GetString(r.GetOrdinal(@Constants.RequirementsSearchCol))))
+		// 		.ToList();
+		// }
 
 		return new List<Requirement>();
 	}

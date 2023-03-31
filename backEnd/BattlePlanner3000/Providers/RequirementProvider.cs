@@ -13,41 +13,25 @@ public class RequirementProvider
 		this.dbProvider = dbProvider;
 	}
 
-	public async Task<IEnumerable<Requirement>> GetRequirementsAsync()
+	public async Task<List<Requirement>> GetRequirementsAsync()
 	{
-		var dataReader = await dbProvider.GetAllItemsAsync(@Constants.RequirementsTable);
-		if (!dataReader.IsClosed)
-		{
-			return dataReader.Select(r =>
-					new Requirement(r.GetString(r.GetOrdinal(@Constants.RequirementsSearchCol))))
-				.ToList();
-		}
-		
-		return new List<Requirement>();
+		var data = await dbProvider.GetAllItemsAsync(Constants.RequirementsTable, reader => new Requirement(reader.GetString(reader.GetOrdinal(Constants.RequirementsSearchCol))));
+		return data;
 	}
-	public async Task<IEnumerable<Requirement>> FindRequirementAsync(string query)
+	public async Task<List<Requirement>> FindRequirementAsync(string input)
 	{
-		var dataReader = await dbProvider.GetItemAsync(@Constants.RequirementsTable, @Constants.RequirementsSearchCol,query);
-		if (!dataReader.IsClosed)
-		{
-			return dataReader.Select(r =>
-					new Requirement(r.GetString(r.GetOrdinal(@Constants.RequirementsSearchCol)))).ToList();
-		}
-
-		return new List<Requirement>();
+		var query = $"SELECT * FROM {Constants.RequirementsTable} WHERE {Constants.RequirementsSearchCol}='{input}'";
+		var data = await dbProvider.QueryGetDataAsync(query,
+			reader => new Requirement(reader.GetString(reader.GetOrdinal(Constants.RequirementsSearchCol))));
+		return data;
 	}
 	
-	public async Task<IEnumerable<Requirement>> SearchRequirementsAsync(string query)
+	public async Task<List<Requirement>> SearchRequirementsAsync(string input)
 	{
-		var dataReader = await dbProvider.GetItemsStartsWith(@Constants.RequirementsTable, @Constants.RequirementsSearchCol, query);
-		if (!dataReader.IsClosed)
-		{
-			return dataReader.Select(r =>
-					new Requirement(r.GetString(r.GetOrdinal(@Constants.RequirementsSearchCol))))
-				.ToList();
-		}
-
-		return new List<Requirement>();
+		var query = $"SELECT * FROM {Constants.RequirementsTable} WHERE {Constants.RequirementsSearchCol} like '{input}%'";
+		var data = await dbProvider.QueryGetDataAsync(query,
+			reader => new Requirement(reader.GetString(reader.GetOrdinal(Constants.RequirementsSearchCol))));
+		return data;
 	}
 
 	public async Task<int> InsertRequirementAsync(Requirement requirement)
