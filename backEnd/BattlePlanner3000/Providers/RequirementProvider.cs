@@ -42,10 +42,13 @@ public class RequirementProvider
 		};
 		return await dbProvider.InsertItemAsync(Constants.RequirementsTable, values);
 	}
-	public async Task<int> DeleteRequirementAsync(string query)
+	public async Task DeleteRequirementAsync(string input)
 	{
-		return await dbProvider.DeleteItemAsync(Constants.RequirementsTable, Constants.RequirementsSearchCol, query);
+		var query = $"DELETE FROM {Constants.RequirementsTable} WHERE {Constants.RequirementsSearchCol}='{input}'";
+		await dbProvider.QueryExecuteAsync(query);
 	}
+
+	//pouziva to resource, pak smazu
 	public Requirement FindRequirement(string name)
 	{
 		return RequirementsList.Find(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));

@@ -32,13 +32,25 @@ namespace BattlePlanner3000.Providers
 			var result = dataReader.Select(mapper).ToList();
 			return result;
 		}
-		//genericka query
+		public async Task QueryExecuteAsync(string query)
+		{
+			var connection = await OpenConnectionAsync();
+			var command = new NpgsqlCommand(query, connection);
+			await command.ExecuteNonQueryAsync();
+		}
 		public async Task<List<T>> GetAllItemsAsync<T>(string tableName, Func<IDataReader,T> mapper)
 		{
 			var query= $"SELECT * FROM {tableName}";
 			return await QueryGetDataAsync(query,mapper);
 		}
+		public async Task<int> DeleteItemAsync(string tableName, string col, string query)
+		{
+			var connection = await OpenConnectionAsync();
+			var command = new NpgsqlCommand($"DELETE FROM {tableName} WHERE {col}='{query}'", connection);
+			var rowsAffected = await command.ExecuteNonQueryAsync();
 
+			return rowsAffected;
+		}
 		public async Task<int> InsertItemAsync(string tableName, Dictionary<string, object> values)
 		{
 			var connection = await OpenConnectionAsync();
@@ -57,14 +69,6 @@ namespace BattlePlanner3000.Providers
 			}
 
 		}
-		public async Task<int> DeleteItemAsync(string tableName, string col, string query)
-		{
-			var connection = await OpenConnectionAsync();
-			var command = new NpgsqlCommand($"DELETE FROM {tableName} WHERE {col}='{query}'", connection);
-			var rowsAffected = await command.ExecuteNonQueryAsync();
-
-			return rowsAffected;
-		}
 		public async Task<IDataReader> GetAllItemsMtoN(string query)
 		{
 			var connection = await OpenConnectionAsync();
@@ -72,14 +76,5 @@ namespace BattlePlanner3000.Providers
 			var dataReader = await command.ExecuteReaderAsync();
 			return dataReader;
 		}
-		// public async Task<IDataReader> GetAllItemsAsync(string tableName)
-		// {
-		// 	var connection = await OpenConnectionAsync();
-		// 	var command = new NpgsqlCommand($"SELECT * FROM {tableName}", connection);
-		// 	var reader = await command.ExecuteReaderAsync();
-		//
-		// 	return reader;
-		// }
-
 	}
 }

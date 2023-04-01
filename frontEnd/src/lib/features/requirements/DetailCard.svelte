@@ -12,7 +12,7 @@
                 readonly
                 class="form-control-plaintext"
                 id="itemName"
-                value={items[0].name}
+                value={items.name}
                 style="color:black;"
             />
         </div>

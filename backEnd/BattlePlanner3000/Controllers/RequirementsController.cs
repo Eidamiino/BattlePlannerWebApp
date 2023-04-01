@@ -33,11 +33,9 @@ public class RequirementsController : ControllerBase
 
 	[HttpDelete]
 	[Route("{name}")]
-	public async Task<IActionResult> DeleteRequirement([FromRoute] string name)
+	public async Task DeleteRequirement([FromRoute] string name)
 	{
-		// var requirement = provider.FindRequirement(name);
-		// provider.DeleteRequirement(name);
-		return Ok(await provider.DeleteRequirementAsync(name));
+		await provider.DeleteRequirementAsync(name);
 	}
 
 	[HttpPost]
@@ -46,22 +44,7 @@ public class RequirementsController : ControllerBase
 	{
 		Requirement requirement = new Requirement(name);
 		return Ok(await provider.InsertRequirementAsync(requirement));
-		// provider.AddRequirement(name);
 	}
-	/*[HttpGet]
-	[Route("")]
-	public IActionResult SearchRequirements([FromBody] string query)
-	{
-		return Ok(provider.SearchRequirements(query));
-	}
-	*/
-	/*
-	[HttpGet]
-	[Route("{query}")]
-	public IActionResult SearchRequirements([FromQuery] string query)
-	{
-		return Ok(provider.SearchRequirements(query));
-	}
-	*/
+	
 
 }
