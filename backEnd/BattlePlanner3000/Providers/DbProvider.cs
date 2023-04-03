@@ -23,26 +23,32 @@ namespace BattlePlanner3000.Providers
 			return connection;
 		}
 
-		public async Task<List<T>> QueryGetDataAsync<T>(string query, Func<IDataReader, T> mapper)
+		public async Task<List<T>> QueryGetDataAsync<T>(string query, Func<IDataReader, Dictionary<string, int>, T> mapper)
 		{
-			var connection = await OpenConnectionAsync();
+			await using var connection = await OpenConnectionAsync();
 			var command = new NpgsqlCommand(query, connection);
-			var dataReader = await command.ExecuteReaderAsync();
+			await using var dataReader = await command.ExecuteReaderAsync();
 
-			var result = dataReader.Select(mapper).ToList();
+			var columns = dataReader.GetColumnSchema();
+			var columnIndexes = columns.ToDictionary(x => x.ColumnName.ToLower(), x => x.ColumnOrdinal ?? -1);
+
+			var result = dataReader.Select(x => mapper(x, columnIndexes)).ToList();
 			return result;
 		}
+
 		public async Task QueryExecuteAsync(string query)
 		{
-			var connection = await OpenConnectionAsync();
+			await using var connection = await OpenConnectionAsync();
 			var command = new NpgsqlCommand(query, connection);
 			await command.ExecuteNonQueryAsync();
 		}
-		public async Task<List<T>> GetAllItemsAsync<T>(string tableName, Func<IDataReader,T> mapper)
+
+		public async Task<List<T>> GetAllItemsAsync<T>(string tableName, Func<IDataReader, Dictionary<string, int>, T> mapper)
 		{
-			var query= $"SELECT * FROM {tableName}";
-			return await QueryGetDataAsync(query,mapper);
+			var query = $"SELECT * FROM {tableName}";
+			return await QueryGetDataAsync(query, mapper);
 		}
+
 		public async Task<int> DeleteItemAsync(string tableName, string col, string query)
 		{
 			var connection = await OpenConnectionAsync();
@@ -51,6 +57,7 @@ namespace BattlePlanner3000.Providers
 
 			return rowsAffected;
 		}
+
 		public async Task<int> InsertItemAsync(string tableName, Dictionary<string, object> values)
 		{
 			var connection = await OpenConnectionAsync();

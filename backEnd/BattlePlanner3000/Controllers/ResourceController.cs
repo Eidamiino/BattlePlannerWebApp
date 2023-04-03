@@ -25,15 +25,15 @@ public class ResourceController : ControllerBase
 	[Route("")]
 	public async Task<IActionResult> GetResources()
 	{
-		return Ok(await provider.GetResourcesAsync());
+		return Ok((await provider.GetResourcesAsync()).Distinct());
 	}
 
 	[HttpGet]
 	[Route("{name}")]
-	public IActionResult GetResource([FromRoute] string name, [FromQuery] bool returnList)
+	public async Task<IActionResult> GetResource([FromRoute] string name, [FromQuery] bool returnList)
 	{
-		if (returnList) return Ok(provider.SearchResources(name));
-		else return Ok(provider.FindResource(name));
+		if (returnList) return Ok(await provider.SearchResourcesAsync(name));
+		return Ok(await provider.FindResourceAsync(name));
 	}
 
 	[HttpPost]

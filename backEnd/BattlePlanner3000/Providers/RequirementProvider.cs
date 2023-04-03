@@ -1,6 +1,7 @@
 ﻿using BattlePlanner3000.Models;
 using Newtonsoft.Json;
 using System.Data;
+using BattlePlanner3000.Mappers;
 
 namespace BattlePlanner3000.Providers;
 public class RequirementProvider
@@ -15,14 +16,14 @@ public class RequirementProvider
 
 	public async Task<List<Requirement>> GetRequirementsAsync()
 	{
-		var data = await dbProvider.GetAllItemsAsync(Constants.RequirementsTable, reader => new Requirement(reader.GetString(reader.GetOrdinal(Constants.RequirementsSearchCol))));
+		var data = await dbProvider.GetAllItemsAsync(Constants.RequirementsTable, (reader,columnIndexes) => RequirementMappers.GetRequirement(reader,columnIndexes));
 		return data;
 	}
 	public async Task<List<Requirement>> FindRequirementAsync(string input)
 	{
 		var query = $"SELECT * FROM {Constants.RequirementsTable} WHERE {Constants.RequirementsSearchCol}='{input}'";
 		var data = await dbProvider.QueryGetDataAsync(query,
-			reader => new Requirement(reader.GetString(reader.GetOrdinal(Constants.RequirementsSearchCol))));
+			(reader,columnIndexes)=> reader.GetRequirement(columnIndexes));
 		return data;
 	}
 	
@@ -30,7 +31,7 @@ public class RequirementProvider
 	{
 		var query = $"SELECT * FROM {Constants.RequirementsTable} WHERE {Constants.RequirementsSearchCol} like '{input}%'";
 		var data = await dbProvider.QueryGetDataAsync(query,
-			reader => new Requirement(reader.GetString(reader.GetOrdinal(Constants.RequirementsSearchCol))));
+			(reader,columnIndexes)=> RequirementMappers.GetRequirement(reader,columnIndexes));
 		return data;
 	}
 
