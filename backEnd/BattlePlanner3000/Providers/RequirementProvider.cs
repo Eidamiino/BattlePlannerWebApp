@@ -16,12 +16,12 @@ public class RequirementProvider
 
 	public async Task<List<Requirement>> GetRequirementsAsync()
 	{
-		var data = await dbProvider.GetAllItemsAsync(Constants.RequirementsTable, (reader,columnIndexes) => RequirementMappers.GetRequirement(reader,columnIndexes));
+		var data = await dbProvider.GetAllItemsAsync(Tables.Requirements, (reader,columnIndexes) => RequirementMappers.GetRequirement(reader,columnIndexes));
 		return data;
 	}
 	public async Task<List<Requirement>> FindRequirementAsync(string input)
 	{
-		var query = $"SELECT * FROM {Constants.RequirementsTable} WHERE {Constants.RequirementsSearchCol}='{input}'";
+		var query = $"SELECT * FROM {Tables.Requirements} WHERE {Columns.Requirement.Title}='{input}'";
 		var data = await dbProvider.QueryGetDataAsync(query,
 			(reader,columnIndexes)=> reader.GetRequirement(columnIndexes));
 		return data;
@@ -29,23 +29,23 @@ public class RequirementProvider
 	
 	public async Task<List<Requirement>> SearchRequirementsAsync(string input)
 	{
-		var query = $"SELECT * FROM {Constants.RequirementsTable} WHERE {Constants.RequirementsSearchCol} like '{input}%'";
+		var query = $"SELECT * FROM {Tables.Requirements} WHERE {Columns.Requirement.Title} like '{input}%'";
 		var data = await dbProvider.QueryGetDataAsync(query,
 			(reader,columnIndexes)=> RequirementMappers.GetRequirement(reader,columnIndexes));
 		return data;
 	}
 
-	public async Task<int> InsertRequirementAsync(Requirement requirement)
+	public async Task InsertRequirementAsync(string name)
 	{
 		var values = new Dictionary<string, object>()
 		{
-			{ @Constants.RequirementsSearchCol, requirement.Name}
+			{ Columns.Requirement.Title, name}
 		};
-		return await dbProvider.InsertItemAsync(Constants.RequirementsTable, values);
+		await dbProvider.InsertItemAsync(Tables.Requirements, values);
 	}
 	public async Task DeleteRequirementAsync(string input)
 	{
-		var query = $"DELETE FROM {Constants.RequirementsTable} WHERE {Constants.RequirementsSearchCol}='{input}'";
+		var query = $"DELETE FROM {Tables.Requirements} WHERE {Columns.Requirement.Title}='{input}'";
 		await dbProvider.QueryExecuteAsync(query);
 	}
 

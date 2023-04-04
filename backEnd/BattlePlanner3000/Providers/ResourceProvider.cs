@@ -15,7 +15,7 @@ public class ResourceProvider
 	public async Task<List<Resource>> GetResourcesAsync()
 	{
 		List<Resource> ResourceList = new List<Resource>();
-		var query = @"SELECT r.title_resource, rr.amount, req.title 
+		var query = @"SELECT r.resource_id, rr.amount, req.title, r.title_resource, req.requirement_id 
 									FROM resource r
 									JOIN resource_requirement rr ON r.resource_id = rr.resource_id 
                   JOIN requirement req ON rr.requirement_id = req.requirement_id";
@@ -27,11 +27,11 @@ public class ResourceProvider
 	public async Task<List<Resource>> FindResourceAsync(string input)
 	{
 		List<Resource> ResourceList = new List<Resource>();
-		var query = $@"SELECT r.title_resource, rr.amount, req.title 
+		var query = $@"SELECT r.resource_id, rr.amount, req.title, r.title_resource, req.requirement_id 
 									FROM resource r
 									JOIN resource_requirement rr ON r.resource_id = rr.resource_id 
                   JOIN requirement req ON rr.requirement_id = req.requirement_id
-									where {Columns.Requirement.Title}='{input}'";
+									where {Columns.Resource.Title}='{input}'";
 		var data = await dbProvider.QueryGetDataAsync(query,
 			(reader, columnIndexes) => reader.GetResource(columnIndexes, ResourceList));
 		return data;
@@ -40,27 +40,38 @@ public class ResourceProvider
 	public async Task<List<Resource>> SearchResourcesAsync(string input)
 	{
 		List<Resource> ResourceList = new List<Resource>();
-		var query = $@"SELECT r.title_resource, rr.amount, req.title 
+		var query = $@"select r.resource_id, rr.amount, req.title, r.title_resource, req.requirement_id
 									FROM resource r
 									JOIN resource_requirement rr ON r.resource_id = rr.resource_id 
                   JOIN requirement req ON rr.requirement_id = req.requirement_id
-									WHERE {Constants.RequirementsSearchCol} like '{input}%'";
+									WHERE {Columns.Resource.Title} like '{input}%'";
 		var data = await dbProvider.QueryGetDataAsync(query,
 			(reader, columnIndexes) => reader.GetResource(columnIndexes, ResourceList));
 		return data;
 	}
 
-	public async Task<int> InsertRequirementAsync(Requirement requirement)
+	public async Task InsertResourceAsync(string resourceName, int requirementId, int amount)
 	{
-		var values = new Dictionary<string, object>()
+		var resourceValues = new Dictionary<string, object>()
 		{
-			{ @Constants.RequirementsSearchCol, requirement.Name}
+			{ Columns.Resource.Title, resourceName}
 		};
-		return await dbProvider.InsertItemAsync(Constants.RequirementsTable, values);
-	}
-	public async Task<int> DeleteRequirementAsync(string query)
+		var resourceId=await dbProvider.InsertItemAsync(Tables.Resources, resourceValues, Columns.Resource.Id);
+
+		// foreach (var requirement in resource.RequirementList)
+		var resourceRequirementValues = new Dictionary<string, object>()
+			{
+				{ Columns.ResourceRequirement.ResourceId, resourceId},
+				{ Columns.ResourceRequirement.RequirementId, requirementId},
+				{ Columns.ResourceRequirement.Amount, amount}
+			};
+
+			await dbProvider.InsertItemAsync(Tables.ResourceRequirements, resourceRequirementValues);
+		}
+	public async Task DeleteResourceAsync(string input)
 	{
-		return await dbProvider.DeleteItemAsync(Constants.RequirementsTable, Constants.RequirementsSearchCol, query);
+		var query = $"DELETE FROM {Tables.Resources} WHERE {Columns.Resource.Title}='{input}'";
+		await dbProvider.QueryExecuteAsync(query);
 	}
 
 	List<Resource> ResourceList = new List<Resource>();
@@ -75,14 +86,5 @@ public class ResourceProvider
 	public Resource FindResource(string name)
 	{
 		return ResourceList.Find(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
-	}
-	public void DeleteResource(string name)
-	{
-		var resource = ResourceList.Find(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
-		ResourceList.Remove(resource);
-	}
-	public List<Resource> SearchResources(string query)
-	{
-		return ResourceList.Where(item => item.Name.StartsWith(query, StringComparison.InvariantCultureIgnoreCase)).ToList();
 	}
 }

@@ -42,8 +42,8 @@ public class RequirementsController : ControllerBase
 	[Route("")]
 	public async Task<IActionResult> PostRequirement([FromBody] string name)
 	{
-		Requirement requirement = new Requirement(name);
-		return Ok(await provider.InsertRequirementAsync(requirement));
+		await provider.InsertRequirementAsync(name);
+		return Ok();
 	}
 	
 

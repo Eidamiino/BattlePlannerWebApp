@@ -7,7 +7,7 @@ public static class RequirementMappers
 {
 	public static Requirement GetRequirement(this IDataReader reader, Dictionary<string,int> columnIndexes)
 	{
-		var requirement = new Requirement(reader.GetString(columnIndexes[Columns.Requirement.Title]));
+		var requirement = new Requirement(reader.GetInt32(columnIndexes[Columns.Requirement.Id]),reader.GetString(columnIndexes[Columns.Requirement.Title]));
 		return requirement;
 	}
 }

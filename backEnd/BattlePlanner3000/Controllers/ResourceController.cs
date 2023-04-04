@@ -38,44 +38,16 @@ public class ResourceController : ControllerBase
 
 	[HttpPost]
 	[Route("")]
-	public IActionResult PostResources([FromBody] ResourceRequirementAmount input)
+	public async Task<IActionResult> PostResources([FromBody] ResourceRequirementAmount input)
 	{
-		Resource resource = new Resource(input.Resource.Name, new List<RequirementAmount>());
-		provider.AddResource(resource);
-		resource.RequirementList.Add(new RequirementAmount(requirementProvider.FindRequirement(input.RequirementAmount.Requirement.Name), input.RequirementAmount.Amount));
-		return Ok(resource);
+		await provider.InsertResourceAsync(input.ResourceName,input.RequirementId,input.RequirementCapacity);
+		// resource.RequirementList.Add(new RequirementAmount(requirementProvider.FindRequirement(input.RequirementAmount.Requirement.Name), input.RequirementAmount.Amount));
+		return Ok();
 	}
 	[HttpDelete]
 	[Route("{name}")]
-	public IActionResult DeleteResource([FromRoute] string name)
+	public async Task DeleteResource([FromRoute] string name)
 	{
-		var resource = provider.FindResource(name);
-		provider.DeleteResource(name);
-		return Ok(resource);
+		await provider.DeleteResourceAsync(name);
 	}
-
-	// [HttpPost]
-	// [Route("")]
-	// public IActionResult PostResources([FromBody] string name)
-	// {
-	// 	Resource resource = new Resource(name, new List<RequirementAmount>());
-	// 	provider.AddResource(resource);
-	// 	//resource.RequirementList.Add(RequirementProvider.FindRequirement(requirementName), amount);
-	// 	return Ok();
-	// }
-
-	// [HttpPost]
-	// [Route("{resourceName}/requirements")]
-	// public IActionResult AddRequirement([FromRoute] string resourceName, [FromBody] RequirementAmount requirementAmount)
-	// {
-	// 	var requirement = requirementProvider.FindRequirement(requirementAmount.Requirement.Name);
-	// 	if (requirement == null) return NotFound("Requirement Not Found");
-	//
-	// 	var resource = provider.FindResource(resourceName);
-	// 	if (resource == null) return NotFound("Resource Not Found");
-	//
-	// 	resource.RequirementList.Add(new RequirementAmount(requirement, requirementAmount.Amount));
-	// 	//resource.RequirementList.Add(RequirementProvider.FindRequirement(requirementName), amount);
-	// 	return Ok();
-	// }
 }

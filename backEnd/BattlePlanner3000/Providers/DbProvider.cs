@@ -49,21 +49,14 @@ namespace BattlePlanner3000.Providers
 			return await QueryGetDataAsync(query, mapper);
 		}
 
-		public async Task<int> DeleteItemAsync(string tableName, string col, string query)
-		{
-			var connection = await OpenConnectionAsync();
-			var command = new NpgsqlCommand($"DELETE FROM {tableName} WHERE {col}='{query}'", connection);
-			var rowsAffected = await command.ExecuteNonQueryAsync();
-
-			return rowsAffected;
-		}
-
-		public async Task<int> InsertItemAsync(string tableName, Dictionary<string, object> values)
+		public async Task<object?> InsertItemAsync(string tableName, Dictionary<string, object> values, string returning="")
 		{
 			var connection = await OpenConnectionAsync();
 			var columns = string.Join(",", values.Keys);
 			var parameters = string.Join(",", values.Keys.Select(x => $"@{x}"));
+			
 			var commandText = $"INSERT INTO {tableName} ({columns}) VALUES ({parameters})";
+			if (returning != string.Empty) commandText += " returning " + returning;
 
 			var command = new NpgsqlCommand(commandText, connection);
 			{
@@ -72,16 +65,9 @@ namespace BattlePlanner3000.Providers
 					command.Parameters.AddWithValue($"@{kvp.Key}", kvp.Value);
 				}
 
-				return await command.ExecuteNonQueryAsync();
+				return await command.ExecuteScalarAsync(); 
 			}
 
-		}
-		public async Task<IDataReader> GetAllItemsMtoN(string query)
-		{
-			var connection = await OpenConnectionAsync();
-			var command = new NpgsqlCommand(query, connection);
-			var dataReader = await command.ExecuteReaderAsync();
-			return dataReader;
 		}
 	}
 }
