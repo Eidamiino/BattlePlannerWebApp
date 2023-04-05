@@ -7,7 +7,6 @@ namespace BattlePlanner3000.Mappers;
 
 public static class UnitMappers
 {
-	//resourceAmount momentalne prazdny
 	public static Unit GetUnit(this IDataReader reader, Dictionary<string, int> columnIndexes, List<Unit> units)
 	{
 		var title = reader.GetString(columnIndexes[Columns.Unit.Title]);

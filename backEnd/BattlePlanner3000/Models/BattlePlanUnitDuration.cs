@@ -2,14 +2,9 @@
 {
 	public class BattlePlanUnitDuration
 	{
-		public BattlePlanUnitDuration(string PlanName, string UnitName, int UnitCapacity)
-		{
-			this.BattlePlan= new BattlePlan(PlanName, new List<Unit>(), UnitCapacity);
-			this.Unit= new Unit(1,UnitName, new List<ResourceAmount>());
-		}
-
-		public BattlePlan BattlePlan{ get; set; }
-		public Unit Unit{ get; set; }
+		public string PlanName { get; set; }
+		public int UnitId { get; set; }
+		public string UnitCapacity { get; set; }
 
 	}
 }
