@@ -5,7 +5,7 @@
 		public BattlePlanUnitDuration(string PlanName, string UnitName, int UnitCapacity)
 		{
 			this.BattlePlan= new BattlePlan(PlanName, new List<Unit>(), UnitCapacity);
-			this.Unit= new Unit(UnitName, new List<ResourceAmount>());
+			this.Unit= new Unit(1,UnitName, new List<ResourceAmount>());
 		}
 
 		public BattlePlan BattlePlan{ get; set; }

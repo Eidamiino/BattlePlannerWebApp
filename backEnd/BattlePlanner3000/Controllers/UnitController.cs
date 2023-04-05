@@ -23,59 +23,37 @@ public class UnitController : ControllerBase
 	// GET
 	[HttpGet]
 	[Route("")]
-	public IActionResult GetUnits()
+	public async Task<IActionResult> GetUnits()
 	{
-		return Ok(provider.GetUnits());
+		return Ok((await provider.GetUnitsAsync()).Distinct());
 	}
 
 	[HttpGet]
 	[Route("{name}")]
-	public IActionResult GetUnit([FromRoute] string name, [FromQuery] bool returnList)
+	public async Task<IActionResult> GetUnit([FromRoute] string name, [FromQuery] bool returnList)
 	{
-		if (returnList) return Ok(provider.SearchUnits(name));
-		else return Ok(provider.FindUnit(name));
+		if (returnList) return Ok((await provider.SearchUnitsAsync(name)).Distinct());
+		return Ok((await provider.FindUnitAsync(name)).Distinct());
 	}
 
 	[HttpPost]
 	[Route("")]
-	public IActionResult PostUnit([FromBody] UnitResourceAmount input)
+	public async Task<IActionResult> PostUnit([FromBody] UnitResourceAmount input)
 	{
-		Unit unit = new Unit(input.Unit.Name, new List<ResourceAmount>());
-		provider.AddUnit(unit);
-		unit.ResourceList.Add(new ResourceAmount(resourceProvider.FindResource(input.ResourceAmount.Resource.Name),input.ResourceAmount.Amount));
-		return Ok(unit);
+		// Unit unit = new Unit(input.Unit.Name, new List<ResourceAmount>());
+		// provider.AddUnit(unit);
+		// unit.ResourceList.Add(new ResourceAmount(resourceProvider.FindResource(input.ResourceAmount.Resource.Name),input.ResourceAmount.Amount));
+
+		// await provider.InsertResourceAsync(input.UnitName, input.ResourceId, input.ResourceCapacity);
+		await provider.InsertUnitAsync(input.UnitName, input.ResourceId, input.ResourceCapacity);
+
+		return Ok();
 	}
 	[HttpDelete]
 	[Route("{name}")]
-	public IActionResult DeleteUnit([FromRoute] string name)
+	public async Task<IActionResult> DeleteUnit([FromRoute] string name)
 	{
-		var unit= provider.FindUnit(name);
-		provider.DeleteUnit(name);
-		return Ok(unit);
+		await provider.DeleteUnitAsync(name);
+		return Ok();
 	}
-
-	// [HttpPost]
-	// [Route("")]
-	// public IActionResult PostResources([FromBody] string name)
-	// {
-	// 	Resource resource = new Resource(name, new List<RequirementAmount>());
-	// 	provider.AddResource(resource);
-	// 	//resource.RequirementList.Add(RequirementProvider.FindRequirement(requirementName), amount);
-	// 	return Ok();
-	// }
-
-	// [HttpPost]
-	// [Route("{resourceName}/requirements")]
-	// public IActionResult AddRequirement([FromRoute] string resourceName, [FromBody] RequirementAmount requirementAmount)
-	// {
-	// 	var requirement = requirementProvider.FindRequirement(requirementAmount.Requirement.Name);
-	// 	if (requirement == null) return NotFound("Requirement Not Found");
-	//
-	// 	var resource = provider.FindResource(resourceName);
-	// 	if (resource == null) return NotFound("Resource Not Found");
-	//
-	// 	resource.RequirementList.Add(new RequirementAmount(requirement, requirementAmount.Amount));
-	// 	//resource.RequirementList.Add(RequirementProvider.FindRequirement(requirementName), amount);
-	// 	return Ok();
-	// }
 }

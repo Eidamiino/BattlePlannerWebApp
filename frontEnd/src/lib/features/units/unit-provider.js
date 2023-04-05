@@ -1,9 +1,9 @@
 
 //creates requirement with a name
-export const createUnitAsync = async function (unitName, resourceName, resourceCapacity) {
+export const createUnitAsync = async function (unitName, resourceId, resourceCapacity) {
     var myData = {};
     myData.UnitName = unitName;
-    myData.ResourceName = resourceName;
+    myData.ResourceId = resourceId;
     myData.ResourceCapacity = resourceCapacity;
 
     console.log(myData)

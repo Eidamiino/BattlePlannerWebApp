@@ -44,7 +44,7 @@ public class ResourceProvider
 									FROM resource r
 									JOIN resource_requirement rr ON r.resource_id = rr.resource_id 
 		                JOIN requirement req ON rr.requirement_id = req.requirement_id
-									WHERE lower({Columns.Resource.Title}) like '{input}%'";
+									WHERE lower({Columns.Resource.Title}) like lower('{input}%')";
 		var data = await dbProvider.QueryGetDataAsync(query,
 			(reader, columnIndexes) => reader.GetResource(columnIndexes, ResourceList));
 		return data;
@@ -72,19 +72,5 @@ public class ResourceProvider
 	{
 		var query = $"DELETE FROM {Tables.Resources} WHERE {Columns.Resource.Title}='{input}'";
 		await dbProvider.QueryExecuteAsync(query);
-	}
-
-	List<Resource> ResourceList = new List<Resource>();
-	public List<Resource> GetResources()
-	{
-		return ResourceList;
-	}
-	public void AddResource(Resource resource)
-	{
-		ResourceList.Add(resource);
-	}
-	public Resource FindResource(string name)
-	{
-		return ResourceList.Find(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
 	}
 }

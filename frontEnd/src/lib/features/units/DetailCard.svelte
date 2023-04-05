@@ -12,7 +12,7 @@
                 readonly
                 class="form-control-plaintext"
                 id="itemName"
-                value={items.name}
+                value={items[0].name}
                 style="color:black;"
             />
         </div>
@@ -27,7 +27,7 @@
         </tr>
     </thead>
     <tbody>
-        {#each items.resourceList as item, i}
+        {#each items[0].resourceList as item, i}
             <tr>
                 <th scope="row">{i + 1}</th>
                 <td>{item.resource.name}</td>
