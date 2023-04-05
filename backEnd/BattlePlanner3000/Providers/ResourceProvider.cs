@@ -30,7 +30,7 @@ public class ResourceProvider
 		var query = $@"SELECT r.resource_id, rr.amount, req.title, r.title_resource, req.requirement_id 
 									FROM resource r
 									JOIN resource_requirement rr ON r.resource_id = rr.resource_id 
-                  JOIN requirement req ON rr.requirement_id = req.requirement_id
+		                JOIN requirement req ON rr.requirement_id = req.requirement_id
 									where {Columns.Resource.Title}='{input}'";
 		var data = await dbProvider.QueryGetDataAsync(query,
 			(reader, columnIndexes) => reader.GetResource(columnIndexes, ResourceList));
@@ -43,8 +43,8 @@ public class ResourceProvider
 		var query = $@"select r.resource_id, rr.amount, req.title, r.title_resource, req.requirement_id
 									FROM resource r
 									JOIN resource_requirement rr ON r.resource_id = rr.resource_id 
-                  JOIN requirement req ON rr.requirement_id = req.requirement_id
-									WHERE {Columns.Resource.Title} like '{input}%'";
+		                JOIN requirement req ON rr.requirement_id = req.requirement_id
+									WHERE lower({Columns.Resource.Title}) like '{input}%'";
 		var data = await dbProvider.QueryGetDataAsync(query,
 			(reader, columnIndexes) => reader.GetResource(columnIndexes, ResourceList));
 		return data;

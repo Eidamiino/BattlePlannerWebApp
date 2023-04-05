@@ -29,7 +29,7 @@ public class RequirementProvider
 	
 	public async Task<List<Requirement>> SearchRequirementsAsync(string input)
 	{
-		var query = $"SELECT * FROM {Tables.Requirements} WHERE {Columns.Requirement.Title} like '{input}%'";
+		var query = $"SELECT * FROM {Tables.Requirements} WHERE lower({Columns.Requirement.Title}) like '{input}%'";
 		var data = await dbProvider.QueryGetDataAsync(query,
 			(reader,columnIndexes)=> RequirementMappers.GetRequirement(reader,columnIndexes));
 		return data;

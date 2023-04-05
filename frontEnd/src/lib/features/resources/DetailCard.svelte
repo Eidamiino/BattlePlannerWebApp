@@ -19,7 +19,7 @@
                 readonly
                 class="form-control-plaintext"
                 id="itemName"
-                value={items.name}
+                value={items[0].name}
                 style="color:black;"
             />
         </div>
@@ -34,7 +34,7 @@
         </tr>
     </thead>
     <tbody>
-        {#each items.requirementList as item, i}
+        {#each items[0].requirementList as item, i}
             <tr>
                 <th scope="row">{i + 1}</th>
                 <td>{item.requirement.name}</td>

@@ -32,8 +32,8 @@ public class ResourceController : ControllerBase
 	[Route("{name}")]
 	public async Task<IActionResult> GetResource([FromRoute] string name, [FromQuery] bool returnList)
 	{
-		if (returnList) return Ok(await provider.SearchResourcesAsync(name));
-		return Ok(await provider.FindResourceAsync(name));
+		if (returnList) return Ok((await provider.SearchResourcesAsync(name)).Distinct());
+		return Ok((await provider.FindResourceAsync(name)).Distinct());
 	}
 
 	[HttpPost]
