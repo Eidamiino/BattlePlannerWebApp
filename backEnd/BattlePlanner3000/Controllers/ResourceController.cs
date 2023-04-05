@@ -39,9 +39,7 @@ public class ResourceController : ControllerBase
 	[HttpPost]
 	[Route("")]
 	public async Task<IActionResult> PostResources([FromBody] ResourceRequirementAmount input)
-	{
-		await provider.InsertResourceAsync(input.ResourceName,input.RequirementId,input.RequirementCapacity);
-		// resource.RequirementList.Add(new RequirementAmount(requirementProvider.FindRequirement(input.RequirementAmount.Requirement.Name), input.RequirementAmount.Amount));
+	{ await provider.InsertResourceAsync(input.ResourceName,input.RequirementId,input.RequirementCapacity);
 		return Ok();
 	}
 	[HttpDelete]

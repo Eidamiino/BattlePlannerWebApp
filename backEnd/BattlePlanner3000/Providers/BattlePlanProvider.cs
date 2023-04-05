@@ -37,7 +37,7 @@ public class BattlePlanProvider
 
 	public async Task<List<BattlePlan>> SearchBattlePlansAsync(string input)
 	{
-		List<BattlePlan> PlanList= new List<BattlePlan>();
+		List<BattlePlan> PlanList = new List<BattlePlan>();
 		var query = $@"SELECT b.battleplan_id, b.title_battleplan, b.duration, u.title_unit, u.unit_id
 									FROM {Tables.BattlePlans} b
 									JOIN battleplan_unit bu ON b.battleplan_id= bu.battleplan_id
@@ -51,35 +51,21 @@ public class BattlePlanProvider
 		var query = $"DELETE FROM {Tables.BattlePlans} WHERE {Columns.BattlePlan.Title}='{input}'";
 		await dbProvider.QueryExecuteAsync(query);
 	}
-
-
-
-
-
-
-
-
-	public static List<BattlePlan> BattlePlanList { get; private set; } = new List<BattlePlan>();
-
-	public List<BattlePlan> GetBattlePlans()
+	public async Task InsertBattlePlanAsync(string planName, int unitId, int duration)
 	{
-		return BattlePlanList;
-	}
-	public void AddBattlePlan(BattlePlan battlePlan)
-	{
-		BattlePlanList.Add(battlePlan);
-	}
-	public BattlePlan FindBattlePlan(string name)
-	{
-		return BattlePlanList.Find(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
-	}
-	public void DeleteBattlePlan(string name)
-	{
-		var battlePlan = BattlePlanList.Find(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
-		BattlePlanList.Remove(battlePlan);
-	}
-	public List<BattlePlan> SearchBattlePlan(string query)
-	{
-		return BattlePlanList.Where(item => item.Name.StartsWith(query, StringComparison.InvariantCultureIgnoreCase)).ToList();
+		var planValues = new Dictionary<string, object>()
+		{
+			{ Columns.BattlePlan.Title, planName},
+			{Columns.BattlePlan.Duration,duration}
+		};
+		var planId = await dbProvider.InsertItemAsync(Tables.BattlePlans, planValues, Columns.BattlePlan.Id);
+
+		var planUnitValues = new Dictionary<string, object>()
+		{
+			{ Columns.BattlePlanUnit.BattlePlanId, planId},
+			{ Columns.BattlePlanUnit.UnitId, unitId}
+		};
+
+		await dbProvider.InsertItemAsync(Tables.BattlePlanUnits, planUnitValues);
 	}
 }

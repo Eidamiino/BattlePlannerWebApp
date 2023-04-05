@@ -30,7 +30,7 @@
     const addItem = async function () {
         await createResourceAsync(
             resourceNameInput,
-            selected.Id,
+            selected.id,
             resourceCapacityInput
         );
         location.href = "#/resources/" + resourceNameInput;

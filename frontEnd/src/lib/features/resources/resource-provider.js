@@ -13,8 +13,6 @@ export const createResourceAsync = async function (resourceName, requirementId, 
         method: 'POST',
         body: JSON.stringify(myData)
     })
-    const data = await response.json()
-    return data
 }
 
 export const getResourcesAsync = async function () {

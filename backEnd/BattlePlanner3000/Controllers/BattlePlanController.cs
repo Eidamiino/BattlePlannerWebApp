@@ -32,20 +32,15 @@ public class BattlePlanController: ControllerBase
 	[Route("{name}")]
 	public async Task<IActionResult> GetBattlePlan([FromRoute] string name, [FromQuery] bool returnList)
 	{
-		if (returnList) return Ok(await provider.SearchBattlePlansAsync(name));
-		return Ok(await provider.FindBattlePlanAsync(name));
+		if (returnList) return Ok((await provider.SearchBattlePlansAsync(name)).Distinct());
+		return Ok((await provider.FindBattlePlanAsync(name)).Distinct());
 	}
 
 	[HttpPost]
 	[Route("")]
-	public IActionResult PostBattlePlan([FromBody] BattlePlanUnitDuration input)
+	public async Task<IActionResult> PostBattlePlan([FromBody] BattlePlanUnitDuration input)
 	{
-
-		// BattlePlan battlePlan = new BattlePlan(input.BattlePlan.Name, new List<Unit>(), input.BattlePlan.Duration);
-		// provider.AddBattlePlan(battlePlan);
-		// battlePlan.UnitList.Add(unitProvider.FindUnit(input.Unit.Name));
-		// battlePlan.CalculateSummary();
-		// return Ok(battlePlan);
+		await provider.InsertBattlePlanAsync(input.PlanName, input.UnitId, input.Duration);
 		return Ok();
 	}
 	[HttpDelete]

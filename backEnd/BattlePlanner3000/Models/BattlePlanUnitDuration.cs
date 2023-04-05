@@ -4,7 +4,7 @@
 	{
 		public string PlanName { get; set; }
 		public int UnitId { get; set; }
-		public string UnitCapacity { get; set; }
+		public int Duration{ get; set; }
 
 	}
 }
