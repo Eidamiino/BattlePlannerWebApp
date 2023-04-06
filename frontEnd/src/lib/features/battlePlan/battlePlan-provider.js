@@ -1,10 +1,10 @@
 
 //creates requirement with a name
-export const createPlanAsync = async function (planName, unitName, unitCapacity) {
+export const createPlanAsync = async function (planName, unitId, duration) {
     var myData = {};
     myData.PlanName = planName;
-    myData.UnitName = unitName;
-    myData.UnitCapacity = unitCapacity;
+    myData.UnitId = unitId;
+    myData.Duration = duration;
 
     console.log(myData)
 

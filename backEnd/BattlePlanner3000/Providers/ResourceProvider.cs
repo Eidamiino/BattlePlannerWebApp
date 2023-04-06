@@ -58,7 +58,6 @@ public class ResourceProvider
 		};
 		var resourceId=await dbProvider.InsertItemAsync(Tables.Resources, resourceValues, Columns.Resource.Id);
 
-		// foreach (var requirement in resource.RequirementList)
 		var resourceRequirementValues = new Dictionary<string, object>()
 			{
 				{ Columns.ResourceRequirement.ResourceId, resourceId},

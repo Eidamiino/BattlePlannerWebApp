@@ -11,14 +11,15 @@
                 readonly
                 class="form-control-plaintext"
                 id="itemName"
-                value={items.name}
+                value={items[0].name}
                 style="color:black;"
             />
         </div>
     </div>
 </form>
 
-<table class="table table-hover">
+<!-- summary data visualisation (broken rn)-->
+<!-- <table class="table table-hover">
     <thead>
         <tr>
             <th scope="col">#</th>
@@ -27,7 +28,7 @@
         </tr>
     </thead>
     <tbody>
-        {#each Object.keys(items.summary) as item, i}
+        {#each Object.keys(items[0].summary) as item, i}
             <tr>
                 <th scope="row">{i + 1}</th>
                 <td>{item}</td>
@@ -35,7 +36,7 @@
             </tr>
         {/each}
     </tbody>
-</table>
+</table> -->
 
 <table class="table table-hover">
     <thead>
@@ -45,7 +46,7 @@
         </tr>
     </thead>
     <tbody>
-        {#each items.unitList as item, i}
+        {#each items[0].unitList as item, i}
             <tr>
                 <th scope="row">{i + 1}</th>
                 <td>{item.name}</td>

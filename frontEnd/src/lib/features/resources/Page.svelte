@@ -48,21 +48,6 @@
         console.log(formattedJson);
 
         detail = JSON.parse(formattedJson);
-
-        // const indentedJson = formattedJson
-        //     .replace(/"/g, "")
-        //     .replace(/({|}|\[|\])/g, "")
-        //     .trim()
-        //     .replace(/^(\s+)/gm, "$1&emsp;")
-        //     .replace(/ /g, "&nbsp;")
-        //     .replace(/\n/g, "<br>");
-        // detail = indentedJson;
-    }
-
-    async function detailName(name) {
-        if (name === undefined) return;
-        let response = getResourceAsync(name);
-        // return JSON.stringify(response);
     }
 
     $: showDetail(params?.resName);
