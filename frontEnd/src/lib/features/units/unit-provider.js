@@ -13,8 +13,6 @@ export const createUnitAsync = async function (unitName, resourceId, resourceCap
         method: 'POST',
         body: JSON.stringify(myData)
     })
-    const data = await response.json()
-    return data
 }
 
 export const getUnitsAsync = async function () {
@@ -33,12 +31,5 @@ export const getUnitsQueryAsync = async function (name, returnList) {
 }
 export const deleteUnitAsync = async function (name) {
     let response = await fetch("http://localhost:5266/api/Unit" + "/" + name, { method: 'DELETE' })
-    const data = await response.json()
-    return data;
 }
-// export const deleteRequirementAsync = async function (requirementName) {
-//     let response = await fetch(RequirementsApiUrl + "/" + requirementName, { method: 'DELETE' })
-//     const data = await response.json()
-//     return data;
-// }
 

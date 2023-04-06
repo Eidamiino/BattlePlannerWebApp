@@ -13,8 +13,6 @@ export const createPlanAsync = async function (planName, unitName, unitCapacity)
         method: 'POST',
         body: JSON.stringify(myData)
     })
-    const data = await response.json()
-    return data
 }
 
 export const getPlansAsync = async function () {
@@ -33,8 +31,6 @@ export const getPlansQueryAsync = async function (name, returnList) {
 }
 export const deletePlanAsync = async function (name) {
     let response = await fetch("http://localhost:5266/api/BattlePlan" + "/" + name, { method: 'DELETE' })
-    const data = await response.json()
-    return data;
 }
 // export const deleteRequirementAsync = async function (requirementName) {
 //     let response = await fetch(RequirementsApiUrl + "/" + requirementName, { method: 'DELETE' })

@@ -6,8 +6,6 @@ export const createRequirementsAsync = async function (requirementName) {
         method: 'POST',
         body: JSON.stringify(requirementName)
     })
-    const data = await response.json()
-    return data
 }
 export const getRequirementsAsync = async function () {
     let data = await fetch(RequirementsApiUrl, { method: 'GET' })
@@ -25,7 +23,5 @@ export const getRequirementQueryAsync = async function (requirementName, returnL
 }
 export const deleteRequirementAsync = async function (requirementName) {
     let response = await fetch(RequirementsApiUrl + "/" + requirementName, { method: 'DELETE' })
-    const data = await response.json()
-    return data;
 }
 
