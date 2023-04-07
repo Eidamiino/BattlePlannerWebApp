@@ -1,16 +1,8 @@
 <script>
     export let items;
-    // function formatPropertyName(propertyName) {
-    //     let words = propertyName.split(/(?=[A-Z])/);
-    //     return words
-    //         .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    //         .join(" ");
-    // }
-
-    // let formattedPropertyNames = Object.keys(resource).map(formatPropertyName);
 </script>
 
-<form>
+<form on:submit|preventDefault|stopPropagation>
     <div class="form-group row">
         <label for="itemName" class="col-sm-2 col-form-label">Name: </label>
         <div class="col-sm-10">
@@ -25,6 +17,7 @@
         </div>
     </div>
 </form>
+
 <table class="table table-hover">
     <thead>
         <tr>

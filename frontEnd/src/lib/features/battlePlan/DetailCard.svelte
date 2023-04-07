@@ -2,7 +2,7 @@
     export let items;
 </script>
 
-<form>
+<form on:submit|preventDefault|stopPropagation>
     <div class="form-group row">
         <label for="itemName" class="col-sm-2 col-form-label">Name: </label>
         <div class="col-sm-10">

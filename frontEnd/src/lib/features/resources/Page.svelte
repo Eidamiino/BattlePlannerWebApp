@@ -130,12 +130,10 @@
     <div class="col-lg-9 col-md-12 svelte-7adzez">
         <div class="card card-primary card-outline card-tabs">
             <div class="card-body p-0" id="detailRequirement">
-                <h2>
-                    <!-- {@html detail} -->
-                    {#if detail !== ""}
-                        <DetailCard items={detail} />
-                    {/if}
-                </h2>
+                <!-- {@html detail} -->
+                {#if detail !== ""}
+                    <DetailCard items={detail} />
+                {/if}
             </div>
         </div>
     </div>
