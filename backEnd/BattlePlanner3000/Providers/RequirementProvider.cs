@@ -16,7 +16,9 @@ public class RequirementProvider
 
 	public async Task<List<Requirement>> GetRequirementsAsync()
 	{
-		var data = await dbProvider.GetAllItemsAsync(Tables.Requirements, (reader,columnIndexes) => RequirementMappers.GetRequirement(reader,columnIndexes));
+		var query = $"select * from {Tables.Requirements} order by {Columns.Requirement.Title}";
+		var data = await dbProvider.QueryGetDataAsync(query,
+			(reader, columnIndexes) => reader.GetRequirement(columnIndexes));
 		return data;
 	}
 	public async Task<List<Requirement>> FindRequirementAsync(string input)

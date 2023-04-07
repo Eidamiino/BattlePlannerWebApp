@@ -19,7 +19,8 @@ public class BattlePlanProvider
 		var query = $@"SELECT b.battleplan_id, b.title_battleplan, b.duration, u.title_unit, u.unit_id
 									FROM {Tables.BattlePlans} b
 									JOIN battleplan_unit bu ON b.battleplan_id= bu.battleplan_id
-                  JOIN unit u ON bu.unit_id= u.unit_id";
+                  JOIN unit u ON bu.unit_id= u.unit_id
+									order by {Columns.BattlePlan.Title}";
 		var data = await dbProvider.QueryGetDataAsync(query, (reader, columnIndexes) => BattlePlanMappers.GetBattlePlan(reader, columnIndexes, PlanList));
 		return data;
 	}
@@ -30,7 +31,8 @@ public class BattlePlanProvider
 									FROM {Tables.BattlePlans} b
 									JOIN battleplan_unit bu ON b.battleplan_id= bu.battleplan_id
                   JOIN unit u ON bu.unit_id= u.unit_id
-									where {Columns.BattlePlan.Title}='{input}'";
+									where {Columns.BattlePlan.Title}='{input}
+									order by {Columns.BattlePlan.Title}'";
 		var data = await dbProvider.QueryGetDataAsync(query, (reader, columnIndexes) => BattlePlanMappers.GetBattlePlan(reader, columnIndexes, PlanList));
 		return data;
 	}
@@ -42,7 +44,8 @@ public class BattlePlanProvider
 									FROM {Tables.BattlePlans} b
 									JOIN battleplan_unit bu ON b.battleplan_id= bu.battleplan_id
                   JOIN unit u ON bu.unit_id= u.unit_id
-									where lower({Columns.BattlePlan.Title}) like lower('{input}%')";
+									where lower({Columns.BattlePlan.Title}) like lower('{input}%')
+									order by {Columns.BattlePlan.Title}";
 		var data = await dbProvider.QueryGetDataAsync(query, (reader, columnIndexes) => BattlePlanMappers.GetBattlePlan(reader, columnIndexes, PlanList));
 		return data;
 	}

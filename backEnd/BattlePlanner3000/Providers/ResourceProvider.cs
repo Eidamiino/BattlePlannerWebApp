@@ -15,10 +15,11 @@ public class ResourceProvider
 	public async Task<List<Resource>> GetResourcesAsync()
 	{
 		List<Resource> ResourceList = new List<Resource>();
-		var query = @"SELECT r.resource_id, rr.amount, req.title, r.title_resource, req.requirement_id 
+		var query = $@"SELECT r.resource_id, rr.amount, req.title, r.title_resource, req.requirement_id 
 									FROM resource r
 									JOIN resource_requirement rr ON r.resource_id = rr.resource_id 
-                  JOIN requirement req ON rr.requirement_id = req.requirement_id";
+                  JOIN requirement req ON rr.requirement_id = req.requirement_id
+									order by {Columns.Resource.Title}";
 		var data = await dbProvider.QueryGetDataAsync(query, (reader, columnIndexes) => ResourceMappers.GetResource(reader, columnIndexes, ResourceList));
 		return data;
 	}
@@ -30,8 +31,9 @@ public class ResourceProvider
 		var query = $@"SELECT r.resource_id, rr.amount, req.title, r.title_resource, req.requirement_id 
 									FROM resource r
 									JOIN resource_requirement rr ON r.resource_id = rr.resource_id 
-		                JOIN requirement req ON rr.requirement_id = req.requirement_id
-									where {Columns.Resource.Title}='{input}'";
+		              JOIN requirement req ON rr.requirement_id = req.requirement_id
+									where {Columns.Resource.Title}='{input}'
+									order by {Columns.Resource.Title}";
 		var data = await dbProvider.QueryGetDataAsync(query,
 			(reader, columnIndexes) => reader.GetResource(columnIndexes, ResourceList));
 		return data;
@@ -43,8 +45,9 @@ public class ResourceProvider
 		var query = $@"select r.resource_id, rr.amount, req.title, r.title_resource, req.requirement_id
 									FROM resource r
 									JOIN resource_requirement rr ON r.resource_id = rr.resource_id 
-		                JOIN requirement req ON rr.requirement_id = req.requirement_id
-									WHERE lower({Columns.Resource.Title}) like lower('{input}%')";
+		              JOIN requirement req ON rr.requirement_id = req.requirement_id
+									WHERE lower({Columns.Resource.Title}) like lower('{input}%')
+									order by {Columns.Resource.Title}";
 		var data = await dbProvider.QueryGetDataAsync(query,
 			(reader, columnIndexes) => reader.GetResource(columnIndexes, ResourceList));
 		return data;
