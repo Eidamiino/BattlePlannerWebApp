@@ -5,8 +5,8 @@ namespace BattlePlanner3000.Providers;
 
 public class ResourceProvider
 {
-
 	private readonly DbProvider dbProvider;
+
 	public ResourceProvider(DbProvider dbProvider)
 	{
 		this.dbProvider = dbProvider;
@@ -20,7 +20,8 @@ public class ResourceProvider
 									JOIN resource_requirement rr ON r.resource_id = rr.resource_id 
                   JOIN requirement req ON rr.requirement_id = req.requirement_id
 									order by {Columns.Resource.Title}";
-		var data = await dbProvider.QueryGetDataAsync(query, (reader, columnIndexes) => ResourceMappers.GetResource(reader, columnIndexes, ResourceList));
+		var data = await dbProvider.QueryGetDataAsync(query,
+			(reader, columnIndexes) => ResourceMappers.GetResource(reader, columnIndexes, ResourceList));
 		return data;
 	}
 
@@ -57,19 +58,20 @@ public class ResourceProvider
 	{
 		var resourceValues = new Dictionary<string, object>()
 		{
-			{ Columns.Resource.Title, resourceName}
+			{ Columns.Resource.Title, resourceName }
 		};
-		var resourceId=await dbProvider.InsertItemAsync(Tables.Resources, resourceValues, Columns.Resource.Id);
+		var resourceId = await dbProvider.InsertItemAsync(Tables.Resources, resourceValues, Columns.Resource.Id);
 
 		var resourceRequirementValues = new Dictionary<string, object>()
-			{
-				{ Columns.ResourceRequirement.ResourceId, resourceId},
-				{ Columns.ResourceRequirement.RequirementId, requirementId},
-				{ Columns.ResourceRequirement.Amount, amount}
-			};
+		{
+			{ Columns.ResourceRequirement.ResourceId, resourceId },
+			{ Columns.ResourceRequirement.RequirementId, requirementId },
+			{ Columns.ResourceRequirement.Amount, amount }
+		};
 
-			await dbProvider.InsertItemAsync(Tables.ResourceRequirements, resourceRequirementValues);
-		}
+		await dbProvider.InsertItemAsync(Tables.ResourceRequirements, resourceRequirementValues);
+	}
+
 	public async Task DeleteResourceAsync(string input)
 	{
 		var query = $"DELETE FROM {Tables.Resources} WHERE {Columns.Resource.Title}='{input}'";

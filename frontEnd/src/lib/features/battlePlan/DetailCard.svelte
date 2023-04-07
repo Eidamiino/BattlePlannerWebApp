@@ -49,7 +49,7 @@
         {#each items[0].unitList as item, i}
             <tr>
                 <th scope="row">{i + 1}</th>
-                <td>{item.name}</td>
+                <td><a href="#/units/{item.name}">{item.name}</a></td>
             </tr>
         {/each}
     </tbody>

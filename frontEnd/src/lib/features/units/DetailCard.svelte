@@ -30,7 +30,11 @@
         {#each items[0].resourceList as item, i}
             <tr>
                 <th scope="row">{i + 1}</th>
-                <td>{item.resource.name}</td>
+                <td
+                    ><a href="#/resources/{item.resource.name}"
+                        >{item.resource.name}</a
+                    ></td
+                >
                 <td>{item.amount}</td>
             </tr>
         {/each}

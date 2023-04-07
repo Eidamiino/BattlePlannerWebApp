@@ -31,8 +31,8 @@ public class BattlePlanProvider
 									FROM {Tables.BattlePlans} b
 									JOIN battleplan_unit bu ON b.battleplan_id= bu.battleplan_id
                   JOIN unit u ON bu.unit_id= u.unit_id
-									where {Columns.BattlePlan.Title}='{input}
-									order by {Columns.BattlePlan.Title}'";
+									where {Columns.BattlePlan.Title}='{input}'
+									order by {Columns.BattlePlan.Title}";
 		var data = await dbProvider.QueryGetDataAsync(query, (reader, columnIndexes) => BattlePlanMappers.GetBattlePlan(reader, columnIndexes, PlanList));
 		return data;
 	}
