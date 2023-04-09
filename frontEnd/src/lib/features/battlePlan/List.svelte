@@ -13,12 +13,14 @@
         >
         <button
             on:click={() => remove(item.name)}
-            class="btn btn-danger btn-sm rounded-0"
+            class="btn btn-danger rounded-0"
             type="button"
             data-toggle="tooltip"
             data-placement="top"
-            title="Delete"><i class="fa fa-trash" /></button
+            title="Delete"
         >
+            <i class="fa fa-trash" style="padding: 0.5rem, 0.7rem;" />
+        </button>
     </tr>
 {/each}
 
