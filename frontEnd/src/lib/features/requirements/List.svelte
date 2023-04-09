@@ -1,12 +1,22 @@
 <script>
+    import ModalComponent from "../ModalComponent.svelte";
     export let items;
     import {
         deleteRequirementAsync,
         getRequirementsAsync,
     } from "./requirement-provider";
-    const remove = async function (name) {
-        await deleteRequirementAsync(name);
-        await getRequirementsAsync();
+    let selectedItem = null;
+    const remove = async function () {
+        if (selectedItem) {
+            await deleteRequirementAsync(selectedItem.name);
+            await getRequirementsAsync();
+            selectedItem = null;
+        }
+    };
+    let modalcomponent;
+    const showModal = (item) => {
+        selectedItem = item;
+        modalcomponent.show();
     };
 </script>
 
@@ -16,7 +26,7 @@
             ><a href="#/requirements/{item.name}">{item.name}</a></td
         >
         <button
-            on:click={async () => await remove(item.name)}
+            on:click={() => showModal(item)}
             class="btn btn-danger rounded-0"
             type="button"
             data-toggle="tooltip"
@@ -25,17 +35,15 @@
         >
             <i class="fa fa-trash" style="padding: 0.5rem, 0.7rem;" />
         </button>
+        <ModalComponent bind:this={modalcomponent}>
+            <h1 style="text-align:center;">Are you sure?</h1>
+            <button
+                style="position:absolute;bottom: 1em;left:40%"
+                on:click={async () => {
+                    console.log("removing:" + selectedItem.name);
+                    await remove();
+                }}>Delete</button
+            >
+        </ModalComponent>
     </tr>
 {/each}
-
-<!-- on:click={async () => {
-                    dispatch(
-                        "showDetail",
-                        await getRequirementAsync(item.name)
-                    );
-                }}
-             -->
-
-<!-- on:click={async () => {
-                await deleteRequirementAsync(item.name);
-            }} -->
