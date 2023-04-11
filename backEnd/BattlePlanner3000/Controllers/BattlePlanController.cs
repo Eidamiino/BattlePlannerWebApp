@@ -43,6 +43,8 @@ public class BattlePlanController: ControllerBase
 		await provider.InsertBattlePlanAsync(input.PlanName, input.UnitId, input.Duration);
 		return Ok();
 	}
+
+
 	[HttpDelete]
 	[Route("{name}")]
 	public async Task<IActionResult> DeleteBattlePlan([FromRoute] string name)

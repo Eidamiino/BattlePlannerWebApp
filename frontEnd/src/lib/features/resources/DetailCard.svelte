@@ -3,6 +3,7 @@
 
     import ModalComponent from "../ModalComponent.svelte";
     import { deleteResourceAsync } from "./resource-provider";
+    import { updateRequirementAmountAsync } from "./resource-provider";
 
     let selectedItem = null;
     const remove = async function () {
@@ -15,6 +16,11 @@
     const showModal = (item) => {
         selectedItem = item;
         modalcomponent.show();
+    };
+
+    let modalEdit;
+    const showModalEdit = () => {
+        modalEdit.show();
     };
 </script>
 
@@ -69,12 +75,52 @@
         {#each items[0].requirementList as item, i}
             <tr>
                 <th scope="row">{i + 1}</th>
-                <td
-                    ><a href="#/requirements/{item.requirement.name}"
-                        >{item.requirement.name}</a
-                    ></td
-                >
-                <td>{item.amount}</td>
+                <td>
+                    <a href="#/requirements/{item.requirement.name}">
+                        <input
+                            type="text"
+                            readonly
+                            class="form-control-plaintext"
+                            bind:value={item.requirement.name}
+                            style="color:black;"
+                        />
+                    </a>
+                </td>
+
+                <td>
+                    <input type="number" bind:value={item.amount} />
+                </td>
+                <td>
+                    <div class="col-sm-2">
+                        <button
+                            on:click={() => showModalEdit()}
+                            class="btn btn-dark rounded-0"
+                            type="button"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title="Edit"
+                            style="text-align:right;"
+                        >
+                            <i
+                                class="fa fa-edit"
+                                style="padding: 0.5rem, 0.7rem;"
+                            />
+                        </button>
+                        <ModalComponent bind:this={modalEdit}>
+                            <h1 style="text-align:center;">Update amount?</h1>
+                            <button
+                                style="position:absolute;bottom: 1em;left:40%"
+                                on:click={async () => {
+                                    await updateRequirementAmountAsync(
+                                        items[0].name,
+                                        item.requirement.id,
+                                        item.amount
+                                    );
+                                }}>Update</button
+                            >
+                        </ModalComponent>
+                    </div>
+                </td>
             </tr>
         {/each}
     </tbody>
