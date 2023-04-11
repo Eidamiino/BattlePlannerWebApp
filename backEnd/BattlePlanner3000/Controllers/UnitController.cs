@@ -49,6 +49,14 @@ public class UnitController : ControllerBase
 
 		return Ok();
 	}
+	[HttpPut]
+	[Route("{name}")]
+	public async Task<IActionResult> UpdateAmountAsync([FromRoute] string name, [FromBody] IdAmount input)
+	{
+		var unitId = (await provider.FindUnitAsync(name)).Distinct().ToList();
+		await provider.AlterAmountAsync(unitId[0].Id, input.Id, input.Amount);
+		return Ok();
+	}
 	[HttpDelete]
 	[Route("{name}")]
 	public async Task<IActionResult> DeleteUnit([FromRoute] string name)

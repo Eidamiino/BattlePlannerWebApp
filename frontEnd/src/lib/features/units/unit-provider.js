@@ -14,6 +14,16 @@ export const createUnitAsync = async function (unitName, resourceId, resourceCap
         body: JSON.stringify(myData)
     })
 }
+async function updateResourceAmountAsync(name, id, amount) {
+    const myData = { Id: id, Amount: amount };
+    console.log(myData);
+
+    const response = await fetch(`http://localhost:5266/api/Unit/${name}`, {
+        headers: { 'accept': '*/*', 'content-type': 'application/json; charset=utf-8' },
+        method: 'PUT',
+        body: JSON.stringify(myData),
+    });
+}
 
 export const getUnitsAsync = async function () {
     let data = await fetch("http://localhost:5266/api/Unit", { method: 'GET' })

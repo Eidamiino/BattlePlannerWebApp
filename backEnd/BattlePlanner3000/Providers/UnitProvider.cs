@@ -71,6 +71,16 @@ public class UnitProvider
 		await dbProvider.InsertItemAsync(Tables.UnitResources, unitResourceValues);
 	}
 
+	public async Task AlterAmountAsync(int unitId, int resourceId, int newAmount)
+	{
+		var query =
+			$"update {Tables.UnitResources} set {Columns.UnitResource.Amount}= {newAmount}" +
+			$" where {Columns.UnitResource.UnitId}={unitId}" +
+			$" and {Columns.UnitResource.ResourceId}={resourceId}";
+		await dbProvider.QueryExecuteAsync(query);
+
+	}
+
 	public async Task DeleteUnitAsync(string input)
 	{
 		var query = $"DELETE FROM {Tables.Units} WHERE {Columns.Unit.Title}='{input}'";

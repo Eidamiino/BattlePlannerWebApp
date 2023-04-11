@@ -14,7 +14,7 @@ export const createResourceAsync = async function (resourceName, requirementId, 
         body: JSON.stringify(myData)
     })
 }
-async function updateResourceAmountAsync(name, id, amount) {
+async function updateRequirementAmountAsync(name, id, amount) {
     const myData = { Id: id, Amount: amount };
     console.log(myData);
 
