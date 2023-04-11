@@ -42,10 +42,20 @@ public class ResourceController : ControllerBase
 	{ await provider.InsertResourceAsync(input.ResourceName,input.RequirementId,input.RequirementCapacity);
 		return Ok();
 	}
+
+	[HttpPut]
+	[Route("{name}")]
+	public async Task<IActionResult> UpdateAmountAsync([FromRoute] string name,[FromBody] IdAmount input)
+	{
+		var resourceId = (await provider.FindResourceAsync(name)).Distinct().ToList();
+		await provider.AlterAmountAsync(resourceId[0].Id, input.Id,input.Amount);
+		return Ok();
+	}
 	[HttpDelete]
 	[Route("{name}")]
 	public async Task DeleteResource([FromRoute] string name)
 	{
 		await provider.DeleteResourceAsync(name);
 	}
+	
 }

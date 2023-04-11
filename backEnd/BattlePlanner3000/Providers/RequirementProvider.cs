@@ -51,11 +51,7 @@ public class RequirementProvider
 		await dbProvider.QueryExecuteAsync(query);
 	}
 
-	//pouziva to resource, pak smazu
-	public Requirement FindRequirement(string name)
-	{
-		return RequirementsList.Find(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
-	}
+	
 
 	
 

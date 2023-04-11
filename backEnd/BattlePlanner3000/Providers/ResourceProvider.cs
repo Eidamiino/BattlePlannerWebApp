@@ -77,4 +77,14 @@ public class ResourceProvider
 		var query = $"DELETE FROM {Tables.Resources} WHERE {Columns.Resource.Title}='{input}'";
 		await dbProvider.QueryExecuteAsync(query);
 	}
+
+	public async Task AlterAmountAsync(int resourceId, int requirementId, int newAmount)
+	{
+		var query =
+			$"update {Tables.ResourceRequirements} set {Columns.ResourceRequirement.Amount}= {newAmount}" +
+			$" where {Columns.ResourceRequirement.RequirementId}={requirementId}" +
+			$" and {Columns.ResourceRequirement.ResourceId}={resourceId}";
+		await dbProvider.QueryExecuteAsync(query);
+
+	}
 }
