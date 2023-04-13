@@ -1,8 +1,10 @@
 <script>
     export let items;
-    console.log(items);
     import ModalComponent from "../ModalComponent.svelte";
-    import { deleteUnitAsync } from "./unit-provider";
+    import {
+        deleteUnitAsync,
+        updateResourceAmountAsync,
+    } from "./unit-provider";
 
     let selectedItem = null;
     const remove = async function () {
@@ -15,6 +17,11 @@
     const showModal = (item) => {
         selectedItem = item;
         modalcomponent.show();
+    };
+
+    let modalEditUnit;
+    const showModalEditUnit = () => {
+        modalEditUnit.show();
     };
 </script>
 
@@ -74,7 +81,40 @@
                         >{item.resource.name}</a
                     ></td
                 >
-                <td>{item.amount}</td>
+                <td>
+                    <input type="number" bind:value={item.amount} />
+                </td>
+                <td>
+                    <div class="col-sm-2">
+                        <button
+                            on:click={() => showModalEditUnit()}
+                            class="btn btn-dark rounded-0"
+                            type="button"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title="Edit"
+                            style="text-align:right;"
+                        >
+                            <i
+                                class="fa fa-edit"
+                                style="padding: 0.5rem, 0.7rem;"
+                            />
+                        </button>
+                        <ModalComponent bind:this={modalEditUnit}>
+                            <h1 style="text-align:center;">Update amount?</h1>
+                            <button
+                                style="position:absolute;bottom: 1em;left:40%"
+                                on:click={async () => {
+                                    await updateResourceAmountAsync(
+                                        items[0].name,
+                                        item.resource.id,
+                                        item.amount
+                                    );
+                                }}>Update</button
+                            >
+                        </ModalComponent>
+                    </div>
+                </td>
             </tr>
         {/each}
     </tbody>
