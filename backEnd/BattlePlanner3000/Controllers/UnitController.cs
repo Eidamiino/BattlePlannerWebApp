@@ -40,15 +40,11 @@ public class UnitController : ControllerBase
 	[Route("")]
 	public async Task<IActionResult> PostUnit([FromBody] UnitResourceAmount input)
 	{
-		// Unit unit = new Unit(input.Unit.Name, new List<ResourceAmount>());
-		// provider.AddUnit(unit);
-		// unit.ResourceList.Add(new ResourceAmount(resourceProvider.FindResource(input.ResourceAmount.Resource.Name),input.ResourceAmount.Amount));
-
-		// await provider.InsertResourceAsync(input.UnitName, input.ResourceId, input.ResourceCapacity);
 		await provider.InsertUnitAsync(input.UnitName, input.ResourceId, input.ResourceCapacity);
 
 		return Ok();
 	}
+
 	[HttpPut]
 	[Route("{name}")]
 	public async Task<IActionResult> UpdateAmountAsync([FromRoute] string name, [FromBody] IdAmount input)
@@ -57,6 +53,16 @@ public class UnitController : ControllerBase
 		await provider.AlterAmountAsync(unitId[0].Id, input.Id, input.Amount);
 		return Ok();
 	}
+
+	[HttpPut]
+	[Route("{name}/addItem")]
+	public async Task<IActionResult> AddItemToListAsync([FromRoute] string name, [FromBody] IdAmount input)
+	{
+		var unitId = (await provider.FindUnitAsync(name)).Distinct().ToList();
+		await provider.AddItemToList(unitId[0].Id, input.Id, input.Amount);
+		return Ok();
+	}
+
 	[HttpDelete]
 	[Route("{name}")]
 	public async Task<IActionResult> DeleteUnit([FromRoute] string name)
