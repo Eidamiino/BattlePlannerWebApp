@@ -25,6 +25,17 @@ export const updateRequirementAmountAsync = async function (name, id, amount) {
     });
 }
 
+export const addRequirementAsync = async function (name, id, amount) {
+    const myData = { Id: id, Amount: amount };
+    console.log(myData)
+
+    const response = await fetch(`http://localhost:5266/api/Resource/${name}/addItem`, {
+        headers: { 'accept': '*/*', 'content-type': 'application/json; charset=utf-8' },
+        method: 'PUT',
+        body: JSON.stringify(myData),
+    });
+}
+
 
 export const getResourcesAsync = async function () {
     let data = await fetch("http://localhost:5266/api/Resource", { method: 'GET' })

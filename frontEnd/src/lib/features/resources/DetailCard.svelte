@@ -3,7 +3,18 @@
 
     import ModalComponent from "../ModalComponent.svelte";
     import { deleteResourceAsync } from "./resource-provider";
-    import { updateRequirementAmountAsync } from "./resource-provider";
+    import {
+        updateRequirementAmountAsync,
+        addRequirementAsync,
+    } from "./resource-provider";
+    import { getRequirementsAsync } from "../requirements/requirement-provider";
+    import Multiselect from "svelte-multiselect/src/Multiselect.svelte";
+
+    let optionsRequirements = [];
+    const fillRequirementSelect = async function () {
+        optionsRequirements = await getRequirementsAsync();
+    };
+    fillRequirementSelect();
 
     let selectedItem = null;
     const remove = async function () {
@@ -22,12 +33,19 @@
     const showModalEdit = () => {
         modalEdit.show();
     };
+
+    let selectedRequirement;
+    let requirementAmountInput = 0;
+    let modalAdd;
+    const showModalAdd = () => {
+        modalAdd.show();
+    };
 </script>
 
 <form on:submit|preventDefault|stopPropagation>
     <div class="form-group row">
         <label for="itemName" class="col-sm-2 col-form-label">Name: </label>
-        <div class="col-sm-8">
+        <div class="col-sm-6">
             <input
                 type="text"
                 readonly
@@ -37,7 +55,58 @@
                 style="color:black;"
             />
         </div>
-        <div class="col-sm-2">
+        <!-- adding items -->
+        <div class="col-sm-1">
+            <button
+                on:click={() => showModalAdd()}
+                class="btn btn-success rounded-0"
+                type="button"
+                data-toggle="tooltip"
+                data-placement="top"
+                title="Add"
+                style="text-align:right;"
+            >
+                <i class="fa fa-plus" style="padding: 0.5rem, 0.7rem;" />
+            </button>
+
+            <ModalComponent bind:this={modalAdd}>
+                <h1 style="text-align:center;">Add requirement</h1>
+
+                <h4>Requirement Name:</h4>
+                <Multiselect
+                    small
+                    bind:value={selectedRequirement}
+                    options={optionsRequirements}
+                    multiple={false}
+                    closeOnSelect={true}
+                    clearOnSelect={false}
+                    placeholder="Select item to add"
+                    trackBy="name"
+                    label="name"
+                />
+
+                <h4>Requirement Amount</h4>
+                <input
+                    type="number"
+                    class="form-control"
+                    bind:value={requirementAmountInput}
+                />
+
+                <button
+                    style="position:absolute;bottom: 1em;left:40%"
+                    on:click={async () => {
+                        console.log("adding:" + selectedItem);
+                        await addRequirementAsync(
+                            items[0].name,
+                            selectedRequirement.id,
+                            requirementAmountInput
+                        );
+                    }}>Add</button
+                >
+            </ModalComponent>
+        </div>
+
+        <div class="col-sm-1">
             <button
                 on:click={() => showModal(items[0].name)}
                 class="btn btn-danger rounded-0"
