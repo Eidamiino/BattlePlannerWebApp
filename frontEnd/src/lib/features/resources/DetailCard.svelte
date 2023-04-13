@@ -58,7 +58,10 @@
         <!-- adding items -->
         <div class="col-sm-1">
             <button
-                on:click={() => showModalAdd()}
+                on:click={() => {
+                    showModalAdd();
+                    requirementAmountInput = 0;
+                }}
                 class="btn btn-success rounded-0"
                 type="button"
                 data-toggle="tooltip"
