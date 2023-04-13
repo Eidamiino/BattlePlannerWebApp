@@ -36,8 +36,8 @@
         location.href = "#/resources/" + resourceNameInput;
         resourceNameInput = "";
         resourceCapacityInput = 0;
-        modalcomponent.hide();
-        getItems();
+        await modalcomponent.hide();
+        await getItems();
     };
 
     let detail = "";
@@ -59,7 +59,9 @@
 <div class="row">
     <div class="col-lg-3 col-md-12">
         <div class="card card-primary card-outline">
-            <button on:click={() => modalcomponent.show()}>Add</button>
+            <button on:click={async () => await modalcomponent.show()}
+                >Add</button
+            >
             <ModalComponent bind:this={modalcomponent}>
                 <h4>Name:</h4>
                 <input
@@ -100,7 +102,7 @@
                 />
 
                 <button
-                    on:click={addItem}
+                    on:click={async () => await addItem}
                     style="position:absolute;bottom: 1em;left:40%"
                     >Submit</button
                 >

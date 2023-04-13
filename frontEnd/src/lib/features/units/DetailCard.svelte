@@ -4,7 +4,16 @@
     import {
         deleteUnitAsync,
         updateResourceAmountAsync,
+        addResourceAsync,
     } from "./unit-provider";
+    import { getResourcesAsync } from "../resources/resource-provider";
+    import Multiselect from "svelte-multiselect/src/Multiselect.svelte";
+
+    let optionsResources = [];
+    const fillResourceSelect = async function () {
+        optionsResources = await getResourcesAsync();
+    };
+    fillResourceSelect();
 
     let selectedItem = null;
     const remove = async function () {
@@ -23,6 +32,13 @@
     const showModalEditUnit = () => {
         modalEditUnit.show();
     };
+
+    let selectedResource;
+    let resourceAmountInput = 0;
+    let modalAddResource;
+    const showModalAddResource = () => {
+        modalAddResource.show();
+    };
 </script>
 
 <form on:submit|preventDefault|stopPropagation>
@@ -38,7 +54,62 @@
                 style="color:black;"
             />
         </div>
-        <div class="col-sm-2">
+
+        <!-- adding items -->
+        <div class="col-sm-1">
+            <button
+                on:click={() => {
+                    showModalAddResource();
+                    resourceAmountInput = 0;
+                }}
+                class="btn btn-success rounded-0"
+                type="button"
+                data-toggle="tooltip"
+                data-placement="top"
+                title="Add"
+                style="text-align:right;"
+            >
+                <i class="fa fa-plus" style="padding: 0.5rem, 0.7rem;" />
+            </button>
+
+            <ModalComponent bind:this={modalAddResource}>
+                <h1 style="text-align:center;">Add resource</h1>
+
+                <h4>Resource Name:</h4>
+                <Multiselect
+                    small
+                    bind:value={selectedResource}
+                    options={optionsResources}
+                    multiple={false}
+                    closeOnSelect={true}
+                    clearOnSelect={false}
+                    placeholder="Select item to add"
+                    trackBy="name"
+                    label="name"
+                />
+
+                <h4>Resource Amount</h4>
+                <input
+                    type="number"
+                    class="form-control"
+                    bind:value={resourceAmountInput}
+                />
+
+                <button
+                    style="position:absolute;bottom: 1em;left:40%"
+                    on:click={async () => {
+                        console.log("adding:" + selectedItem);
+                        await addResourceAsync(
+                            items[0].name,
+                            selectedResource.id,
+                            resourceAmountInput
+                        );
+                    }}>Add</button
+                >
+            </ModalComponent>
+        </div>
+
+        <div class="col-sm-1">
             <button
                 on:click={() => showModal(items[0].name)}
                 class="btn btn-danger rounded-0"

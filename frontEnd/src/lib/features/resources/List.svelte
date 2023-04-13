@@ -26,9 +26,9 @@
         }
     };
     let modalcomponent;
-    const showModal = (item) => {
+    const showModal = async (item) => {
         selectedItem = item;
-        modalcomponent.show();
+        await modalcomponent.show();
     };
 </script>
 
@@ -36,7 +36,7 @@
     <tr>
         <td class="title"><a href="#/resources/{item.name}">{item.name}</a></td>
         <button
-            on:click={() => showModal(item)}
+            on:click={async () => await showModal(item)}
             class="btn btn-danger rounded-0"
             type="button"
             data-toggle="tooltip"

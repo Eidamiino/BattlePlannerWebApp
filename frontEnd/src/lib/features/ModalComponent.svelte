@@ -1,9 +1,9 @@
 <script>
     let shown = false;
-    export function show() {
+    export async function show() {
         shown = true;
     }
-    export function hide() {
+    export async function hide() {
         shown = false;
     }
 </script>
@@ -11,7 +11,9 @@
 {#if shown}
     <div class="modal">
         <div class="modal-content">
-            <span class="close" on:click={() => hide()}>&times;</span>
+            <span class="close" on:click={async () => await hide()}
+                >&times;</span
+            >
             <slot />
         </div>
     </div>
