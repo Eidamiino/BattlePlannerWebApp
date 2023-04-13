@@ -44,6 +44,15 @@ public class ResourceController : ControllerBase
 	}
 
 	[HttpPut]
+	[Route("{name}/addItem")]
+	public async Task<IActionResult> AddItemToListAsync([FromRoute] string name, [FromBody] IdAmount input)
+	{
+		var resourceId = (await provider.FindResourceAsync(name)).Distinct().ToList();
+		await provider.AddItemToList(resourceId[0].Id, input.Id, input.Amount);
+		return Ok();
+	}
+
+	[HttpPut]
 	[Route("{name}")]
 	public async Task<IActionResult> UpdateAmountAsync([FromRoute] string name,[FromBody] IdAmount input)
 	{

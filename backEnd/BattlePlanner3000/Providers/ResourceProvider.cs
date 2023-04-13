@@ -85,6 +85,13 @@ public class ResourceProvider
 			$" where {Columns.ResourceRequirement.RequirementId}={requirementId}" +
 			$" and {Columns.ResourceRequirement.ResourceId}={resourceId}";
 		await dbProvider.QueryExecuteAsync(query);
+	}
 
+	public async Task AddItemToList(int resourceId, int requirementId, int amount)
+	{
+		var query = $"insert into {Tables.ResourceRequirements}" +
+		            $"({Columns.ResourceRequirement.ResourceId}, {Columns.ResourceRequirement.RequirementId}, {Columns.ResourceRequirement.Amount})" +
+		            $" values ({resourceId},{requirementId},{amount})";
+		await dbProvider.QueryExecuteAsync(query);
 	}
 }
