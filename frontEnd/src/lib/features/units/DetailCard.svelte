@@ -5,6 +5,7 @@
         deleteUnitAsync,
         updateResourceAmountAsync,
         addResourceAsync,
+        getUnitsAsync,
     } from "./unit-provider";
     import { getResourcesAsync } from "../resources/resource-provider";
     import Multiselect from "svelte-multiselect/src/Multiselect.svelte";
@@ -28,10 +29,25 @@
         modalcomponent.show();
     };
 
-    let modalEditUnit;
-    const showModalEditUnit = () => {
-        modalEditUnit.show();
+    //start
+    let selectedItemEdit = null;
+    const editAmountResource = async function (parentItem) {
+        if (selectedItemEdit) {
+            await updateResourceAmountAsync(
+                parentItem.name,
+                selectedItemEdit.resource.id,
+                selectedItemEdit.amount
+            );
+            await getUnitsAsync();
+            selectedItemEdit = null;
+        }
     };
+    let modalEditUnit;
+    const showModalEditUnit = async (item) => {
+        selectedItemEdit = item;
+        await modalEditUnit.show();
+    };
+    //end
 
     let selectedResource;
     let resourceAmountInput = 0;
@@ -149,7 +165,13 @@
 
                 <td
                     ><a href="#/resources/{item.resource.name}"
-                        >{item.resource.name}</a
+                        ><input
+                            type="text"
+                            readonly
+                            class="form-control-plaintext"
+                            bind:value={item.resource.name}
+                            style="color:black;"
+                        /></a
                     ></td
                 >
                 <td>
@@ -158,7 +180,7 @@
                 <td>
                     <div class="col-sm-2">
                         <button
-                            on:click={() => showModalEditUnit()}
+                            on:click={() => showModalEditUnit(item)}
                             class="btn btn-dark rounded-0"
                             type="button"
                             data-toggle="tooltip"
@@ -176,11 +198,7 @@
                             <button
                                 style="position:absolute;bottom: 1em;left:40%"
                                 on:click={async () => {
-                                    await updateResourceAmountAsync(
-                                        items[0].name,
-                                        item.resource.id,
-                                        item.amount
-                                    );
+                                    await editAmountResource(items[0]);
                                 }}>Update</button
                             >
                         </ModalComponent>

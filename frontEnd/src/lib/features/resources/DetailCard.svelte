@@ -2,7 +2,10 @@
     export let items;
 
     import ModalComponent from "../ModalComponent.svelte";
-    import { deleteResourceAsync } from "./resource-provider";
+    import {
+        deleteResourceAsync,
+        getResourcesAsync,
+    } from "./resource-provider";
     import {
         updateRequirementAmountAsync,
         addRequirementAsync,
@@ -29,9 +32,37 @@
         modalcomponent.show();
     };
 
+    // start
+    // let selectedItem = null;
+    // const remove = async function () {
+    //     if (selectedItem) {
+    //         await deleteResourceAsync(selectedItem.name);
+    //         await getResourcesAsync();
+    //         selectedItem = null;
+    //     }
+    // };
+    // let modalcomponent;
+    // const showModal = async (item) => {
+    //     selectedItem = item;
+    //     await modalcomponent.show();
+    // };
+    // end
+    let selectedItemEdit = null;
+    const editAmount = async function (parentItem) {
+        if (selectedItemEdit) {
+            await updateRequirementAmountAsync(
+                parentItem.name,
+                selectedItemEdit.requirement.id,
+                selectedItemEdit.amount
+            );
+            await getResourcesAsync();
+            selectedItemEdit = null;
+        }
+    };
     let modalEdit;
-    const showModalEdit = () => {
-        modalEdit.show();
+    const showModalEdit = async (item) => {
+        selectedItemEdit = item;
+        await modalEdit.show();
     };
 
     let selectedRequirement;
@@ -98,7 +129,6 @@
                 <button
                     style="position:absolute;bottom: 1em;left:40%"
                     on:click={async () => {
-                        console.log("adding:" + selectedItem);
                         await addRequirementAsync(
                             items[0].name,
                             selectedRequirement.id,
@@ -165,7 +195,7 @@
                 <td>
                     <div class="col-sm-2">
                         <button
-                            on:click={() => showModalEdit()}
+                            on:click={() => showModalEdit(item)}
                             class="btn btn-dark rounded-0"
                             type="button"
                             data-toggle="tooltip"
@@ -183,11 +213,7 @@
                             <button
                                 style="position:absolute;bottom: 1em;left:40%"
                                 on:click={async () => {
-                                    await updateRequirementAmountAsync(
-                                        items[0].name,
-                                        item.requirement.id,
-                                        item.amount
-                                    );
+                                    await editAmount(items[0]);
                                 }}>Update</button
                             >
                         </ModalComponent>
