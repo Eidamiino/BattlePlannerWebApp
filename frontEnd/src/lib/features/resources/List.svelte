@@ -1,27 +1,19 @@
-<!-- <script>
-    export let Resources;
-</script>
-{#each Resources as item}
-    <tr
-        ><td>{JSON.stringify(item.name)}</td><td
-            >{JSON.stringify(item.requirementList[0].requirement.name)}</td
-        ><td>{JSON.stringify(item.requirementList[0].amount)}</td></tr
-    >
-{/each} -->
 <script>
     export let items;
     import {
-        // deleteRequirementAsync,
         getResourcesAsync,
         deleteResourceAsync,
     } from "./resource-provider";
     import ModalComponent from "../ModalComponent.svelte";
+
+    //remove item from list
     let selectedItem = null;
     const remove = async function () {
         if (selectedItem) {
             await deleteResourceAsync(selectedItem.name);
-            await getResourcesAsync();
             selectedItem = null;
+            location.href = "#/resources/";
+            modalcomponent.hide();
         }
     };
     let modalcomponent;
