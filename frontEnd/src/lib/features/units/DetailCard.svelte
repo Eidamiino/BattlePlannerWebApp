@@ -10,17 +10,21 @@
     import { getResourcesAsync } from "../resources/resource-provider";
     import Multiselect from "svelte-multiselect/src/Multiselect.svelte";
 
+    //fill select
     let optionsResources = [];
     const fillResourceSelect = async function () {
         optionsResources = await getResourcesAsync();
     };
     fillResourceSelect();
 
+    //remove unit
     let selectedItem = null;
     const remove = async function () {
         if (selectedItem) {
             await deleteUnitAsync(selectedItem);
             selectedItem = null;
+            location.hash = "/units/";
+            modalcomponent.hide();
         }
     };
     let modalcomponent;
@@ -29,7 +33,7 @@
         modalcomponent.show();
     };
 
-    //start
+    //edit amount of resource in a unit
     let selectedItemEdit = null;
     const editAmountResource = async function (parentItem) {
         if (selectedItemEdit) {
@@ -38,8 +42,9 @@
                 selectedItemEdit.resource.id,
                 selectedItemEdit.amount
             );
-            await getUnitsAsync();
+            location.href = "#/units/" + parentItem.name;
             selectedItemEdit = null;
+            modalEditUnit.hide();
         }
     };
     let modalEditUnit;
@@ -47,17 +52,26 @@
         selectedItemEdit = item;
         await modalEditUnit.show();
     };
-    //end
 
+    //add resource to unit
     let selectedResource;
     let resourceAmountInput = 0;
+    const addResourceToList = async function (parentItem) {
+        await addResourceAsync(
+            parentItem.name,
+            selectedResource.id,
+            resourceAmountInput
+        );
+        location.href = "#/units/" + items[0].name;
+        await modalAddResource.hide();
+    };
     let modalAddResource;
-    const showModalAddResource = () => {
-        modalAddResource.show();
+    const showModalAddResource = async () => {
+        await modalAddResource.show();
     };
 </script>
 
-<form on:submit|preventDefault|stopPropagation>
+<form on:submit|stopPropagation>
     <div class="form-group row">
         <label for="itemName" class="col-sm-2 col-form-label">Name: </label>
         <div class="col-sm-8">
@@ -114,12 +128,7 @@
                 <button
                     style="position:absolute;bottom: 1em;left:40%"
                     on:click={async () => {
-                        console.log("adding:" + selectedItem);
-                        await addResourceAsync(
-                            items[0].name,
-                            selectedResource.id,
-                            resourceAmountInput
-                        );
+                        await addResourceToList(items[0]);
                     }}>Add</button
                 >
             </ModalComponent>
@@ -142,7 +151,6 @@
                 <button
                     style="position:absolute;bottom: 1em;left:40%"
                     on:click={async () => {
-                        console.log("removing:" + selectedItem);
                         await remove();
                     }}>Delete</button
                 >
