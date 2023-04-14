@@ -23,7 +23,7 @@
         if (selectedItem) {
             await deleteUnitAsync(selectedItem);
             selectedItem = null;
-            location.hash = "/units/";
+            location.href = "/units/";
             modalcomponent.hide();
         }
     };
@@ -171,7 +171,7 @@
             <tr>
                 <th scope="row">{i + 1}</th>
 
-                <td
+                <!-- <td
                     ><a href="#/resources/{item.resource.name}"
                         ><input
                             type="text"
@@ -181,7 +181,12 @@
                             style="color:black;"
                         /></a
                     ></td
-                >
+                > -->
+                <td>
+                    <a href="#/resources/{item.resource.name}"
+                        >{item.resource.name}</a
+                    >
+                </td>
                 <td>
                     <input type="number" bind:value={item.amount} />
                 </td>

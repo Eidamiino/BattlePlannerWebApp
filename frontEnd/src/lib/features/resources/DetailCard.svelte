@@ -173,17 +173,10 @@
             <tr>
                 <th scope="row">{i + 1}</th>
                 <td>
-                    <a href="#/requirements/{item.requirement.name}">
-                        <input
-                            type="text"
-                            readonly
-                            class="form-control-plaintext"
-                            bind:value={item.requirement.name}
-                            style="color:black;"
-                        />
-                    </a>
+                    <a href="#/requirements/{item.requirement.name}"
+                        >{item.requirement.name}</a
+                    >
                 </td>
-
                 <td>
                     <input type="number" bind:value={item.amount} />
                 </td>

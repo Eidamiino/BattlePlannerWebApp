@@ -2,7 +2,6 @@
     // @ts-nocheck
 
     import SearchBar from "./SearchBar.svelte";
-    import { getRequirementQueryAsync } from "../features/requirements/requirement-provider";
     import { onMount, onDestroy } from "svelte";
     import { createEventDispatcher } from "svelte";
 
