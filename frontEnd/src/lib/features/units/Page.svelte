@@ -25,17 +25,13 @@
     resources();
 
     let selected;
-    let resourceNameInput = "";
-    let resourceCapacityInput = 0;
+    let unitNameInput = "";
+    let unitCapacityInput = 0;
     const addItem = async function () {
-        await createUnitAsync(
-            resourceNameInput,
-            selected.id,
-            resourceCapacityInput
-        );
-        location.href = "#/units/" + resourceNameInput;
-        resourceNameInput = "";
-        resourceCapacityInput = 0;
+        await createUnitAsync(unitNameInput, selected.id, unitCapacityInput);
+        location.href = "#/units/" + unitNameInput;
+        unitNameInput = "";
+        unitCapacityInput = 0;
         modalcomponent.hide();
         getItems();
     };
@@ -66,8 +62,7 @@
                 <input
                     type="text"
                     class="form-control"
-                    id="requirementName"
-                    bind:value={resourceNameInput}
+                    bind:value={unitNameInput}
                 />
                 <h4>Resource Name:</h4>
 
@@ -87,8 +82,7 @@
                 <input
                     type="number"
                     class="form-control"
-                    id="requirementCapacity"
-                    bind:value={resourceCapacityInput}
+                    bind:value={unitCapacityInput}
                 />
 
                 <button

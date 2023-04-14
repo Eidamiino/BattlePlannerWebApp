@@ -33,9 +33,10 @@ public class RequirementsController : ControllerBase
 
 	[HttpDelete]
 	[Route("{name}")]
-	public async Task DeleteRequirement([FromRoute] string name)
+	public async Task<IActionResult> DeleteRequirement([FromRoute] string name)
 	{
 		await provider.DeleteRequirementAsync(name);
+		return Ok();
 	}
 
 	[HttpPost]

@@ -1,7 +1,6 @@
 <!-- <script>
     export let Resources;
 </script>
-
 {#each Resources as item}
     <tr
         ><td>{JSON.stringify(item.name)}</td><td

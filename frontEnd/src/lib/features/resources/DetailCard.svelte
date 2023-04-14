@@ -1,6 +1,5 @@
 <script>
     export let items;
-
     import ModalComponent from "../ModalComponent.svelte";
     import {
         deleteResourceAsync,
@@ -12,13 +11,11 @@
     } from "./resource-provider";
     import { getRequirementsAsync } from "../requirements/requirement-provider";
     import Multiselect from "svelte-multiselect/src/Multiselect.svelte";
-
     let optionsRequirements = [];
     const fillRequirementSelect = async function () {
         optionsRequirements = await getRequirementsAsync();
     };
     fillRequirementSelect();
-
     let selectedItem = null;
     const remove = async function () {
         if (selectedItem) {
@@ -31,22 +28,7 @@
         selectedItem = item;
         modalcomponent.show();
     };
-
-    // start
-    // let selectedItem = null;
-    // const remove = async function () {
-    //     if (selectedItem) {
-    //         await deleteResourceAsync(selectedItem.name);
-    //         await getResourcesAsync();
-    //         selectedItem = null;
-    //     }
-    // };
-    // let modalcomponent;
-    // const showModal = async (item) => {
-    //     selectedItem = item;
-    //     await modalcomponent.show();
-    // };
-    // end
+    
     let selectedItemEdit = null;
     const editAmount = async function (parentItem) {
         if (selectedItemEdit) {
@@ -64,7 +46,6 @@
         selectedItemEdit = item;
         await modalEdit.show();
     };
-
     let selectedRequirement;
     let requirementAmountInput = 0;
     let modalAdd;

@@ -1,4 +1,3 @@
-
 //creates requirement with a name
 export const createResourceAsync = async function (resourceName, requirementId, requirementCapacity) {
     var myData = {};
@@ -59,4 +58,3 @@ export const deleteResourceAsync = async function (name) {
 //     const data = await response.json()
 //     return data;
 // }
-

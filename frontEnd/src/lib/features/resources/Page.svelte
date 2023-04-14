@@ -27,7 +27,8 @@
     let selected;
     let resourceNameInput = "";
     let resourceCapacityInput = 0;
-    const addItem = async function () {
+    const addItemResource = async function () {
+        console.log("zabiju se");
         await createResourceAsync(
             resourceNameInput,
             selected.id,
@@ -59,15 +60,12 @@
 <div class="row">
     <div class="col-lg-3 col-md-12">
         <div class="card card-primary card-outline">
-            <button on:click={async () => await modalcomponent.show()}
-                >Add</button
-            >
+            <button on:click={() => modalcomponent.show()}>Add</button>
             <ModalComponent bind:this={modalcomponent}>
                 <h4>Name:</h4>
                 <input
                     type="text"
                     class="form-control"
-                    id="requirementName"
                     bind:value={resourceNameInput}
                 />
 
@@ -102,7 +100,7 @@
                 />
 
                 <button
-                    on:click={async () => await addItem}
+                    on:click={() => addItemResource()}
                     style="position:absolute;bottom: 1em;left:40%"
                     >Submit</button
                 >

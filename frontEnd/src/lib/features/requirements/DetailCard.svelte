@@ -1,13 +1,18 @@
 <script>
     export let items;
     import ModalComponent from "../ModalComponent.svelte";
-    import { deleteRequirementAsync } from "./requirement-provider";
+    import {
+        deleteRequirementAsync,
+        getRequirementsAsync,
+    } from "./requirement-provider";
 
     let selectedItem = null;
     const remove = async function () {
         if (selectedItem) {
             await deleteRequirementAsync(selectedItem);
+            await getRequirementsAsync();
             selectedItem = null;
+            modalcomponent.hide();
         }
     };
     let modalcomponent;

@@ -63,7 +63,6 @@
                 <input
                     type="text"
                     class="form-control"
-                    id="requirementName"
                     bind:value={planNameInput}
                 />
                 <h4>Unit Name:</h4>
@@ -82,7 +81,6 @@
                 <input
                     type="number"
                     class="form-control"
-                    id="requirementCapacity"
                     bind:value={amountOfDays}
                 />
 
