@@ -11,16 +11,22 @@
     } from "./resource-provider";
     import { getRequirementsAsync } from "../requirements/requirement-provider";
     import Multiselect from "svelte-multiselect/src/Multiselect.svelte";
+
+    //fill select
     let optionsRequirements = [];
     const fillRequirementSelect = async function () {
         optionsRequirements = await getRequirementsAsync();
     };
     fillRequirementSelect();
+
+    //remove resource
     let selectedItem = null;
     const remove = async function () {
         if (selectedItem) {
             await deleteResourceAsync(selectedItem);
             selectedItem = null;
+            location.href = "#/resources/";
+            modalcomponent.hide();
         }
     };
     let modalcomponent;
@@ -28,7 +34,8 @@
         selectedItem = item;
         modalcomponent.show();
     };
-    
+
+    //edit amount of item
     let selectedItemEdit = null;
     const editAmount = async function (parentItem) {
         if (selectedItemEdit) {
@@ -37,8 +44,9 @@
                 selectedItemEdit.requirement.id,
                 selectedItemEdit.amount
             );
-            await getResourcesAsync();
+            location.href = "#/resources/" + parentItem.name;
             selectedItemEdit = null;
+            modalEdit.hide();
         }
     };
     let modalEdit;
@@ -46,15 +54,26 @@
         selectedItemEdit = item;
         await modalEdit.show();
     };
+
+    //add item to list
     let selectedRequirement;
     let requirementAmountInput = 0;
+    const addRequirementToList = async function (parentItem) {
+        await addRequirementAsync(
+            parentItem.name,
+            selectedRequirement.id,
+            requirementAmountInput
+        );
+        location.href = "#/resources/" + items[0].name;
+        await modalAdd.hide();
+    };
     let modalAdd;
-    const showModalAdd = () => {
-        modalAdd.show();
+    const showModalAdd = async () => {
+        await modalAdd.show();
     };
 </script>
 
-<form on:submit|preventDefault|stopPropagation>
+<form on:submit|stopPropagation>
     <div class="form-group row">
         <label for="itemName" class="col-sm-2 col-form-label">Name: </label>
         <div class="col-sm-6">
@@ -110,11 +129,7 @@
                 <button
                     style="position:absolute;bottom: 1em;left:40%"
                     on:click={async () => {
-                        await addRequirementAsync(
-                            items[0].name,
-                            selectedRequirement.id,
-                            requirementAmountInput
-                        );
+                        await addRequirementToList(items[0]);
                     }}>Add</button
                 >
             </ModalComponent>
@@ -137,7 +152,6 @@
                 <button
                     style="position:absolute;bottom: 1em;left:40%"
                     on:click={async () => {
-                        console.log("removing:" + selectedItem);
                         await remove();
                     }}>Delete</button
                 >

@@ -11,7 +11,8 @@
             await deleteRequirementAsync(selectedItem.name);
             modalcomponent.hide();
             selectedItem = null;
-            await getRequirementsAsync();
+
+            location.href = "#/requirements/";
         }
     };
     let modalcomponent;

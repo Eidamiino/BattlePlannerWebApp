@@ -51,6 +51,7 @@ export const getResourcesQueryAsync = async function (resourceName, returnList) 
     return data;
 }
 export const deleteResourceAsync = async function (name) {
+    console.log("deleting fr " + name);
     let response = await fetch("http://localhost:5266/api/Resource" + "/" + name, { method: 'DELETE' })
 }
 // export const deleteRequirementAsync = async function (requirementName) {
