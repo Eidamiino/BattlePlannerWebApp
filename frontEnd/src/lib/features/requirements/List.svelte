@@ -9,10 +9,9 @@
     const remove = async function () {
         if (selectedItem) {
             await deleteRequirementAsync(selectedItem.name);
-            modalcomponent.hide();
-            selectedItem = null;
-
             location.href = "#/requirements/";
+            selectedItem = null;
+            await modalcomponent.hide();
         }
     };
     let modalcomponent;

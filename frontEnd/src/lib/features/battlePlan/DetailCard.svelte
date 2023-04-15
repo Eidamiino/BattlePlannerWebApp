@@ -29,19 +29,19 @@
     }
 
     //remove plan
-    let selectedItem = null;
+    let selectedItem;
     const remove = async function () {
         if (selectedItem) {
             await deletePlanAsync(selectedItem);
             location.href = "#/planBattle/";
             selectedItem = null;
-            modalcomponent.hide();
+            await modalcomponent.hide();
         }
     };
     let modalcomponent;
-    const showModal = (item) => {
+    const showModal = async (item) => {
         selectedItem = item;
-        modalcomponent.show();
+        await modalcomponent.show();
     };
     //adding units
     let selectedUnit;

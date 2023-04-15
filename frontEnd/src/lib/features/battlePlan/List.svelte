@@ -6,8 +6,9 @@
     const remove = async function () {
         if (selectedItem) {
             await deletePlanAsync(selectedItem.name);
-            await getPlansAsync();
+            location.href = "#/planBattle/";
             selectedItem = null;
+            await modalcomponent.hide();
         }
     };
     let modalcomponent;

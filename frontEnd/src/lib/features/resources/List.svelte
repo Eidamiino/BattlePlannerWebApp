@@ -11,9 +11,9 @@
     const remove = async function () {
         if (selectedItem) {
             await deleteResourceAsync(selectedItem.name);
-            selectedItem = null;
             location.href = "#/resources/";
-            modalcomponent.hide();
+            selectedItem = null;
+            await modalcomponent.hide();
         }
     };
     let modalcomponent;

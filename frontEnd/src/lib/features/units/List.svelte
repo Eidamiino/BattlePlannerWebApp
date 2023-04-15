@@ -8,9 +8,9 @@
     const remove = async function () {
         if (selectedItem) {
             await deleteUnitAsync(selectedItem.name);
-            selectedItem = null;
             location.href = "#/units/";
-            modalcomponent.hide();
+            selectedItem = null;
+            await modalcomponent.hide();
         }
     };
     let modalcomponent;
