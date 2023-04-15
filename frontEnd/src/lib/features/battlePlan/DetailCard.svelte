@@ -33,7 +33,9 @@
     const remove = async function () {
         if (selectedItem) {
             await deletePlanAsync(selectedItem);
+            location.href = "#/planBattle/";
             selectedItem = null;
+            modalcomponent.hide();
         }
     };
     let modalcomponent;
