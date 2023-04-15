@@ -29,10 +29,7 @@ public static class ResourceMappers
 			return resource;
 		}
 	}
-	public static Resource GetResourceNoList(this IDataReader reader, Dictionary<string, int> columnIndexes)
-	{
-		var resource= new Resource(reader.GetInt32(columnIndexes[Columns.Resource.Id]), reader.GetString(columnIndexes[Columns.Resource.Title]),new List<RequirementAmount>());
-		return resource;
+	
 
 
 		// var title = reader.GetString(columnIndexes[Columns.Resource.Title]);
@@ -55,4 +52,3 @@ public static class ResourceMappers
 		// 	return resource;
 		// }
 	}
-}

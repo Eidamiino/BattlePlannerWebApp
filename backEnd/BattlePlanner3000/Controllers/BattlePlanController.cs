@@ -36,6 +36,13 @@ public class BattlePlanController: ControllerBase
 		return Ok((await provider.FindBattlePlanAsync(name)).Distinct());
 	}
 
+	[HttpGet]
+	[Route("{name}/summary")]
+	public async Task<IActionResult> GetBattlePlanSummary([FromRoute] string name)
+	{
+		return Ok((await provider.GetSummary(name)).Distinct());
+	}
+
 	[HttpPost]
 	[Route("")]
 	public async Task<IActionResult> PostBattlePlan([FromBody] BattlePlanUnitDuration input)

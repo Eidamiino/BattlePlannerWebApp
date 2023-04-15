@@ -1,9 +1,14 @@
 <script>
     export let items;
     import ModalComponent from "../ModalComponent.svelte";
-    import { addUnitAsync, deletePlanAsync } from "./battlePlan-provider";
+    import {
+        addUnitAsync,
+        deletePlanAsync,
+        getSummaryAsync,
+    } from "./battlePlan-provider";
     import Multiselect from "svelte-multiselect/src/Multiselect.svelte";
     import { getUnitsAsync } from "../units/unit-provider";
+    import { onMount } from "svelte";
 
     //fill select
     let optionsUnits = [];
@@ -11,6 +16,16 @@
         optionsUnits = await getUnitsAsync();
     };
     fillUnitSelect();
+
+    //get summary
+    let summaryItems = [];
+    const fillSummary = async function () {
+        summaryItems = await getSummaryAsync(items[0].name);
+    };
+    onMount(fillSummary);
+    $: {
+        fillSummary();
+    }
 
     //remove plan
     let selectedItem = null;
@@ -91,6 +106,7 @@
                 >
             </ModalComponent>
         </div>
+        <!-- removing plans -->
         <div class="col-sm-1">
             <button
                 on:click={() => showModal(items[0].name)}
@@ -118,7 +134,7 @@
 </form>
 
 <!-- summary data visualisation (broken rn)-->
-<!-- <table class="table table-hover">
+<table class="table table-hover">
     <thead>
         <tr>
             <th scope="col">#</th>
@@ -127,16 +143,16 @@
         </tr>
     </thead>
     <tbody>
-        {#each Object.keys(items[0].summary) as item, i}
+        {#each summaryItems as item, i}
             <tr>
                 <th scope="row">{i + 1}</th>
-                <td>{item}</td>
-                <td>{items.summary[item]}</td>
+                <td>{item.requirement.name}</td>
+                <td>{item.amount}</td>
             </tr>
         {/each}
     </tbody>
-</table> -->
-
+</table>
+<!-- list of units -->
 <table class="table table-hover">
     <thead>
         <tr>

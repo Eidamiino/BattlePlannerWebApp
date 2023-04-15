@@ -24,6 +24,11 @@ export const getPlanAsync = async function (name) {
     const data = await response.json()
     return data;
 }
+export const getSummaryAsync = async function (name) {
+    let response = await fetch("http://localhost:5266/api/BattlePlan" + "/" + name + "/summary", { method: 'GET' })
+    const data = await response.json()
+    return data;
+}
 export const getPlansQueryAsync = async function (name, returnList) {
     let response = await fetch("http://localhost:5266/api/BattlePlan" + "/" + name + "?returnList=" + returnList, { method: 'GET' })
     const data = await response.json()

@@ -24,6 +24,25 @@ public class BattlePlanProvider
 		var data = await dbProvider.QueryGetDataAsync(query, (reader, columnIndexes) => BattlePlanMappers.GetBattlePlan(reader, columnIndexes, PlanList));
 		return data;
 	}
+
+	public async Task<List<RequirementAmount>> GetSummary(string name)
+	{
+		BattlePlan plan = (await FindBattlePlanAsync(name)).Distinct().ToList()[0];
+		List<RequirementAmount> summary = new List<RequirementAmount>();
+		var query = $@"select r2.title, rr.requirement_id, sum(rr.amount)
+								from battleplan b
+								join battleplan_unit bu on b.battleplan_id = bu.battleplan_id
+								JOIN unit u ON bu.unit_id= u.unit_id
+								join unit_resource ur on u.unit_id = ur.unit_id
+								join resource r on ur.resource_id = r.resource_id
+								join resource_requirement rr on r.resource_id = rr.resource_id
+								join requirement r2 on rr.requirement_id = r2.requirement_id
+								where b.battleplan_id={plan.Id}
+								group by rr.requirement_id,r2.title";
+		var data = await dbProvider.QueryGetDataAsync(query,
+			(reader, columnIndexes) => BattlePlanMappers.GetItemSummary(reader, columnIndexes, summary));
+		return data;
+	}
 	public async Task<List<BattlePlan>> FindBattlePlanAsync(string input)
 	{
 		List<BattlePlan> PlanList = new List<BattlePlan>();

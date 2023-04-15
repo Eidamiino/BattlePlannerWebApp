@@ -33,4 +33,16 @@ public static class BattlePlanMappers
 			return plan;
 		}
 	}
+
+	public static RequirementAmount GetItemSummary(this IDataReader reader, Dictionary<string, int> columnIndexes,
+		List<RequirementAmount> list)
+	{
+		var title = reader.GetString(columnIndexes[Columns.Requirement.Title]);
+		var id = reader.GetInt32(columnIndexes[Columns.ResourceRequirement.RequirementId]);
+		var amount = reader.GetInt32(columnIndexes["sum"]);
+
+		RequirementAmount requirementAmount = new RequirementAmount(new Requirement(id, title), amount);
+		list.Add(requirementAmount);
+		return requirementAmount;
+	}
 }
