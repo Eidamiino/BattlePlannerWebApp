@@ -23,6 +23,7 @@
         summaryItems = await getSummaryAsync(items[0].name);
     };
     onMount(fillSummary);
+
     $: {
         fillSummary();
     }
@@ -83,9 +84,9 @@
             </button>
 
             <ModalComponent bind:this={modalAdd}>
-                <h1 style="text-align:center;">Add requirement</h1>
+                <h1 style="text-align:center;">Add Unit</h1>
 
-                <h4>Requirement Name:</h4>
+                <h4>Unit Name:</h4>
                 <Multiselect
                     small
                     bind:value={selectedUnit}
@@ -133,6 +134,24 @@
     </div>
 </form>
 
+<!-- list of units -->
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        {#each items[0].unitList as item, i}
+            <tr>
+                <th scope="row">{i + 1}</th>
+                <td><a href="#/units/{item.name}">{item.name}</a></td>
+            </tr>
+        {/each}
+    </tbody>
+</table>
+
 <!-- summary data visualisation (broken rn)-->
 <table class="table table-hover">
     <thead>
@@ -148,23 +167,6 @@
                 <th scope="row">{i + 1}</th>
                 <td>{item.requirement.name}</td>
                 <td>{item.amount}</td>
-            </tr>
-        {/each}
-    </tbody>
-</table>
-<!-- list of units -->
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Name</th>
-        </tr>
-    </thead>
-    <tbody>
-        {#each items[0].unitList as item, i}
-            <tr>
-                <th scope="row">{i + 1}</th>
-                <td><a href="#/units/{item.name}">{item.name}</a></td>
             </tr>
         {/each}
     </tbody>

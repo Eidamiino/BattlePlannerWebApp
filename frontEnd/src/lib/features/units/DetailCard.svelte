@@ -34,13 +34,14 @@
     };
 
     //edit amount of resource in a unit
+    let amountToEdit = 0;
     let selectedItemEdit = null;
     const editAmountResource = async function (parentItem) {
         if (selectedItemEdit) {
             await updateResourceAmountAsync(
                 parentItem.name,
                 selectedItemEdit.resource.id,
-                selectedItemEdit.amount
+                amountToEdit
             );
             location.href = "#/units/" + parentItem.name;
             selectedItemEdit = null;
@@ -171,25 +172,12 @@
             <tr>
                 <th scope="row">{i + 1}</th>
 
-                <!-- <td
-                    ><a href="#/resources/{item.resource.name}"
-                        ><input
-                            type="text"
-                            readonly
-                            class="form-control-plaintext"
-                            bind:value={item.resource.name}
-                            style="color:black;"
-                        /></a
-                    ></td
-                > -->
                 <td>
                     <a href="#/resources/{item.resource.name}"
                         >{item.resource.name}</a
                     >
                 </td>
-                <td>
-                    <input type="number" bind:value={item.amount} />
-                </td>
+                <td>{item.amount}</td>
                 <td>
                     <div class="col-sm-2">
                         <button
@@ -207,7 +195,12 @@
                             />
                         </button>
                         <ModalComponent bind:this={modalEditUnit}>
-                            <h1 style="text-align:center;">Update amount?</h1>
+                            <h1 style="text-align:center;">Update amount</h1>
+                            <input
+                                type="number"
+                                bind:value={amountToEdit}
+                                style="margin-top: 60px;"
+                            />
                             <button
                                 style="position:absolute;bottom: 1em;left:40%"
                                 on:click={async () => {
