@@ -71,4 +71,11 @@ public class BattlePlanProvider
 
 		await dbProvider.InsertItemAsync(Tables.BattlePlanUnits, planUnitValues);
 	}
+	public async Task AddItemToList(int planId, int unitId)
+	{
+		var query = $"insert into {Tables.BattlePlanUnits}" +
+		            $"({Columns.BattlePlanUnit.BattlePlanId}, {Columns.BattlePlanUnit.UnitId})" +
+		            $" values ({planId},{unitId})";
+		await dbProvider.QueryExecuteAsync(query);
+	}
 }

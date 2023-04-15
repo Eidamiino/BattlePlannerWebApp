@@ -52,4 +52,12 @@ public class BattlePlanController: ControllerBase
 		await provider.DeleteBattlePlanAsync(name);
 		return Ok();
 	}
+	[HttpPut]
+	[Route("{name}/addItem")]
+	public async Task<IActionResult> AddItemToListAsync([FromRoute] string name, [FromBody] int unitId)
+	{
+		var planId = (await provider.FindBattlePlanAsync(name)).Distinct().ToList();
+		await provider.AddItemToList(planId[0].Id, unitId);
+		return Ok();
+	}
 }

@@ -28,7 +28,6 @@
     let resourceNameInput = "";
     let resourceCapacityInput = 0;
     const addItemResource = async function () {
-        console.log("zabiju se");
         await createResourceAsync(
             resourceNameInput,
             selected.id,
@@ -82,14 +81,6 @@
                     trackBy="name"
                     label="name"
                 />
-                <!-- <select
-                    bind:value={selected}
-                    style="background-color:light-gray;"
-                >
-                    {#each selectItems as item}
-                        <option value={item.name}>{item.name}</option>
-                    {/each}
-                </select> -->
 
                 <h4>Requirement Amount</h4>
                 <input

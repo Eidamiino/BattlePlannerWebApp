@@ -1,10 +1,7 @@
 <script>
     export let items;
     import ModalComponent from "../ModalComponent.svelte";
-    import {
-        deleteResourceAsync,
-        getResourcesAsync,
-    } from "./resource-provider";
+    import { deleteResourceAsync } from "./resource-provider";
     import {
         updateRequirementAmountAsync,
         addRequirementAsync,
@@ -36,13 +33,14 @@
     };
 
     //edit amount of item
+    let amountToEdit = 0;
     let selectedItemEdit = null;
     const editAmount = async function (parentItem) {
         if (selectedItemEdit) {
             await updateRequirementAmountAsync(
                 parentItem.name,
                 selectedItemEdit.requirement.id,
-                selectedItemEdit.amount
+                amountToEdit
             );
             location.href = "#/resources/" + parentItem.name;
             selectedItemEdit = null;
@@ -177,9 +175,10 @@
                         >{item.requirement.name}</a
                     >
                 </td>
-                <td>
+                <td>{item.amount}</td>
+                <!-- <td>
                     <input type="number" bind:value={item.amount} />
-                </td>
+                </td> -->
                 <td>
                     <div class="col-sm-2">
                         <button
@@ -197,7 +196,12 @@
                             />
                         </button>
                         <ModalComponent bind:this={modalEdit}>
-                            <h1 style="text-align:center;">Update amount?</h1>
+                            <h1 style="text-align:center;">Update amount</h1>
+                            <input
+                                type="number"
+                                bind:value={amountToEdit}
+                                style="margin-top: 60px;"
+                            />
                             <button
                                 style="position:absolute;bottom: 1em;left:40%"
                                 on:click={async () => {

@@ -32,6 +32,17 @@ export const getPlansQueryAsync = async function (name, returnList) {
 export const deletePlanAsync = async function (name) {
     let response = await fetch("http://localhost:5266/api/BattlePlan" + "/" + name, { method: 'DELETE' })
 }
+export const addUnitAsync = async function (name, id) {
+    const unitId = id;
+    console.log(unitId)
+    console.log(name)
+
+    const response = await fetch(`http://localhost:5266/api/BattlePlan/${name}/addItem`, {
+        headers: { 'accept': '*/*', 'content-type': 'application/json; charset=utf-8' },
+        method: 'PUT',
+        body: JSON.stringify(unitId),
+    });
+}
 // export const deleteRequirementAsync = async function (requirementName) {
 //     let response = await fetch(RequirementsApiUrl + "/" + requirementName, { method: 'DELETE' })
 //     const data = await response.json()
