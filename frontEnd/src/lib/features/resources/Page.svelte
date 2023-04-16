@@ -1,20 +1,23 @@
 <script>
-    import ResourceList from "./List.svelte";
     import {
         createResourceAsync,
         getResourceAsync,
         getResourcesAsync,
     } from "./resource-provider";
     import { getRequirementsAsync } from "../requirements/requirement-provider";
+
+    import ResourceList from "./List.svelte";
     import ModalComponent from "../ModalComponent.svelte";
-    export let params;
     import DetailCard from "./DetailCard.svelte";
     import Multiselect from "svelte-multiselect/src/Multiselect.svelte";
+
+    export let params;
+
+    let resourceName;
 
     const getItems = async function () {
         items = await getResourcesAsync();
     };
-
     let items = [];
     getItems();
 
@@ -41,7 +44,7 @@
     };
 
     let detail = "";
-    async function showDetail(name) {
+    async function showDetailAsync(name) {
         if (name === undefined) return;
         let response = await getResourceAsync(name);
         const formattedJson = JSON.stringify(response);
@@ -49,8 +52,14 @@
 
         detail = JSON.parse(formattedJson);
     }
-
-    $: showDetail(params?.resName);
+    async function loadDataAsync(resourceName) {
+        showDetailAsync(resourceName);
+    }
+    $: {
+        resourceName = params?.resName;
+        loadDataAsync(resourceName);
+        console.log(resourceName);
+    }
 
     let modalcomponent;
 </script>
@@ -123,7 +132,10 @@
             <div class="card-body p-0" id="detailRequirement">
                 <!-- {@html detail} -->
                 {#if detail !== ""}
-                    <DetailCard items={detail} />
+                    <DetailCard
+                        items={detail}
+                        on:needsRefresh={() => loadDataAsync(resourceName)}
+                    />
                 {/if}
             </div>
         </div>

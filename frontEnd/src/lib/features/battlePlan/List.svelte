@@ -1,7 +1,9 @@
 <script>
-    export let items;
     import { deletePlanAsync, getPlansAsync } from "./battlePlan-provider";
     import ModalComponent from "../ModalComponent.svelte";
+
+    export let items;
+
     let selectedItem = null;
     const remove = async function () {
         if (selectedItem) {
@@ -11,6 +13,7 @@
             await modalcomponent.hide();
         }
     };
+
     let modalcomponent;
     const showModal = (item) => {
         selectedItem = item;

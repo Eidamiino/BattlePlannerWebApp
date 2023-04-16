@@ -1,7 +1,8 @@
 <script>
-    export let items;
     import { deleteUnitAsync } from "./unit-provider";
     import ModalComponent from "../ModalComponent.svelte";
+
+    export let items;
 
     //remove item from list
     let selectedItem = null;

@@ -1,10 +1,12 @@
 <script>
-    import ModalComponent from "../ModalComponent.svelte";
-    export let items;
     import {
         deleteRequirementAsync,
         getRequirementsAsync,
     } from "./requirement-provider";
+    import ModalComponent from "../ModalComponent.svelte";
+
+    export let items;
+
     let selectedItem = null;
     const remove = async function () {
         if (selectedItem) {

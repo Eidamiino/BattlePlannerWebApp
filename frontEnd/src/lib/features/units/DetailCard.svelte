@@ -1,6 +1,4 @@
 <script>
-    export let items;
-    import ModalComponent from "../ModalComponent.svelte";
     import {
         deleteUnitAsync,
         updateResourceAmountAsync,
@@ -8,7 +6,11 @@
         getUnitsAsync,
     } from "./unit-provider";
     import { getResourcesAsync } from "../resources/resource-provider";
+
+    import ModalComponent from "../ModalComponent.svelte";
     import Multiselect from "svelte-multiselect/src/Multiselect.svelte";
+
+    export let items;
 
     //fill select
     let optionsResources = [];
@@ -45,7 +47,7 @@
             );
             location.href = "#/units/" + parentItem.name;
             selectedItemEdit = null;
-            modalEditUnit.hide();
+            await modalEditUnit.hide();
         }
     };
     let modalEditUnit;

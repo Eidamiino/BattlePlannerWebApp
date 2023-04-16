@@ -1,14 +1,17 @@
 <script>
-    export let items;
-    import ModalComponent from "../ModalComponent.svelte";
+    import { onMount } from "svelte";
+
     import {
         addUnitAsync,
         deletePlanAsync,
         getSummaryAsync,
     } from "./battlePlan-provider";
-    import Multiselect from "svelte-multiselect/src/Multiselect.svelte";
     import { getUnitsAsync } from "../units/unit-provider";
-    import { onMount } from "svelte";
+
+    import Multiselect from "svelte-multiselect/src/Multiselect.svelte";
+    import ModalComponent from "../ModalComponent.svelte";
+
+    export let items;
 
     //fill select
     let optionsUnits = [];

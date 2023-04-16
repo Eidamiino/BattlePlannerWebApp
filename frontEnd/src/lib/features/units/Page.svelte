@@ -9,6 +9,7 @@
     import ModalComponent from "../ModalComponent.svelte";
     import DetailCard from "./DetailCard.svelte";
     import Multiselect from "svelte-multiselect/src/Multiselect.svelte";
+
     export let params;
 
     const getItems = async function () {

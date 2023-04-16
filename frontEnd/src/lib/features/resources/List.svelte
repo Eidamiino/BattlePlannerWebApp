@@ -1,10 +1,11 @@
 <script>
-    export let items;
     import {
         getResourcesAsync,
         deleteResourceAsync,
     } from "./resource-provider";
     import ModalComponent from "../ModalComponent.svelte";
+
+    export let items;
 
     //remove item from list
     let selectedItem = null;

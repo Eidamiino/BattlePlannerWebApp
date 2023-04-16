@@ -1,13 +1,14 @@
 <script>
-    import List from "./List.svelte";
     import {
         createRequirementsAsync,
         getRequirementsAsync,
         getRequirementQueryAsync,
     } from "./requirement-provider";
 
+    import List from "./List.svelte";
     import ModalComponent from "../ModalComponent.svelte";
     import DetailCard from "./DetailCard.svelte";
+
     export let params;
 
     let items = [];

@@ -1,8 +1,8 @@
 <script>
-    export let items;
-    import ModalComponent from "../ModalComponent.svelte";
     import { deleteRequirementAsync } from "./requirement-provider";
-    import navigate from "svelte-spa-router";
+    import ModalComponent from "../ModalComponent.svelte";
+
+    export let items;
 
     let selectedItem = null;
     const remove = async function () {
