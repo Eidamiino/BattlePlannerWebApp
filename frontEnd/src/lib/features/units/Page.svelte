@@ -38,7 +38,7 @@
     };
 
     let detail = "";
-    async function showDetail(name) {
+    async function showDetailAsync(name) {
         if (name === undefined) return;
         let response = await getUnitAsync(name);
         const formattedJson = JSON.stringify(response);
@@ -47,8 +47,15 @@
         detail = JSON.parse(formattedJson);
         // console.log(JSON.stringify(response, null, 4));
     }
-
-    $: showDetail(params?.unitName);
+    let unitName;
+    async function loadDataAsync(unitName) {
+        showDetailAsync(unitName);
+    }
+    $: {
+        unitName = params?.unitName;
+        loadDataAsync(unitName);
+        console.log(unitName);
+    }
 
     let modalcomponent;
 </script>
@@ -118,7 +125,10 @@
         <div class="card card-primary card-outline card-tabs">
             <div class="card-body p-0" id="detailRequirement">
                 {#if detail !== ""}
-                    <DetailCard items={detail} />
+                    <DetailCard
+                        items={detail}
+                        on:needsRefresh={() => loadDataAsync(unitName)}
+                    />
                 {/if}
             </div>
         </div>

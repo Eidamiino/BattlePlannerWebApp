@@ -1,4 +1,5 @@
 <script>
+    import { createEventDispatcher } from "svelte";
     import {
         deleteUnitAsync,
         updateResourceAmountAsync,
@@ -9,6 +10,8 @@
 
     import ModalComponent from "../ModalComponent.svelte";
     import Multiselect from "svelte-multiselect/src/Multiselect.svelte";
+
+    const dispatch = createEventDispatcher();
 
     export let items;
 
@@ -25,7 +28,7 @@
         if (selectedItem) {
             await deleteUnitAsync(selectedItem);
             selectedItem = null;
-            location.href = "/units/";
+            dispatch("needsRefresh");
             modalcomponent.hide();
         }
     };
@@ -45,7 +48,7 @@
                 selectedItemEdit.resource.id,
                 amountToEdit
             );
-            location.href = "#/units/" + parentItem.name;
+            dispatch("needsRefresh");
             selectedItemEdit = null;
             await modalEditUnit.hide();
         }
@@ -65,7 +68,7 @@
             selectedResource.id,
             resourceAmountInput
         );
-        location.href = "#/units/" + items[0].name;
+        dispatch("needsRefresh");
         await modalAddResource.hide();
     };
     let modalAddResource;

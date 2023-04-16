@@ -13,8 +13,6 @@
 
     export let params;
 
-    let resourceName;
-
     const getItems = async function () {
         items = await getResourcesAsync();
     };
@@ -52,6 +50,8 @@
 
         detail = JSON.parse(formattedJson);
     }
+
+    let resourceName;
     async function loadDataAsync(resourceName) {
         showDetailAsync(resourceName);
     }
