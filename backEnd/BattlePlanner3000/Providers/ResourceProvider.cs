@@ -34,7 +34,7 @@ public class ResourceProvider
 									JOIN resource_requirement rr ON r.resource_id = rr.resource_id 
 		              JOIN requirement req ON rr.requirement_id = req.requirement_id
 									where {Columns.Resource.Title}='{input}'
-									order by {Columns.Resource.Title}";
+									order by {Columns.ResourceRequirement.Amount} desc";
 		var data = await dbProvider.QueryGetDataAsync(query,
 			(reader, columnIndexes) => reader.GetResource(columnIndexes, ResourceList));
 		return data;

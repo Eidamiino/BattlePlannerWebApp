@@ -33,7 +33,7 @@ public class UnitProvider
 									JOIN unit_resource ur ON u.unit_id= ur.unit_id
                   JOIN resource r ON ur.resource_id= r.resource_id
 									where {Columns.Unit.Title}='{input}'
-									order by {Columns.Unit.Title}";
+									order by {Columns.UnitResource.Amount} desc";
 		var data = await dbProvider.QueryGetDataAsync(query,
 			(reader, columnIndexes) => reader.GetUnit(columnIndexes, UnitList));
 		return data;
