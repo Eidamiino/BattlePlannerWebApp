@@ -68,7 +68,15 @@
 <div class="row">
     <div class="col-lg-3 col-md-12">
         <div class="card card-primary card-outline">
-            <button on:click={() => modalcomponent.show()}>Add</button>
+            <button
+                class="btn btn-dark rounded-0"
+                on:click={() => modalcomponent.show()}
+                ><i
+                    class="fa fa-plus"
+                    style="padding: 0.5rem, 0.7rem;"
+                /></button
+            >
+
             <ModalComponent bind:this={modalcomponent}>
                 <form>
                     <div class="form-group">

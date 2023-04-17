@@ -25,11 +25,11 @@ public class BattlePlanProvider
 		return data;
 	}
 
-	public async Task<List<RequirementAmount>> GetSummary(string name)
+	public async Task<List<RequirementAmountTotal>> GetSummary(string name)
 	{
 		BattlePlan plan = (await FindBattlePlanAsync(name)).Distinct().ToList()[0];
-		List<RequirementAmount> summary = new List<RequirementAmount>();
-		var query = $@"select r2.title, rr.requirement_id, sum(rr.amount)
+		List<RequirementAmountTotal> summary = new List<RequirementAmountTotal>();
+		var query = $@"select r2.title, rr.requirement_id, sum(rr.amount) as dayAmount, sum(rr.amount*b.duration) as amount
 								from battleplan b
 								join battleplan_unit bu on b.battleplan_id = bu.battleplan_id
 								JOIN unit u ON bu.unit_id= u.unit_id

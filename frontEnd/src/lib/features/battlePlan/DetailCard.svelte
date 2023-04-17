@@ -134,6 +134,17 @@
                 style="color:black;"
             />
         </div>
+        <label for="itemName" class="col-sm-2 col-form-label">Days: </label>
+        <div class="col-sm-8">
+            <input
+                type="text"
+                readonly
+                class="form-control-plaintext"
+                id="itemName"
+                value={items[0].duration}
+                style="color:black;"
+            />
+        </div>
     </div>
 </form>
 
@@ -163,7 +174,8 @@
         <tr>
             <th scope="col">#</th>
             <th scope="col">Name</th>
-            <th scope="col">Amount</th>
+            <th scope="col">Amount/day</th>
+            <th scope="col">Total Amount</th>
         </tr>
     </thead>
     <tbody>
@@ -172,6 +184,7 @@
                 <th scope="row">{i + 1}</th>
                 <td>{item.requirement.name}</td>
                 <td>{item.amount}</td>
+                <td>{item.totalAmount}</td>
             </tr>
         {/each}
     </tbody>
