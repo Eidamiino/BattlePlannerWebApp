@@ -37,7 +37,7 @@
     };
 
     //edit amount of item
-    let amountToEdit = 0;
+    let amountToEdit = 1;
     let selectedItemEdit = null;
     const editAmount = async function (parentItem) {
         if (selectedItemEdit) {
@@ -60,7 +60,7 @@
 
     //add item to list
     let selectedRequirement;
-    let requirementAmountInput = 0;
+    let requirementAmountInput = 1;
     const addRequirementToList = async function (parentItem) {
         await addRequirementAsync(
             parentItem.name,
@@ -116,6 +116,7 @@
                     type="number"
                     class="form-control"
                     bind:value={requirementAmountInput}
+                    min="1"
                 />
 
                 <button
@@ -195,6 +196,7 @@
                             type="number"
                             bind:value={amountToEdit}
                             style="margin-top: 60px;"
+                            min="1"
                         />
                         <button
                             style="position:absolute;bottom: 1em;left:40%"

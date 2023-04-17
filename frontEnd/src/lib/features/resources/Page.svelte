@@ -27,7 +27,7 @@
 
     let selected;
     let resourceNameInput = "";
-    let resourceCapacityInput = 0;
+    let resourceCapacityInput = 1;
     const addItemResource = async function () {
         await createResourceAsync(
             resourceNameInput,
@@ -36,7 +36,7 @@
         );
         location.href = "#/resources/" + resourceNameInput;
         resourceNameInput = "";
-        resourceCapacityInput = 0;
+        resourceCapacityInput = 1;
         await modalcomponent.hide();
         await getItems();
     };
@@ -115,6 +115,7 @@
                             class="form-control"
                             id="requirementCapacity"
                             bind:value={resourceCapacityInput}
+                            min="1"
                         />
                     </div>
                     <button

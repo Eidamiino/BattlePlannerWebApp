@@ -27,12 +27,12 @@
 
     let selected;
     let unitNameInput = "";
-    let unitCapacityInput = 0;
+    let unitCapacityInput = 1;
     const addItem = async function () {
         await createUnitAsync(unitNameInput, selected.id, unitCapacityInput);
         location.href = "#/units/" + unitNameInput;
         unitNameInput = "";
-        unitCapacityInput = 0;
+        unitCapacityInput = 1;
         modalcomponent.hide();
         getItems();
     };
@@ -106,6 +106,7 @@
                             type="number"
                             class="form-control"
                             bind:value={unitCapacityInput}
+                            min="1"
                         />
                     </div>
                     <button

@@ -39,7 +39,7 @@
     };
 
     //edit amount of resource in a unit
-    let amountToEdit = 0;
+    let amountToEdit = 1;
     let selectedItemEdit = null;
     const editAmountResource = async function (parentItem) {
         if (selectedItemEdit) {
@@ -61,7 +61,7 @@
 
     //add resource to unit
     let selectedResource;
-    let resourceAmountInput = 0;
+    let resourceAmountInput = 1;
     const addResourceToList = async function (parentItem) {
         await addResourceAsync(
             parentItem.name,
@@ -117,6 +117,7 @@
                     type="number"
                     class="form-control"
                     bind:value={resourceAmountInput}
+                    min="1"
                 />
 
                 <button
@@ -198,6 +199,7 @@
                             type="number"
                             bind:value={amountToEdit}
                             style="margin-top: 60px;"
+                            min="1"
                         />
                         <button
                             style="position:absolute;bottom: 1em;left:40%"

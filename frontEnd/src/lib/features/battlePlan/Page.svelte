@@ -27,12 +27,12 @@
 
     let selected;
     let planNameInput = "";
-    let amountOfDays = 0;
+    let amountOfDays = 1;
     const addItem = async function () {
         await createPlanAsync(planNameInput, selected.id, amountOfDays);
         location.href = "#/planBattle/" + planNameInput;
         planNameInput = "";
-        amountOfDays = 0;
+        amountOfDays = 1;
         modalcomponent.hide();
         getItems();
     };
@@ -99,6 +99,7 @@
                             type="number"
                             class="form-control"
                             bind:value={amountOfDays}
+                            min="1"
                         />
                     </div>
 
