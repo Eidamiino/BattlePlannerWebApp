@@ -100,9 +100,7 @@
                     }}>Add</button
                 >
             </ModalComponent>
-            <!-- </div> -->
             <!-- removing plans -->
-            <!-- <div class="col-sm-1"> -->
             <button
                 on:click={() => showModal(items[0].name)}
                 class="btn btn-danger btn-sm rounded-0"
@@ -140,6 +138,7 @@
 </form>
 
 <!-- list of units -->
+<h3>Units</h3>
 <table class="table table-hover">
     <thead>
         <tr>
@@ -158,6 +157,7 @@
 </table>
 
 <!-- summary data visualisation (broken rn)-->
+<h3>Requirement Summary</h3>
 <table class="table table-hover">
     <thead>
         <tr>

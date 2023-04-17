@@ -161,11 +161,14 @@
         </div>
     </div>
 </form>
+
+<!-- list of resources inside -->
+<h3>Resources</h3>
 <table class="table table-hover">
     <thead>
         <tr>
-            <th scope="col">Actions</th>
             <th scope="col">#</th>
+            <th scope="col">Actions</th>
             <th scope="col">Name</th>
             <th scope="col">Amount</th>
         </tr>
@@ -173,6 +176,7 @@
     <tbody>
         {#each items[0].resourceList as item, i}
             <tr>
+                <th scope="row">{i + 1}</th>
                 <td>
                     <button
                         on:click={() => showModalEditUnit(item)}
@@ -203,7 +207,6 @@
                         >
                     </ModalComponent>
                 </td>
-                <th scope="row">{i + 1}</th>
 
                 <td>
                     <a href="#/resources/{item.resource.name}"
