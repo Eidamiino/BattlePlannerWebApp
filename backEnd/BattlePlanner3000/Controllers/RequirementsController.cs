@@ -31,6 +31,14 @@ public class RequirementsController : ControllerBase
 		return Ok(await provider.FindRequirementAsync(name));
 	}
 
+	[HttpGet]
+	[Route("{name}/contained")]
+	public async Task<IActionResult> GetResourcesWithRequirement([FromRoute] string name)
+	{
+		var requirement = (await provider.FindRequirementAsync(name)).Distinct().ToList();
+		return Ok((await provider.GetResourcesWithRequirementAsync(requirement[0].Id)).Distinct());
+	}
+
 	[HttpDelete]
 	[Route("{name}")]
 	public async Task<IActionResult> DeleteRequirement([FromRoute] string name)

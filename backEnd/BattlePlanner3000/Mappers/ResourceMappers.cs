@@ -29,6 +29,16 @@ public static class ResourceMappers
 			return resource;
 		}
 	}
+
+	public static Resource GetPlainResource(this IDataReader reader, Dictionary<string, int> columnIndexes,
+		List<Resource> resources)
+	{
+		var title = reader.GetString(columnIndexes[Columns.Resource.Title]);
+		var resourceId = reader.GetInt32(columnIndexes[Columns.Resource.Id]);
+
+		var resource = new Resource(resourceId, title, new List<RequirementAmount>());
+		return resource;
+	}
 	
 
 

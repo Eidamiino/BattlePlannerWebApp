@@ -21,6 +21,18 @@ public class RequirementProvider
 			(reader, columnIndexes) => reader.GetRequirement(columnIndexes));
 		return data;
 	}
+
+	public async Task<List<Resource>> GetResourcesWithRequirementAsync(int reqId)
+	{
+		List<Resource> ResourceList = new List<Resource>();
+		var query = $@"SELECT r.{Columns.Resource.Id}, r.{Columns.Resource.Title}
+									FROM {Tables.Resources} r
+									JOIN {Tables.ResourceRequirements} rr ON r.{Columns.Resource.Id} = rr.{Columns.ResourceRequirement.ResourceId}									
+									where {Columns.ResourceRequirement.RequirementId}={reqId}";
+		var data = await dbProvider.QueryGetDataAsync(query, (reader, columnIndexes) => reader.GetPlainResource(columnIndexes, ResourceList));
+		return data;
+	}
+
 	public async Task<List<Requirement>> FindRequirementAsync(string input)
 	{
 		var query = $"SELECT * FROM {Tables.Requirements} WHERE {Columns.Requirement.Title}='{input}'";
