@@ -22,28 +22,17 @@
 
 <form on:submit|preventDefault|stopPropagation>
     <div class="form-group row">
-        <label for="itemName" class="col-sm-2 col-form-label">Name: </label>
-        <div class="col-sm-8">
-            <input
-                type="text"
-                readonly
-                class="form-control-plaintext"
-                id="itemName"
-                value={items.name}
-                style="color:black;"
-            />
-        </div>
         <div class="col-sm-2">
             <button
                 on:click={() => showModal(items.name)}
-                class="btn btn-danger rounded-0"
+                class="btn btn-danger btn-sm rounded-0"
                 type="button"
                 data-toggle="tooltip"
                 data-placement="top"
                 title="Delete"
                 style="text-align:right;"
             >
-                <i class="fa fa-trash" style="padding: 0.5rem, 0.7rem;" />
+                <i class="fa fa-trash fa-sm" style="padding: 0.5rem, 0.7rem;" />
             </button>
             <ModalComponent bind:this={modalcomponent}>
                 <h1 style="text-align:center;">Are you sure?</h1>
@@ -55,6 +44,17 @@
                     }}>Delete</button
                 >
             </ModalComponent>
+        </div>
+        <label for="itemName" class="col-sm-2 col-form-label">Name: </label>
+        <div class="col-sm-8">
+            <input
+                type="text"
+                readonly
+                class="form-control-plaintext"
+                id="itemName"
+                value={items.name}
+                style="color:black;"
+            />
         </div>
     </div>
 </form>

@@ -26,7 +26,6 @@
 
 {#each items as item}
     <tr>
-        <td class="title"><a href="#/resources/{item.name}">{item.name}</a></td>
         <button
             on:click={async () => await showModal(item)}
             class="btn btn-danger rounded-0"
@@ -47,5 +46,6 @@
                 }}>Delete</button
             >
         </ModalComponent>
+        <td class="title"><a href="#/resources/{item.name}">{item.name}</a></td>
     </tr>
 {/each}
