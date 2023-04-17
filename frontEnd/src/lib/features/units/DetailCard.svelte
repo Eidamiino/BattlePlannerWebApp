@@ -164,6 +164,7 @@
 <table class="table table-hover">
     <thead>
         <tr>
+            <th scope="col">Actions</th>
             <th scope="col">#</th>
             <th scope="col">Name</th>
             <th scope="col">Amount</th>
@@ -172,6 +173,36 @@
     <tbody>
         {#each items[0].resourceList as item, i}
             <tr>
+                <td>
+                    <button
+                        on:click={() => showModalEditUnit(item)}
+                        class="btn btn-sm btn-dark rounded-0"
+                        type="button"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        title="Edit"
+                        style="text-align:right;"
+                    >
+                        <i
+                            class="fa fa-sm fa-edit"
+                            style="padding: 0.5rem, 0.7rem;"
+                        />
+                    </button>
+                    <ModalComponent bind:this={modalEditUnit}>
+                        <h1 style="text-align:center;">Update amount</h1>
+                        <input
+                            type="number"
+                            bind:value={amountToEdit}
+                            style="margin-top: 60px;"
+                        />
+                        <button
+                            style="position:absolute;bottom: 1em;left:40%"
+                            on:click={async () => {
+                                await editAmountResource(items[0]);
+                            }}>Update</button
+                        >
+                    </ModalComponent>
+                </td>
                 <th scope="row">{i + 1}</th>
 
                 <td>
@@ -180,38 +211,6 @@
                     >
                 </td>
                 <td>{item.amount}</td>
-                <td>
-                    <div class="col-sm-2">
-                        <button
-                            on:click={() => showModalEditUnit(item)}
-                            class="btn btn-dark rounded-0"
-                            type="button"
-                            data-toggle="tooltip"
-                            data-placement="top"
-                            title="Edit"
-                            style="text-align:right;"
-                        >
-                            <i
-                                class="fa fa-edit"
-                                style="padding: 0.5rem, 0.7rem;"
-                            />
-                        </button>
-                        <ModalComponent bind:this={modalEditUnit}>
-                            <h1 style="text-align:center;">Update amount</h1>
-                            <input
-                                type="number"
-                                bind:value={amountToEdit}
-                                style="margin-top: 60px;"
-                            />
-                            <button
-                                style="position:absolute;bottom: 1em;left:40%"
-                                on:click={async () => {
-                                    await editAmountResource(items[0]);
-                                }}>Update</button
-                            >
-                        </ModalComponent>
-                    </div>
-                </td>
             </tr>
         {/each}
     </tbody>
