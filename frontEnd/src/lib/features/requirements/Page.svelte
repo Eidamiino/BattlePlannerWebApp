@@ -45,17 +45,21 @@
         <div class="card card-primary card-outline">
             <button on:click={() => modalcomponent.show()}>Add</button>
             <ModalComponent bind:this={modalcomponent}>
-                <h2>Name:</h2>
-                <input
-                    type="text"
-                    class="form-control"
-                    id="requirementName"
-                    bind:value={text}
-                />
-                <button
-                    style="position:absolute;bottom: 1em;left:40%"
-                    on:click={addItem}>Submit</button
-                >
+                <form>
+                    <div class="form-group">
+                        <label for="requirementName">Name</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="requirementName"
+                            bind:value={text}
+                        />
+                    </div>
+                    <button
+                        style="position:absolute;bottom: 1em;left:40%"
+                        on:click={addItem}>Submit</button
+                    >
+                </form>
             </ModalComponent>
 
             <div class="card-body p-0">

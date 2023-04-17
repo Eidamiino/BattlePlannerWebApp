@@ -70,40 +70,51 @@
         <div class="card card-primary card-outline">
             <button on:click={() => modalcomponent.show()}>Add</button>
             <ModalComponent bind:this={modalcomponent}>
-                <h4>Name:</h4>
-                <input
-                    type="text"
-                    class="form-control"
-                    bind:value={resourceNameInput}
-                />
+                <form>
+                    <div class="form-group">
+                        <label for="resourceNameInput">Name</label>
+                        <input
+                            id="resourceNameInput"
+                            type="text"
+                            class="form-control"
+                            bind:value={resourceNameInput}
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label for="resourceRequirementName"
+                            >Requirement Name</label
+                        >
 
-                <h4>Requirement Name:</h4>
-
-                <Multiselect
-                    small
-                    bind:value={selected}
-                    options={selectItems}
-                    multiple={false}
-                    closeOnSelect={true}
-                    clearOnSelect={false}
-                    placeholder="Select items to add"
-                    trackBy="name"
-                    label="name"
-                />
-
-                <h4>Requirement Amount</h4>
-                <input
-                    type="number"
-                    class="form-control"
-                    id="requirementCapacity"
-                    bind:value={resourceCapacityInput}
-                />
-
-                <button
-                    on:click={() => addItemResource()}
-                    style="position:absolute;bottom: 1em;left:40%"
-                    >Submit</button
-                >
+                        <Multiselect
+                            id="resourceRequirementName"
+                            small
+                            bind:value={selected}
+                            options={selectItems}
+                            multiple={false}
+                            closeOnSelect={true}
+                            clearOnSelect={false}
+                            placeholder="Select items to add"
+                            trackBy="name"
+                            label="name"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label for="requirementCapacity"
+                            >Requirement Amount</label
+                        >
+                        <input
+                            type="number"
+                            class="form-control"
+                            id="requirementCapacity"
+                            bind:value={resourceCapacityInput}
+                        />
+                    </div>
+                    <button
+                        on:click={() => addItemResource()}
+                        style="position:absolute;bottom: 1em;left:40%"
+                        >Submit</button
+                    >
+                </form>
             </ModalComponent>
 
             <div class="card-body p-0">

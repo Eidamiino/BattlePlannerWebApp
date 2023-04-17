@@ -59,36 +59,48 @@
         <div class="card card-primary card-outline">
             <button on:click={() => modalcomponent.show()}>Add</button>
             <ModalComponent bind:this={modalcomponent}>
-                <h4>Name:</h4>
-                <input
-                    type="text"
-                    class="form-control"
-                    bind:value={planNameInput}
-                />
-                <h4>Unit Name:</h4>
-                <Multiselect
-                    small
-                    bind:value={selected}
-                    options={selectItems}
-                    multiple={false}
-                    closeOnSelect={true}
-                    clearOnSelect={false}
-                    placeholder="Select items to add"
-                    trackBy="name"
-                    label="name"
-                />
-                <h4>Amount of Days</h4>
-                <input
-                    type="number"
-                    class="form-control"
-                    bind:value={amountOfDays}
-                />
+                <form>
+                    <div class="form-group">
+                        <label for="planNameInput">Name</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="planNameInput"
+                            bind:value={planNameInput}
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label for="planUnitNameInput">Unit Name</label>
+                        <Multiselect
+                            id="planUnitNameInput"
+                            small
+                            bind:value={selected}
+                            options={selectItems}
+                            multiple={false}
+                            closeOnSelect={true}
+                            clearOnSelect={false}
+                            placeholder="Select items to add"
+                            trackBy="name"
+                            label="name"
+                        />
+                    </div>
 
-                <button
-                    on:click={addItem}
-                    style="position:absolute;bottom: 1em;left:40%"
-                    >Submit</button
-                >
+                    <div class="form-group">
+                        <label for="planAmountDays">Amount of Days</label>
+                        <input
+                            id="planAmountDays"
+                            type="number"
+                            class="form-control"
+                            bind:value={amountOfDays}
+                        />
+                    </div>
+
+                    <button
+                        on:click={addItem}
+                        style="position:absolute;bottom: 1em;left:40%"
+                        >Submit</button
+                    >
+                </form>
             </ModalComponent>
 
             <div class="card-body p-0">
