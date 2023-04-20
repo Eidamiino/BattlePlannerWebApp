@@ -5,6 +5,7 @@
         updateResourceAmountAsync,
         addResourceAsync,
         getUnitsAsync,
+        getPlansContainingAsync,
     } from "./unit-provider";
     import { getResourcesAsync } from "../resources/resource-provider";
 
@@ -75,6 +76,13 @@
     const showModalAddResource = async () => {
         await modalAddResource.show();
     };
+
+    //get data about units containing resource
+    let plans = [];
+    const getPlanDataAsync = async function (items) {
+        plans = await getPlansContainingAsync(items[0].name);
+    };
+    $: getPlanDataAsync(items);
 </script>
 
 <form on:submit|stopPropagation>
@@ -216,6 +224,25 @@
                     >
                 </td>
                 <td>{item.amount}</td>
+            </tr>
+        {/each}
+    </tbody>
+</table>
+
+<!-- plans containing this unit -->
+<h3>Battle Plans Containing</h3>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        {#each plans as item, i}
+            <tr>
+                <th scope="row">{i + 1}</th>
+                <td><a href="#/planBattle/{item.name}"> {item.name}</a></td>
             </tr>
         {/each}
     </tbody>

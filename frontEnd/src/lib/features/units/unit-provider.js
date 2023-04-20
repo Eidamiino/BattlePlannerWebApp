@@ -25,6 +25,12 @@ export const updateResourceAmountAsync = async function (name, id, amount) {
     });
 }
 
+export const getPlansContainingAsync = async function (unitName) {
+    let response = await fetch(`http://localhost:5266/api/Unit/${unitName}/contained`, { method: 'GET' })
+    const data = await response.json()
+    return data;
+}
+
 export const addResourceAsync = async function (name, id, amount) {
     const myData = { Id: id, Amount: amount };
     console.log(myData)
