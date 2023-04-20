@@ -22,14 +22,10 @@
 
     //get summary
     let summaryItems = [];
-    const fillSummary = async function () {
+    const fillSummaryAsync = async function (items) {
         summaryItems = await getSummaryAsync(items[0].name);
     };
-    onMount(fillSummary);
-
-    $: {
-        fillSummary();
-    }
+    $: fillSummaryAsync(items);
 
     //remove plan
     let selectedItem;
