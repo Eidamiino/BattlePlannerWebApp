@@ -47,4 +47,13 @@ public static class BattlePlanMappers
 		list.Add(requirementAmountTotal);
 		return requirementAmountTotal;
 	}
+	public static BattlePlan GetPlainBattlePlan(this IDataReader reader, Dictionary<string, int> columnIndexes,
+		List<BattlePlan> plans)
+	{
+		var title = reader.GetString(columnIndexes[Columns.BattlePlan.Title]);
+		var planId = reader.GetInt32(columnIndexes[Columns.BattlePlan.Id]);
+
+		var plan= new BattlePlan(planId, title, new List<Unit>(),0);
+		return plan;
+	}
 }

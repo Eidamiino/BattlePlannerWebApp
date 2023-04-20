@@ -44,6 +44,13 @@ public class UnitController : ControllerBase
 
 		return Ok();
 	}
+	[HttpGet]
+	[Route("{name}/contained")]
+	public async Task<IActionResult> GetPlansWithUnit([FromRoute] string name)
+	{
+		var unit= (await provider.FindUnitAsync(name)).Distinct().ToList();
+		return Ok((await provider.GetPlansWithUnitAsync(unit[0].Id)).Distinct());
+	}
 
 	[HttpPut]
 	[Route("{name}")]

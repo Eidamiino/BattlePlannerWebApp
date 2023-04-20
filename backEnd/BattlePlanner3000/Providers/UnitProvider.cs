@@ -52,7 +52,16 @@ public class UnitProvider
 			(reader, columnIndexes) => reader.GetUnit(columnIndexes, UnitList));
 		return data;
 	}
-
+	public async Task<List<BattlePlan>> GetPlansWithUnitAsync(int unitId)
+	{
+		List<BattlePlan> PlanList= new List<BattlePlan>();
+		var query = $@"SELECT b.{Columns.BattlePlan.Id}, b.{Columns.BattlePlan.Title}
+									FROM {Tables.BattlePlans} b
+									JOIN {Tables.BattlePlanUnits} bu ON b.{Columns.BattlePlan.Id} = bu.{Columns.BattlePlanUnit.BattlePlanId}									
+									where {Columns.BattlePlanUnit.UnitId}={unitId}";
+		var data = await dbProvider.QueryGetDataAsync(query, (reader, columnIndexes) => reader.GetPlainBattlePlan(columnIndexes, PlanList));
+		return data;
+	}
 	public async Task InsertUnitAsync(string unitName, int resourceId, int amount)
 	{
 		var unitValues = new Dictionary<string, object>()
