@@ -40,6 +40,17 @@ public class ResourceProvider
 		return data;
 	}
 
+	public async Task<List<Unit>> GetUnitsWithResourceAsync(int resId)
+	{
+		List<Unit> UnitList= new List<Unit>();
+		var query = $@"SELECT u.{Columns.Unit.Id}, u.{Columns.Unit.Title}
+									FROM {Tables.Units} u
+									JOIN {Tables.UnitResources} ur ON u.{Columns.Unit.Id} = ur.{Columns.UnitResource.UnitId}									
+									where {Columns.UnitResource.ResourceId}={resId}";
+		var data = await dbProvider.QueryGetDataAsync(query, (reader, columnIndexes) => reader.GetPlainUnit(columnIndexes, UnitList));
+		return data;
+	}
+
 	public async Task<List<Resource>> SearchResourcesAsync(string input)
 	{
 		List<Resource> ResourceList = new List<Resource>();

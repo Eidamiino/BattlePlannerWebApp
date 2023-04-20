@@ -36,6 +36,14 @@ public class ResourceController : ControllerBase
 		return Ok((await provider.FindResourceAsync(name)).Distinct());
 	}
 
+	[HttpGet]
+	[Route("{name}/contained")]
+	public async Task<IActionResult> GetUnitsWithResource([FromRoute] string name)
+	{
+		var resource= (await provider.FindResourceAsync(name)).Distinct().ToList();
+		return Ok((await provider.GetUnitsWithResourceAsync(resource[0].Id)).Distinct());
+	}
+
 	[HttpPost]
 	[Route("")]
 	public async Task<IActionResult> PostResources([FromBody] ResourceRequirementAmount input)

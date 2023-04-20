@@ -27,14 +27,22 @@
     };
 
     let detail = "";
-    async function showDetail(name) {
+    async function showDetailAsync(name) {
         if (name === undefined) return;
         let response = await getRequirementQueryAsync(name, false);
         const formattedJson = JSON.stringify(response[0]); //nevim bracho
         detail = JSON.parse(formattedJson);
     }
 
-    $: showDetail(params?.reqName);
+    let requirementName;
+    async function loadDataAsync(requirementName) {
+        showDetailAsync(requirementName);
+    }
+    $: {
+        requirementName = params?.reqName;
+        loadDataAsync(requirementName);
+        console.log(requirementName);
+    }
 
     let modalcomponent;
 </script>
@@ -94,7 +102,10 @@
         <div class="card card-primary card-outline card-tabs">
             <div class="card-body p-0" id="detailRequirement">
                 {#if detail !== ""}
-                    <DetailCard items={detail} />
+                    <DetailCard
+                        items={detail}
+                        on:needsRefresh={() => loadDataAsync(requirementName)}
+                    />
                 {/if}
             </div>
         </div>

@@ -1,6 +1,13 @@
 <script>
-    import { deleteRequirementAsync } from "./requirement-provider";
+    import { createEventDispatcher } from "svelte";
+    import { afterUpdate } from "svelte";
+    import {
+        deleteRequirementAsync,
+        getResourcesContainingAsync,
+    } from "./requirement-provider";
     import ModalComponent from "../ModalComponent.svelte";
+
+    const dispatch = createEventDispatcher();
 
     export let items;
 
@@ -8,7 +15,7 @@
     const remove = async function () {
         if (selectedItem) {
             await deleteRequirementAsync(selectedItem);
-            location.href = "#/requirements/";
+            dispatch("needsRefresh");
             selectedItem = null;
             modalcomponent.hide();
         }
@@ -18,6 +25,12 @@
         selectedItem = item;
         modalcomponent.show();
     };
+
+    let resources = [];
+    const getResourceDataAsync = async function (items) {
+        resources = await getResourcesContainingAsync(items.name);
+    };
+    $: getResourceDataAsync(items);
 </script>
 
 <form on:submit|preventDefault|stopPropagation>
@@ -58,3 +71,22 @@
         </div>
     </div>
 </form>
+
+<!-- resources containing this requirement -->
+<h3>Resources Containing</h3>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        {#each resources as item, i}
+            <tr>
+                <th scope="row">{i + 1}</th>
+                <td><a href="#/resources/{item.name}"> {item.name}</a></td>
+            </tr>
+        {/each}
+    </tbody>
+</table>

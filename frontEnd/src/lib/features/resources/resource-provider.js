@@ -24,6 +24,12 @@ export const updateRequirementAmountAsync = async function (name, id, amount) {
     });
 }
 
+export const getUnitsContainingAsync = async function (resourceName) {
+    let response = await fetch(`http://localhost:5266/api/Resource/${resourceName}/contained`, { method: 'GET' })
+    const data = await response.json()
+    return data;
+}
+
 export const addRequirementAsync = async function (name, id, amount) {
     const myData = { Id: id, Amount: amount };
     console.log(myData)

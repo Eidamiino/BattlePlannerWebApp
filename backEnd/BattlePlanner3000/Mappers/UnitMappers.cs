@@ -29,9 +29,13 @@ public static class UnitMappers
 			return unit;
 		}
 	}
-	public static Unit GetUnitNoList(this IDataReader reader, Dictionary<string, int> columnIndexes)
+	public static Unit GetPlainUnit(this IDataReader reader, Dictionary<string, int> columnIndexes,
+		List<Unit> units)
 	{
-		var unit= new Unit(reader.GetInt32(columnIndexes[Columns.Unit.Id]), reader.GetString(columnIndexes[Columns.Unit.Title]),new List<ResourceAmount>());
+		var title = reader.GetString(columnIndexes[Columns.Unit.Title]);
+		var unitId = reader.GetInt32(columnIndexes[Columns.Unit.Id]);
+
+		var unit = new Unit(unitId, title,new List<ResourceAmount>());
 		return unit;
 	}
 }

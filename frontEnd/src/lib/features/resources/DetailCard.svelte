@@ -1,9 +1,11 @@
 <script>
     import { createEventDispatcher } from "svelte";
+    import { afterUpdate } from "svelte";
     import { deleteResourceAsync } from "./resource-provider";
     import {
         updateRequirementAmountAsync,
         addRequirementAsync,
+        getUnitsContainingAsync,
     } from "./resource-provider";
     import { getRequirementsAsync } from "../requirements/requirement-provider";
     import Multiselect from "svelte-multiselect/src/Multiselect.svelte";
@@ -74,6 +76,13 @@
     const showModalAdd = async () => {
         await modalAdd.show();
     };
+
+    //get data about units containing resource
+    let units = [];
+    const getUnitDataAsync = async function (items) {
+        units = await getUnitsContainingAsync(items[0].name);
+    };
+    $: getUnitDataAsync(items);
 </script>
 
 <form on:submit|stopPropagation>
@@ -212,6 +221,25 @@
                     >
                 </td>
                 <td>{item.amount}</td>
+            </tr>
+        {/each}
+    </tbody>
+</table>
+
+<!-- units containing this resource -->
+<h3>Units Containing</h3>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        {#each units as item, i}
+            <tr>
+                <th scope="row">{i + 1}</th>
+                <td><a href="#/units/{item.name}"> {item.name}</a></td>
             </tr>
         {/each}
     </tbody>

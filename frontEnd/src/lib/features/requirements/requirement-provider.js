@@ -21,6 +21,11 @@ export const getRequirementQueryAsync = async function (requirementName, returnL
     const data = await response.json()
     return data;
 }
+export const getResourcesContainingAsync = async function (requirementName) {
+    let response = await fetch(RequirementsApiUrl + "/" + requirementName + "/contained", { method: 'GET' })
+    const data = await response.json()
+    return data;
+}
 export const deleteRequirementAsync = async function (requirementName) {
     let response = await fetch(RequirementsApiUrl + "/" + requirementName, { method: 'DELETE' })
 }
