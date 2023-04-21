@@ -88,6 +88,13 @@ public class ResourceProvider
 		var query = $"DELETE FROM {Tables.Resources} WHERE {Columns.Resource.Title}='{input}'";
 		await dbProvider.QueryExecuteAsync(query);
 	}
+	public async Task DeleteRequirementFromListAsync(int resourceId, int requirementId)
+	{
+		var query = $"DELETE FROM {Tables.ResourceRequirements}" +
+											$" WHERE {Columns.ResourceRequirement.ResourceId}={resourceId}" +
+											$" and {Columns.ResourceRequirement.RequirementId}={requirementId}";
+		await dbProvider.QueryExecuteAsync(query);
+	}
 
 	public async Task AlterAmountAsync(int resourceId, int requirementId, int newAmount)
 	{

@@ -178,7 +178,11 @@
         {#each summaryItems as item, i}
             <tr>
                 <th scope="row">{i + 1}</th>
-                <td>{item.requirement.name}</td>
+                <td
+                    ><a href="#/requirements/{item.requirement.name}">
+                        {item.requirement.name}</a
+                    ></td
+                >
                 <td>{item.amount}</td>
                 <td>{item.totalAmount}</td>
             </tr>
