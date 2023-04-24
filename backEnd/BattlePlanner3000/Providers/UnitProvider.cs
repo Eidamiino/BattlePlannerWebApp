@@ -95,7 +95,13 @@ public class UnitProvider
 		var query = $"DELETE FROM {Tables.Units} WHERE {Columns.Unit.Title}='{input}'";
 		await dbProvider.QueryExecuteAsync(query);
 	}
-
+	public async Task DeleteResourceFromListAsync(int unitId, int resourceId)
+	{
+		var query = $"DELETE FROM {Tables.UnitResources}" +
+		            $" WHERE {Columns.UnitResource.UnitId}={unitId}" +
+		            $" and {Columns.UnitResource.ResourceId}={resourceId}";
+		await dbProvider.QueryExecuteAsync(query);
+	}
 	public async Task AddItemToList(int unitId, int resourceId, int amount)
 	{
 		var query = $"insert into {Tables.UnitResources}" +
