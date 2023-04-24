@@ -67,4 +67,12 @@ public class BattlePlanController: ControllerBase
 		await provider.AddItemToList(planId[0].Id, unitId);
 		return Ok();
 	}
+	[HttpDelete]
+	[Route("{name}/removeItem/{unitId}")]
+	public async Task<IActionResult> DeleteUnitFromListAsync([FromRoute] string name, [FromRoute] int unitId)
+	{
+		var plan= (await provider.FindBattlePlanAsync(name)).Distinct().ToList();
+		await provider.DeleteUnitFromListAsync(plan[0].Id, unitId);
+		return Ok();
+	}
 }

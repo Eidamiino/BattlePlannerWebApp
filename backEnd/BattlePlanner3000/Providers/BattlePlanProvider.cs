@@ -97,4 +97,11 @@ public class BattlePlanProvider
 		            $" values ({planId},{unitId})";
 		await dbProvider.QueryExecuteAsync(query);
 	}
+	public async Task DeleteUnitFromListAsync(int planId, int unitId)
+	{
+		var query = $"DELETE FROM {Tables.BattlePlanUnits}" +
+		            $" WHERE {Columns.BattlePlanUnit.BattlePlanId}={planId}" +
+		            $" and {Columns.BattlePlanUnit.UnitId}={unitId}";
+		await dbProvider.QueryExecuteAsync(query);
+	}
 }
