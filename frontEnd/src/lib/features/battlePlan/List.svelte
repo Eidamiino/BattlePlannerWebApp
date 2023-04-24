@@ -8,8 +8,8 @@
     const remove = async function () {
         if (selectedItem) {
             await deletePlanAsync(selectedItem.name);
-            location.href = "#/planBattle/";
             selectedItem = null;
+            location.href = "#/planBattle/";
             await modalcomponent.hide();
         }
     };

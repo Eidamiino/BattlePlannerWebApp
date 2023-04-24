@@ -38,6 +38,26 @@
         modalcomponent.show();
     };
 
+    //remove requirement from resource
+    let selectedReq = null;
+    const removeRequirement = async function (parentItem) {
+        if (selectedReq) {
+            console.log("mravnecnik", selectedReq);
+            await deleteRequirementFromResourceAsync(
+                parentItem.name,
+                selectedReq.requirement.id
+            );
+            selectedReq = null;
+            dispatch("needsRefresh");
+            modalRemoveReq.hide();
+        }
+    };
+    let modalRemoveReq;
+    const showModalRemoveReq = (item) => {
+        selectedReq = item;
+        modalRemoveReq.show();
+    };
+
     //edit amount of item
     let amountToEdit = 1;
     let selectedItemEdit = null;
@@ -212,6 +232,29 @@
                             on:click={async () => {
                                 await editAmount(items[0]);
                             }}>Update</button
+                        >
+                    </ModalComponent>
+                    <button
+                        on:click={() => showModalRemoveReq(item)}
+                        class="btn btn-sm btn-danger rounded-0"
+                        type="button"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        title="Delete"
+                        style="text-align:right;"
+                    >
+                        <i
+                            class="fa fa-sm fa-trash"
+                            style="padding: 0.5rem, 0.7rem;"
+                        />
+                    </button>
+                    <ModalComponent bind:this={modalRemoveReq}>
+                        <h1 style="text-align:center;">Are you sure?</h1>
+                        <button
+                            style="position:absolute;bottom: 1em;left:40%"
+                            on:click={async () => {
+                                await removeRequirement(items[0]);
+                            }}>Delete</button
                         >
                     </ModalComponent>
                 </td>

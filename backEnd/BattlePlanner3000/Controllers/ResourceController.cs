@@ -75,8 +75,8 @@ public class ResourceController : ControllerBase
 		await provider.DeleteResourceAsync(name);
 	}
 	[HttpDelete]
-	[Route("{name}/removeReq")]
-	public async Task<IActionResult> DeleteRequirementFromListAsync([FromRoute] string name, int requirementId)
+	[Route("{name}/removeReq/{requirementId}")]
+	public async Task<IActionResult> DeleteRequirementFromListAsync([FromRoute] string name, [FromRoute] int requirementId)
 	{
 		var resource = (await provider.FindResourceAsync(name)).Distinct().ToList();
 		await provider.DeleteRequirementFromListAsync(resource[0].Id, requirementId);

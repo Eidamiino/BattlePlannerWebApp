@@ -56,7 +56,7 @@
 </script>
 
 <form on:submit|stopPropagation>
-    <div class="form-group row">
+    <div class="row">
         <!-- adding units -->
         <div class="col-sm-2">
             <button
@@ -119,8 +119,8 @@
                 >
             </ModalComponent>
         </div>
-        <label for="itemName" class="col-sm-2 col-form-label">Name: </label>
-        <div class="col-sm-8">
+        <div class="col-sm-2">
+            <label for="itemName" class="col-form-label">Name: </label>
             <input
                 type="text"
                 readonly
@@ -130,8 +130,8 @@
                 style="color:black;"
             />
         </div>
-        <label for="itemName" class="col-sm-2 col-form-label">Days: </label>
-        <div class="col-sm-8">
+        <div class="col-sm-2">
+            <label for="itemName" class="col-form-label">Days: </label>
             <input
                 type="text"
                 readonly
@@ -149,8 +149,8 @@
 <table class="table table-hover">
     <thead>
         <tr>
-            <th scope="col">#</th>
-            <th scope="col">Name</th>
+            <th scope="col" class=" col-sm-2">#</th>
+            <th scope="col" class=" col-sm-2">Name</th>
         </tr>
     </thead>
     <tbody>
@@ -168,10 +168,10 @@
 <table class="table table-hover">
     <thead>
         <tr>
-            <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">Amount/day</th>
-            <th scope="col">Total Amount</th>
+            <th scope="col" class=" col-sm-2">#</th>
+            <th scope="col" class=" col-sm-2">Name</th>
+            <th scope="col" class=" col-sm-2">Amount/day</th>
+            <th scope="col" class=" col-sm-2">Total Amount</th>
         </tr>
     </thead>
     <tbody>
