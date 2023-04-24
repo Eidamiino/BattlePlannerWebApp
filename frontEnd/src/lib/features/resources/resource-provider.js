@@ -62,10 +62,6 @@ export const deleteResourceAsync = async function (name) {
 }
 
 export const deleteRequirementFromResourceAsync = async function (name, reqId) {
-    // const myData = { reqId };
-
-    console.log("mazu:", name, reqId);
-
     let response = await fetch(`http://localhost:5266/api/Resource/${name}/removeReq/${reqId}`, {
         headers: { 'accept': '*/*', 'content-type': 'application/json; charset=utf-8' },
         method: 'DELETE',

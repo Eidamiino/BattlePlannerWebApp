@@ -59,4 +59,10 @@ export const getUnitsQueryAsync = async function (name, returnList) {
 export const deleteUnitAsync = async function (name) {
     let response = await fetch("http://localhost:5266/api/Unit" + "/" + name, { method: 'DELETE' })
 }
+export const deleteResourceFromUnitAsync = async function (name, resId) {
+    let response = await fetch(`http://localhost:5266/api/Unit/${name}/removeRes/${resId}`, {
+        headers: { 'accept': '*/*', 'content-type': 'application/json; charset=utf-8' },
+        method: 'DELETE',
+    })
+}
 

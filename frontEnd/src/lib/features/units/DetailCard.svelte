@@ -4,8 +4,8 @@
         deleteUnitAsync,
         updateResourceAmountAsync,
         addResourceAsync,
-        getUnitsAsync,
         getPlansContainingAsync,
+        deleteResourceFromUnitAsync,
     } from "./unit-provider";
     import { getResourcesAsync } from "../resources/resource-provider";
 
@@ -75,6 +75,26 @@
     let modalAddResource;
     const showModalAddResource = async () => {
         await modalAddResource.show();
+    };
+
+    //remove resource from unit
+    let selectedRes = null;
+    const removeResource = async function (parentItem) {
+        if (selectedRes) {
+            console.log("mravnecnik", selectedRes);
+            await deleteResourceFromUnitAsync(
+                parentItem.name,
+                selectedRes.resource.id
+            );
+            selectedRes = null;
+            dispatch("needsRefresh");
+            modalRemoveRes.hide();
+        }
+    };
+    let modalRemoveRes;
+    const showModalRemoveRes = (item) => {
+        selectedRes = item;
+        modalRemoveRes.show();
     };
 
     //get data about units containing resource
@@ -214,6 +234,29 @@
                             on:click={async () => {
                                 await editAmountResource(items[0]);
                             }}>Update</button
+                        >
+                    </ModalComponent>
+                    <button
+                        on:click={() => showModalRemoveRes(item)}
+                        class="btn btn-sm btn-danger rounded-0"
+                        type="button"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        title="Delete"
+                        style="text-align:right;"
+                    >
+                        <i
+                            class="fa fa-sm fa-trash"
+                            style="padding: 0.5rem, 0.7rem;"
+                        />
+                    </button>
+                    <ModalComponent bind:this={modalRemoveRes}>
+                        <h1 style="text-align:center;">Are you sure?</h1>
+                        <button
+                            style="position:absolute;bottom: 1em;left:40%"
+                            on:click={async () => {
+                                await removeResource(items[0]);
+                            }}>Delete</button
                         >
                     </ModalComponent>
                 </td>

@@ -78,7 +78,7 @@ public class UnitController : ControllerBase
 		return Ok();
 	}
 	[HttpDelete]
-	[Route("{name}/removeReq/{resourceId}")]
+	[Route("{name}/removeRes/{resourceId}")]
 	public async Task<IActionResult> DeleteResourceFromListAsync([FromRoute] string name, [FromRoute] int resourceId)
 	{
 		var unit= (await provider.FindUnitAsync(name)).Distinct().ToList();
