@@ -35,6 +35,7 @@
             resourceCapacityInput
         );
         location.href = "#/resources/" + resourceNameInput;
+
         resourceNameInput = "";
         resourceCapacityInput = 1;
         await modalcomponent.hide();

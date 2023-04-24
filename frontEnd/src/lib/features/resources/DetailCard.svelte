@@ -1,11 +1,11 @@
 <script>
     import { createEventDispatcher } from "svelte";
-    import { afterUpdate } from "svelte";
     import { deleteResourceAsync } from "./resource-provider";
     import {
         updateRequirementAmountAsync,
         addRequirementAsync,
         getUnitsContainingAsync,
+        deleteRequirementFromResourceAsync,
     } from "./resource-provider";
     import { getRequirementsAsync } from "../requirements/requirement-provider";
     import Multiselect from "svelte-multiselect/src/Multiselect.svelte";
@@ -27,8 +27,8 @@
     const remove = async function () {
         if (selectedItem) {
             await deleteResourceAsync(selectedItem);
-            dispatch("needsRefresh");
             selectedItem = null;
+            location.href = "#/resources/";
             modalcomponent.hide();
         }
     };
