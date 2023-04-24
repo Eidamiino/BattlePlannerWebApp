@@ -1,15 +1,17 @@
 <script>
-    import { onMount } from "svelte";
-
+    import { createEventDispatcher } from "svelte";
     import {
         addUnitAsync,
         deletePlanAsync,
         getSummaryAsync,
+        deleteUnitFromPlanAsync,
     } from "./battlePlan-provider";
     import { getUnitsAsync } from "../units/unit-provider";
 
     import Multiselect from "svelte-multiselect/src/Multiselect.svelte";
     import ModalComponent from "../ModalComponent.svelte";
+
+    const dispatch = createEventDispatcher();
 
     export let items;
 
@@ -52,6 +54,24 @@
     let modalAdd;
     const showModalAddPlan = async () => {
         await modalAdd.show();
+    };
+    //remove unit from plan
+    let selectedUnitRemove = null;
+    const removeResource = async function (parentItem) {
+        if (selectedUnitRemove) {
+            await deleteUnitFromPlanAsync(
+                parentItem.name,
+                selectedUnitRemove.id
+            );
+            selectedUnitRemove = null;
+            dispatch("needsRefresh");
+            modalRemoveUnit.hide();
+        }
+    };
+    let modalRemoveUnit;
+    const showModalRemoveUnit = (item) => {
+        selectedUnitRemove = item;
+        modalRemoveUnit.show();
     };
 </script>
 
@@ -150,6 +170,7 @@
     <thead>
         <tr>
             <th scope="col" class=" col-sm-2">#</th>
+            <th scope="col" class=" col-sm-2">Actions</th>
             <th scope="col" class=" col-sm-2">Name</th>
         </tr>
     </thead>
@@ -157,6 +178,31 @@
         {#each items[0].unitList as item, i}
             <tr>
                 <th scope="row">{i + 1}</th>
+                <td
+                    ><button
+                        on:click={() => showModalRemoveUnit(item)}
+                        class="btn btn-sm btn-danger rounded-0"
+                        type="button"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        title="Delete"
+                        style="text-align:right;"
+                    >
+                        <i
+                            class="fa fa-sm fa-trash"
+                            style="padding: 0.5rem, 0.7rem;"
+                        />
+                    </button>
+                    <ModalComponent bind:this={modalRemoveUnit}>
+                        <h1 style="text-align:center;">Are you sure?</h1>
+                        <button
+                            style="position:absolute;bottom: 1em;left:40%"
+                            on:click={async () => {
+                                await removeResource(items[0]);
+                            }}>Delete</button
+                        >
+                    </ModalComponent></td
+                >
                 <td><a href="#/units/{item.name}">{item.name}</a></td>
             </tr>
         {/each}

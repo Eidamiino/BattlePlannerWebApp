@@ -48,6 +48,13 @@ export const addUnitAsync = async function (name, id) {
         body: JSON.stringify(unitId),
     });
 }
+export const deleteUnitFromPlanAsync = async function (name, unitId) {
+    console.log("removing stuff", name, unitId);
+    let response = await fetch(`http://localhost:5266/api/BattlePlan/${name}/removeItem/${unitId}`, {
+        headers: { 'accept': '*/*', 'content-type': 'application/json; charset=utf-8' },
+        method: 'DELETE',
+    })
+}
 // export const deleteRequirementAsync = async function (requirementName) {
 //     let response = await fetch(RequirementsApiUrl + "/" + requirementName, { method: 'DELETE' })
 //     const data = await response.json()

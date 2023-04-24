@@ -38,7 +38,7 @@
     };
 
     let detail = "";
-    async function showDetail(name) {
+    async function showDetailAsync(name) {
         if (name === undefined) return;
         let response = await getPlanAsync(name);
         const formattedJson = JSON.stringify(response);
@@ -48,7 +48,16 @@
         // console.log(JSON.stringify(response, null, 4));
     }
 
-    $: showDetail(params?.planName);
+    //loading data
+    let planName;
+    async function loadDataAsync(planName) {
+        showDetailAsync(planName);
+    }
+    $: {
+        planName = params?.planName;
+        loadDataAsync(planName);
+        console.log(planName);
+    }
 
     let modalcomponent;
 </script>
@@ -136,7 +145,10 @@
         <div class="card card-primary card-outline card-tabs">
             <div class="card-body p-0" id="detailRequirement">
                 {#if detail !== ""}
-                    <DetailCard items={detail} />
+                    <DetailCard
+                        items={detail}
+                        on:needsRefresh={() => loadDataAsync(planName)}
+                    />
                 {/if}
             </div>
         </div>
