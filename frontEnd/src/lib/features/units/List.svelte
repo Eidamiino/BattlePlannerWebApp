@@ -25,7 +25,7 @@
     <tr>
         <button
             on:click={() => showModal(item)}
-            class="btn btn-danger rounded-0"
+            class="btn btn-danger rounded-0 btn-sm"
             type="button"
             data-toggle="tooltip"
             data-placement="top"
@@ -42,6 +42,8 @@
                 }}>Delete</button
             >
         </ModalComponent>
-        <td class="title"><a href="#/units/{item.name}">{item.name}</a></td>
+        <td class="title" style="border:0;"
+            ><a href="#/units/{item.name}">{item.name}</a></td
+        >
     </tr>
 {/each}

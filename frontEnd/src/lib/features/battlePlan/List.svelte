@@ -25,13 +25,13 @@
     <tr>
         <button
             on:click={() => showModal(item)}
-            class="btn btn-danger rounded-0"
+            class="btn btn-danger rounded-0 btn-sm"
             type="button"
             data-toggle="tooltip"
             data-placement="top"
             title="Delete"
         >
-            <i class="fa fa-trash" style="padding: 0.5rem, 0.7rem;" />
+            <i class="fa fa-trash" />
         </button>
         <ModalComponent bind:this={modalcomponent}>
             <h1 style="text-align:center;">Are you sure?</h1>
@@ -43,7 +43,8 @@
                 }}>Delete</button
             >
         </ModalComponent>
-        <td class="title"><a href="#/planBattle/{item.name}">{item.name}</a></td
+        <td class="title" style="border:0;"
+            ><a href="#/planBattle/{item.name}">{item.name}</a></td
         >
     </tr>
 {/each}

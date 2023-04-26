@@ -77,8 +77,31 @@
 
 <form on:submit|stopPropagation>
     <div class="row">
-        <!-- adding units -->
+        <label for="itemName" class="col-sm-2 col-form-label">Name: </label>
         <div class="col-sm-2">
+            <input
+                type="text"
+                readonly
+                class="form-control-plaintext"
+                id="itemName"
+                value={items[0].name}
+                style="color:black;"
+            />
+        </div>
+        <label for="itemName" class="col-form-label">Days: </label>
+        <div class="col-sm-2">
+            <input
+                type="text"
+                readonly
+                class="form-control-plaintext"
+                id="itemName"
+                value={items[0].duration}
+                style="color:black;"
+            />
+        </div>
+
+        <!-- adding units -->
+        <div class="col-sm-2" style="text-align:right;">
             <button
                 on:click={() => {
                     showModalAddPlan();
@@ -139,28 +162,6 @@
                 >
             </ModalComponent>
         </div>
-        <div class="col-sm-2">
-            <label for="itemName" class="col-form-label">Name: </label>
-            <input
-                type="text"
-                readonly
-                class="form-control-plaintext"
-                id="itemName"
-                value={items[0].name}
-                style="color:black;"
-            />
-        </div>
-        <div class="col-sm-2">
-            <label for="itemName" class="col-form-label">Days: </label>
-            <input
-                type="text"
-                readonly
-                class="form-control-plaintext"
-                id="itemName"
-                value={items[0].duration}
-                style="color:black;"
-            />
-        </div>
     </div>
 </form>
 
@@ -169,15 +170,15 @@
 <table class="table table-hover">
     <thead>
         <tr>
-            <th scope="col" class=" col-sm-2">#</th>
-            <th scope="col" class=" col-sm-2">Actions</th>
-            <th scope="col" class=" col-sm-2">Name</th>
+            <th scope="col" class="auto-width">#</th>
+            <th scope="col" class="auto-width">Actions</th>
+            <th scope="col">Name</th>
         </tr>
     </thead>
     <tbody>
         {#each items[0].unitList as item, i}
             <tr>
-                <th scope="row">{i + 1}</th>
+                <td scope="row">{i + 1}</td>
                 <td
                     ><button
                         on:click={() => showModalRemoveUnit(item)}
@@ -214,24 +215,30 @@
 <table class="table table-hover">
     <thead>
         <tr>
-            <th scope="col" class=" col-sm-2">#</th>
-            <th scope="col" class=" col-sm-2">Name</th>
-            <th scope="col" class=" col-sm-2">Amount/day</th>
-            <th scope="col" class=" col-sm-2">Total Amount</th>
+            <th scope="col" class="auto-width">#</th>
+            <th scope="col" class="auto-width">Name</th>
+            <th scope="col" class="auto-width">Amount/day</th>
+            <th scope="col" class="auto-width">Total Amount</th>
         </tr>
     </thead>
     <tbody>
         {#each summaryItems as item, i}
             <tr>
-                <th scope="row">{i + 1}</th>
+                <td scope="row">{i + 1}</td>
                 <td
                     ><a href="#/requirements/{item.requirement.name}">
                         {item.requirement.name}</a
                     ></td
                 >
-                <td>{item.amount}</td>
-                <td>{item.totalAmount}</td>
+                <td style="text-align:right;">{item.amount}</td>
+                <td style="text-align:right;">{item.totalAmount}</td>
             </tr>
         {/each}
     </tbody>
 </table>
+
+<style>
+    .auto-width {
+        width: 1px;
+    }
+</style>
