@@ -71,7 +71,7 @@
                         />
                     </div>
                     <button
-                        style="position:absolute;bottom: 1em;left:40%"
+                        style="position:absolute;bottom: 1em;right:5%"
                         on:click={addItem}>Submit</button
                     >
                 </form>

@@ -50,7 +50,7 @@
             <ModalComponent bind:this={modalcomponent}>
                 <h1 style="text-align:center;">Are you sure?</h1>
                 <button
-                    style="position:absolute;bottom: 1em;left:40%"
+                    style="position:absolute;bottom: 1em;right:5%"
                     on:click={async () => {
                         console.log("removing:" + selectedItem);
                         await remove();

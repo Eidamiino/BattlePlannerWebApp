@@ -121,7 +121,7 @@
                     </div>
                     <button
                         on:click={() => addItemResource()}
-                        style="position:absolute;bottom: 1em;left:40%"
+                        style="position:absolute;bottom: 1em;right:5%"
                         >Submit</button
                     >
                 </form>

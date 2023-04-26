@@ -149,7 +149,7 @@
                 />
 
                 <button
-                    style="position:absolute;bottom: 1em;left:40%"
+                    style="position:absolute;bottom: 1em;right:5%"
                     on:click={async () => {
                         await addResourceToList(items[0]);
                     }}>Add</button
@@ -170,7 +170,7 @@
             <ModalComponent bind:this={modalcomponent}>
                 <h1 style="text-align:center;">Are you sure?</h1>
                 <button
-                    style="position:absolute;bottom: 1em;left:40%"
+                    style="position:absolute;bottom: 1em;right:5%"
                     on:click={async () => {
                         await remove();
                     }}>Delete</button
@@ -230,7 +230,7 @@
                             min="1"
                         />
                         <button
-                            style="position:absolute;bottom: 1em;left:40%"
+                            style="position:absolute;bottom: 1em;right:5%"
                             on:click={async () => {
                                 await editAmountResource(items[0]);
                             }}>Update</button
@@ -253,7 +253,7 @@
                     <ModalComponent bind:this={modalRemoveRes}>
                         <h1 style="text-align:center;">Are you sure?</h1>
                         <button
-                            style="position:absolute;bottom: 1em;left:40%"
+                            style="position:absolute;bottom: 1em;right:5%"
                             on:click={async () => {
                                 await removeResource(items[0]);
                             }}>Delete</button

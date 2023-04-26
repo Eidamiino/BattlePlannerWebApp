@@ -14,7 +14,14 @@
             <span class="close" on:click={async () => await hide()}
                 >&times;</span
             >
+
             <slot />
+            <button
+                style="position:absolute;bottom: 1em;right:20%"
+                on:click={async () => await hide()}
+            >
+                Cancel
+            </button>
         </div>
     </div>
 {/if}

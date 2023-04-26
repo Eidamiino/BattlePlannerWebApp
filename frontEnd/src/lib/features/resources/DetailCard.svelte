@@ -149,7 +149,7 @@
                 />
 
                 <button
-                    style="position:absolute;bottom: 1em;left:40%"
+                    style="position:absolute;bottom: 1em;right:5%"
                     on:click={async () => {
                         await addRequirementToList(items[0]);
                     }}>Add</button
@@ -170,7 +170,7 @@
             <ModalComponent bind:this={modalcomponent}>
                 <h1 style="text-align:center;">Are you sure?</h1>
                 <button
-                    style="position:absolute;bottom: 1em;left:40%"
+                    style="position:absolute;bottom: 1em;right:5%"
                     on:click={async () => {
                         await remove();
                     }}>Delete</button
@@ -228,7 +228,7 @@
                             min="1"
                         />
                         <button
-                            style="position:absolute;bottom: 1em;left:40%"
+                            style="position:absolute;bottom: 1em;right:5%"
                             on:click={async () => {
                                 await editAmount(items[0]);
                             }}>Update</button
@@ -251,7 +251,7 @@
                     <ModalComponent bind:this={modalRemoveReq}>
                         <h1 style="text-align:center;">Are you sure?</h1>
                         <button
-                            style="position:absolute;bottom: 1em;left:40%"
+                            style="position:absolute;bottom: 1em;right:5%"
                             on:click={async () => {
                                 await removeRequirement(items[0]);
                             }}>Delete</button
