@@ -1,4 +1,6 @@
 <script>
+  import { onMount } from "svelte";
+
   import NavBar from "./lib/layout/NavBar.svelte";
   import SideBar from "./lib/layout/SideBar.svelte";
 
@@ -32,7 +34,7 @@
         return await getPlansQueryAsync(query, true);
       }
       default: {
-        console.log("hroch");
+        console.log("spatna url hroch");
       }
     }
   }
@@ -40,6 +42,21 @@
     // console.log(event.detail.name);
     push("/" + currentPage + "/" + event.detail.name);
   }
+
+  $: {
+    currentPage = $location.split("/")[1];
+    const navLinks = document.querySelectorAll(".sidebar .nav-link");
+    navLinks.forEach((navLink) => {
+      if (navLink.getAttribute("href") === `/#/${currentPage}`) {
+        navLink.classList.add("active");
+      } else {
+        navLink.classList.remove("active");
+      }
+    });
+  }
+  onMount(() => {
+    performSearch("initial query");
+  });
 </script>
 
 <NavBar
