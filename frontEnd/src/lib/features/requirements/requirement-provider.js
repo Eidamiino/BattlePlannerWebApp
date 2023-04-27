@@ -1,4 +1,5 @@
-const RequirementsApiUrl = "http://localhost:5266/api/Requirements"
+import { RequirementsApiUrl } from "../../../constants"
+console.log("miciny", RequirementsApiUrl)
 //creates requirement with a name
 export const createRequirementsAsync = async function (requirementName) {
     let response = await fetch(RequirementsApiUrl, {
@@ -12,21 +13,21 @@ export const getRequirementsAsync = async function () {
     return await data.json()
 }
 export const getRequirementAsync = async function (requirementName) {
-    let response = await fetch(RequirementsApiUrl + "/" + requirementName, { method: 'GET' })
+    let response = await fetch(`${RequirementsApiUrl}/${requirementName}`, { method: 'GET' })
     const data = await response.json()
     return data;
 }
 export const getRequirementQueryAsync = async function (requirementName, returnList) {
-    let response = await fetch(RequirementsApiUrl + "/" + requirementName + "?returnList=" + returnList, { method: 'GET' })
+    let response = await fetch(`${RequirementsApiUrl}/${requirementName}?returnList=${returnList}`, { method: 'GET' })
     const data = await response.json()
     return data;
 }
 export const getResourcesContainingAsync = async function (requirementName) {
-    let response = await fetch(RequirementsApiUrl + "/" + requirementName + "/contained", { method: 'GET' })
+    let response = await fetch(`${RequirementsApiUrl}/${requirementName}/contained`, { method: 'GET' })
     const data = await response.json()
     return data;
 }
 export const deleteRequirementAsync = async function (requirementName) {
-    let response = await fetch(RequirementsApiUrl + "/" + requirementName, { method: 'DELETE' })
+    let response = await fetch(`${RequirementsApiUrl}/${requirementName}`, { method: 'DELETE' })
 }
 
