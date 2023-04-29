@@ -107,8 +107,19 @@
 
 <form on:submit|stopPropagation>
     <div class="form-group row">
+        <label for="itemName" class="col-form-label pl-3 pr-3">Name: </label>
+        <div>
+            <input
+                type="text"
+                readonly
+                class="form-control-plaintext"
+                id="itemName"
+                value={items[0].name}
+                style="color:black;"
+            />
+        </div>
         <!-- adding items -->
-        <div class="col-sm-2">
+        <div class="ml-auto" style="padding-right: 28px;">
             <button
                 on:click={() => {
                     showModalAdd();
@@ -177,17 +188,6 @@
                 >
             </ModalComponent>
         </div>
-        <label for="itemName" class="col-sm-2 col-form-label">Name: </label>
-        <div class="col-sm-6">
-            <input
-                type="text"
-                readonly
-                class="form-control-plaintext"
-                id="itemName"
-                value={items[0].name}
-                style="color:black;"
-            />
-        </div>
     </div>
 </form>
 <!-- list of requirements inside -->
@@ -195,17 +195,17 @@
 <table class="table table-hover">
     <thead>
         <tr>
-            <th scope="col">#</th>
-            <th scope="col">Actions</th>
-            <th scope="col">Name</th>
+            <th scope="col" class="auto-width">#</th>
+            <th scope="col" class="auto-width">Actions</th>
+            <th scope="col" class="auto-width">Name</th>
             <th scope="col">Amount</th>
         </tr>
     </thead>
     <tbody>
         {#each items[0].requirementList as item, i}
             <tr>
-                <th scope="row">{i + 1}</th>
-                <td>
+                <td class="auto-width">{i + 1}</td>
+                <td class="auto-width">
                     <button
                         on:click={() => showModalEdit(item)}
                         class="btn btn-sm btn-dark rounded-0"
@@ -258,10 +258,12 @@
                         >
                     </ModalComponent>
                 </td>
-                <td>
-                    <a href="#/requirements/{item.requirement.name}"
-                        >{item.requirement.name}</a
-                    >
+                <td class="auto-width">
+                    <div class="text-truncate">
+                        <a href="#/requirements/{item.requirement.name}"
+                            >{item.requirement.name}</a
+                        >
+                    </div>
                 </td>
                 <td>{item.amount}</td>
             </tr>
@@ -274,16 +276,23 @@
 <table class="table table-hover">
     <thead>
         <tr>
-            <th scope="col">#</th>
+            <th scope="col" class="auto-width">#</th>
             <th scope="col">Name</th>
         </tr>
     </thead>
     <tbody>
         {#each units as item, i}
             <tr>
-                <th scope="row">{i + 1}</th>
+                <td scope="row">{i + 1}</td>
                 <td><a href="#/units/{item.name}"> {item.name}</a></td>
             </tr>
         {/each}
     </tbody>
 </table>
+
+<style>
+    .auto-width {
+        width: 1px;
+        white-space: nowrap;
+    }
+</style>

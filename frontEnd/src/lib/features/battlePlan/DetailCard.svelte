@@ -76,8 +76,8 @@
 </script>
 
 <form on:submit|stopPropagation>
-    <div class="form-group row" style="padding-left:28px;">
-        <label for="itemName" class="col-form-label">Name: </label>
+    <div class="form-group row">
+        <label for="itemName" class="col-form-label pl-3 pr-3">Name: </label>
         <div>
             <input
                 type="text"
@@ -151,8 +151,8 @@
             </ModalComponent>
         </div>
     </div>
-    <div class="form-group row" style="padding-left:28px;">
-        <label for="itemName" class="col-form-label">Days: </label>
+    <div class="form-group row">
+        <label for="itemName" class="col-form-label pl-3 pr-3">Days: </label>
         <div class="">
             <input
                 type="text"
@@ -219,20 +219,23 @@
             <th scope="col" class="auto-width">#</th>
             <th scope="col" class="auto-width">Name</th>
             <th scope="col" class="auto-width">Amount/day</th>
-            <th scope="col" class="auto-width">Total Amount</th>
+            <th scope="col" style="max-width: 100px;">Total Amount</th>
         </tr>
     </thead>
     <tbody>
         {#each summaryItems as item, i}
             <tr>
-                <td scope="row">{i + 1}</td>
+                <td>{i + 1}</td>
                 <td
-                    ><a href="#/requirements/{item.requirement.name}">
-                        {item.requirement.name}</a
-                    ></td
+                    ><div class="text-truncate">
+                        <a href="#/requirements/{item.requirement.name}">
+                            {item.requirement.name}</a
+                        >
+                    </div></td
                 >
-                <td style="text-align:right;">{item.amount}</td>
-                <td style="text-align:right;">{item.totalAmount}</td>
+
+                <td>{item.amount}</td>
+                <td>{item.totalAmount}</td>
             </tr>
         {/each}
     </tbody>
@@ -241,5 +244,8 @@
 <style>
     .auto-width {
         width: 1px;
+    }
+    .max-width-col {
+        max-width: 40px;
     }
 </style>

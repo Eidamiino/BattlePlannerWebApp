@@ -35,7 +35,19 @@
 
 <form on:submit|preventDefault|stopPropagation>
     <div class="form-group row">
-        <div class="col-sm-2">
+        <label for="itemName" class="col-form-label pl-3 pr-3">Name: </label>
+        <div>
+            <input
+                type="text"
+                readonly
+                class="form-control-plaintext"
+                id="itemName"
+                value={items.name}
+                style="color:black;"
+            />
+        </div>
+        <!-- removing -->
+        <div class="ml-auto" style="padding-right: 28px;">
             <button
                 on:click={() => showModal(items.name)}
                 class="btn btn-danger btn-sm rounded-0"
@@ -58,17 +70,6 @@
                 >
             </ModalComponent>
         </div>
-        <label for="itemName" class="col-sm-2 col-form-label">Name: </label>
-        <div class="col-sm-8">
-            <input
-                type="text"
-                readonly
-                class="form-control-plaintext"
-                id="itemName"
-                value={items.name}
-                style="color:black;"
-            />
-        </div>
     </div>
 </form>
 
@@ -77,16 +78,23 @@
 <table class="table table-hover">
     <thead>
         <tr>
-            <th scope="col">#</th>
+            <th scope="col" class="auto-width">#</th>
             <th scope="col">Name</th>
         </tr>
     </thead>
     <tbody>
         {#each resources as item, i}
             <tr>
-                <th scope="row">{i + 1}</th>
+                <td class="auto-width">{i + 1}</td>
                 <td><a href="#/resources/{item.name}"> {item.name}</a></td>
             </tr>
         {/each}
     </tbody>
 </table>
+
+<style>
+    .auto-width {
+        width: 1px;
+        white-space: nowrap;
+    }
+</style>
