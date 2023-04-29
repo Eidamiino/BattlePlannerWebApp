@@ -76,9 +76,9 @@
 </script>
 
 <form on:submit|stopPropagation>
-    <div class="row">
-        <label for="itemName" class="col-sm-2 col-form-label">Name: </label>
-        <div class="col-sm-2">
+    <div class="form-group row" style="padding-left:28px;">
+        <label for="itemName" class="col-form-label">Name: </label>
+        <div class="">
             <input
                 type="text"
                 readonly
@@ -88,20 +88,8 @@
                 style="color:black;"
             />
         </div>
-        <label for="itemName" class="col-form-label">Days: </label>
-        <div class="col-sm-2">
-            <input
-                type="text"
-                readonly
-                class="form-control-plaintext"
-                id="itemName"
-                value={items[0].duration}
-                style="color:black;"
-            />
-        </div>
-
         <!-- adding units -->
-        <div class="col-sm-2" style="text-align:right;">
+        <div class="ml-auto" style="padding-right: 28px;">
             <button
                 on:click={() => {
                     showModalAddPlan();
@@ -161,6 +149,19 @@
                     }}>Delete</button
                 >
             </ModalComponent>
+        </div>
+    </div>
+    <div class="form-group row" style="padding-left:28px;">
+        <label for="itemName" class="col-form-label">Days: </label>
+        <div class="">
+            <input
+                type="text"
+                readonly
+                class="form-control-plaintext"
+                id="itemName"
+                value={items[0].duration}
+                style="color:black;"
+            />
         </div>
     </div>
 </form>
