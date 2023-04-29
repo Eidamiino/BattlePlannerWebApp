@@ -78,7 +78,7 @@
 <form on:submit|stopPropagation>
     <div class="form-group row" style="padding-left:28px;">
         <label for="itemName" class="col-form-label">Name: </label>
-        <div class="">
+        <div>
             <input
                 type="text"
                 readonly
