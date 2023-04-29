@@ -122,11 +122,6 @@
                     <div class="col-12">
                         <div class="table-responsive">
                             <table class="table table-striped table-sm">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                    </tr>
-                                </thead>
                                 <tbody>
                                     <!-- <RequirementsList {Requirements} on:showDetail={showDetail} /> -->
                                     <UnitList {items} />
