@@ -15,7 +15,6 @@
     const remove = async function () {
         if (selectedItem) {
             await deleteResourceAsync(selectedItem.name);
-            // location.href = "#/resources/";
             selectedItem = null;
             dispatch("needsRefreshList");
             await modalcomponent.hide();

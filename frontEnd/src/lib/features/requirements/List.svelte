@@ -1,9 +1,12 @@
 <script>
+    import { createEventDispatcher } from "svelte";
     import {
         deleteRequirementAsync,
         getRequirementsAsync,
     } from "./requirement-provider";
     import ModalComponent from "../ModalComponent.svelte";
+
+    const dispatch = createEventDispatcher();
 
     export let items;
 
@@ -11,8 +14,8 @@
     const remove = async function () {
         if (selectedItem) {
             await deleteRequirementAsync(selectedItem.name);
-            location.href = "#/requirements/";
             selectedItem = null;
+            dispatch("needsRefreshList");
             await modalcomponent.hide();
         }
     };

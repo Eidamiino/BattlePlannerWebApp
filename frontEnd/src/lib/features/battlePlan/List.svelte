@@ -1,6 +1,9 @@
 <script>
+    import { createEventDispatcher } from "svelte";
     import { deletePlanAsync, getPlansAsync } from "./battlePlan-provider";
     import ModalComponent from "../ModalComponent.svelte";
+
+    const dispatch = createEventDispatcher();
 
     export let items;
 
@@ -9,7 +12,7 @@
         if (selectedItem) {
             await deletePlanAsync(selectedItem.name);
             selectedItem = null;
-            location.href = "#/planBattle/";
+            dispatch("needsRefreshList");
             await modalcomponent.hide();
         }
     };

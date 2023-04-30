@@ -1,6 +1,9 @@
 <script>
+    import { createEventDispatcher } from "svelte";
     import { deleteUnitAsync } from "./unit-provider";
     import ModalComponent from "../ModalComponent.svelte";
+
+    const dispatch = createEventDispatcher();
 
     export let items;
 
@@ -9,8 +12,8 @@
     const remove = async function () {
         if (selectedItem) {
             await deleteUnitAsync(selectedItem.name);
-            location.href = "#/units/";
             selectedItem = null;
+            dispatch("needsRefreshList");
             await modalcomponent.hide();
         }
     };

@@ -18,6 +18,10 @@
 
     let items = [];
     getItems();
+    async function refreshList() {
+        await getItems();
+        location.href = "#/units/";
+    }
 
     let selectItems = [];
     const resources = async function () {
@@ -124,7 +128,11 @@
                             <table class="table table-striped table-sm">
                                 <tbody>
                                     <!-- <RequirementsList {Requirements} on:showDetail={showDetail} /> -->
-                                    <UnitList {items} />
+                                    <UnitList
+                                        {items}
+                                        on:needsRefreshList={() =>
+                                            refreshList()}
+                                    />
                                 </tbody>
                             </table>
                         </div>

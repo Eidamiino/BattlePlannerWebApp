@@ -16,6 +16,10 @@
         items = await getRequirementsAsync();
     };
     getItems();
+    async function refreshList() {
+        await getItems();
+        location.href = "#/requirements/";
+    }
 
     let text = "";
     const addItem = async function () {
@@ -84,7 +88,11 @@
                             <table class="table table-striped table-sm">
                                 <tbody>
                                     <!-- <RequirementsList {Requirements} on:showDetail={showDetail} /> -->
-                                    <List {items} />
+                                    <List
+                                        {items}
+                                        on:needsRefreshList={() =>
+                                            refreshList()}
+                                    />
                                 </tbody>
                             </table>
                         </div>
