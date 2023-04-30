@@ -160,6 +160,7 @@
                     <DetailCard
                         items={detail}
                         on:needsRefresh={() => loadDataAsync(resourceName)}
+                        on:needsRefreshGoHome={() => refreshList()}
                     />
                 {/if}
             </div>

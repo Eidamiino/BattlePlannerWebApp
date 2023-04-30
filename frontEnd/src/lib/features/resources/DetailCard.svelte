@@ -24,17 +24,13 @@
 
     //remove resource
     let selectedItem = null;
-    const remove = function () {
+    const remove = async function () {
         if (selectedItem) {
-            deleteResourceAsync(selectedItem)
-                .then(() => {
-                    selectedItem = null;
-                    location.href = "#/resources/";
-                    modalcomponent.hide();
-                })
-                .catch((error) => {
-                    console.error(error);
-                });
+            await deleteResourceAsync(selectedItem);
+            // location.href = "#/resources/";
+            selectedItem = null;
+            dispatch("needsRefreshGoHome");
+            await modalcomponent.hide();
         }
     };
     let modalcomponent;
@@ -54,7 +50,7 @@
             );
             selectedReq = null;
             dispatch("needsRefresh");
-            modalRemoveReq.hide();
+            await modalRemoveReq.hide();
         }
     };
     let modalRemoveReq;
