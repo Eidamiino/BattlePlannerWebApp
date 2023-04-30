@@ -1,9 +1,12 @@
 <script>
+    import { createEventDispatcher } from "svelte";
     import {
         getResourcesAsync,
         deleteResourceAsync,
     } from "./resource-provider";
     import ModalComponent from "../ModalComponent.svelte";
+
+    const dispatch = createEventDispatcher();
 
     export let items;
 
@@ -12,8 +15,9 @@
     const remove = async function () {
         if (selectedItem) {
             await deleteResourceAsync(selectedItem.name);
-            location.href = "#/resources/";
+            // location.href = "#/resources/";
             selectedItem = null;
+            dispatch("needsRefreshList");
             await modalcomponent.hide();
         }
     };

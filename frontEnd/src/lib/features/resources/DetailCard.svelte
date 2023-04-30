@@ -24,12 +24,17 @@
 
     //remove resource
     let selectedItem = null;
-    const remove = async function () {
+    const remove = function () {
         if (selectedItem) {
-            await deleteResourceAsync(selectedItem);
-            selectedItem = null;
-            location.href = "#/resources/";
-            modalcomponent.hide();
+            deleteResourceAsync(selectedItem)
+                .then(() => {
+                    selectedItem = null;
+                    location.href = "#/resources/";
+                    modalcomponent.hide();
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
         }
     };
     let modalcomponent;

@@ -19,6 +19,11 @@
     let items = [];
     getItems();
 
+    async function refreshList() {
+        await getItems();
+        location.href = "#/resources/";
+    }
+
     let selectItems = [];
     const requirements = async function () {
         selectItems = await getRequirementsAsync();
@@ -134,7 +139,11 @@
                             <table class="table table-striped table-sm">
                                 <tbody>
                                     <!-- <RequirementsList {Requirements} on:showDetail={showDetail} /> -->
-                                    <ResourceList {items} />
+                                    <ResourceList
+                                        {items}
+                                        on:needsRefreshList={() =>
+                                            refreshList()}
+                                    />
                                 </tbody>
                             </table>
                         </div>

@@ -25,14 +25,20 @@
 
     //remove unit
     let selectedItem = null;
-    const remove = async function () {
+    const remove = function () {
         if (selectedItem) {
-            await deleteUnitAsync(selectedItem);
-            selectedItem = null;
-            dispatch("needsRefresh");
-            modalcomponent.hide();
+            deleteUnitAsync(selectedItem)
+                .then(() => {
+                    selectedItem = null;
+                    location.href = "#/units/";
+                    modalcomponent.hide();
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
         }
     };
+
     let modalcomponent;
     const showModal = (item) => {
         selectedItem = item;
