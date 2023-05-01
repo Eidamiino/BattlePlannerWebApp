@@ -78,7 +78,7 @@
     };
 </script>
 
-<form on:submit|stopPropagation>
+
     <div class="form-group row">
         <label for="itemName" class="col-form-label pl-3 pr-3">Name: </label>
         <div>
@@ -167,7 +167,7 @@
             />
         </div>
     </div>
-</form>
+
 
 <!-- list of units -->
 <h3>Units</h3>

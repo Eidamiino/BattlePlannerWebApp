@@ -107,7 +107,7 @@
     $: getPlanDataAsync(items);
 </script>
 
-<form on:submit|stopPropagation>
+
     <div class="form-group row">
         <label for="itemName" class="col-form-label pl-3 pr-3">Name: </label>
         <div>
@@ -191,7 +191,7 @@
             </ModalComponent>
         </div>
     </div>
-</form>
+
 
 <!-- list of resources inside -->
 <h3>Resources</h3>

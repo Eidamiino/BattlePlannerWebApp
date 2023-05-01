@@ -105,91 +105,92 @@
     $: getUnitDataAsync(items);
 </script>
 
-<form on:submit|stopPropagation>
-    <div class="form-group row">
-        <label for="itemName" class="col-form-label pl-3 pr-3">Name: </label>
-        <div>
-            <input
-                type="text"
-                readonly
-                class="form-control-plaintext"
-                id="itemName"
-                value={items[0].name}
-                style="color:black;"
-            />
-        </div>
-        <!-- adding items -->
-        <div class="ml-auto" style="padding-right: 28px;">
-            <button
-                on:click={() => {
-                    showModalAdd();
-                    requirementAmountInput = 0;
-                }}
-                class="btn btn-sm btn-success rounded-0"
-                type="button"
-                data-toggle="tooltip"
-                data-placement="top"
-                title="Add"
-                style="text-align:right;"
-            >
-                <i class="fa fa-sm fa-plus" style="padding: 0.5rem, 0.7rem;" />
-            </button>
-
-            <ModalComponent bind:this={modalAdd}>
-                <h1 style="text-align:center;">Add requirement</h1>
-
-                <h4>Requirement Name:</h4>
-                <Multiselect
-                    small
-                    bind:value={selectedRequirement}
-                    options={optionsRequirements}
-                    multiple={false}
-                    closeOnSelect={true}
-                    clearOnSelect={false}
-                    placeholder="Select item to add"
-                    trackBy="name"
-                    label="name"
-                />
-
-                <h4>Requirement Amount</h4>
-                <input
-                    type="number"
-                    class="form-control"
-                    bind:value={requirementAmountInput}
-                    min="1"
-                />
-
-                <button
-                    style="position:absolute;bottom: 1em;right:5%"
-                    on:click={async () => {
-                        await addRequirementToList(items[0]);
-                    }}>Add</button
-                >
-            </ModalComponent>
-
-            <button
-                on:click={() => showModal(items[0].name)}
-                class="btn btn-sm btn-danger rounded-0"
-                type="button"
-                data-toggle="tooltip"
-                data-placement="top"
-                title="Delete"
-                style="text-align:right;"
-            >
-                <i class="fa fa-sm fa-trash" style="padding: 0.5rem, 0.7rem;" />
-            </button>
-            <ModalComponent bind:this={modalcomponent}>
-                <h1 style="text-align:center;">Are you sure?</h1>
-                <button
-                    style="position:absolute;bottom: 1em;right:5%"
-                    on:click={async () => {
-                        await remove();
-                    }}>Delete</button
-                >
-            </ModalComponent>
-        </div>
+<!-- <form on:submit|stopPropagation> -->
+<div class="form-group row">
+    <label for="itemName" class="col-form-label pl-3 pr-3">Name: </label>
+    <div>
+        <input
+            type="text"
+            readonly
+            class="form-control-plaintext"
+            id="itemName"
+            value={items[0].name}
+            style="color:black;"
+        />
     </div>
-</form>
+    <!-- adding items -->
+    <div class="ml-auto" style="padding-right: 28px;">
+        <button
+            on:click={() => {
+                showModalAdd();
+                requirementAmountInput = 0;
+            }}
+            class="btn btn-sm btn-success rounded-0"
+            type="button"
+            data-toggle="tooltip"
+            data-placement="top"
+            title="Add"
+            style="text-align:right;"
+        >
+            <i class="fa fa-sm fa-plus" style="padding: 0.5rem, 0.7rem;" />
+        </button>
+
+        <ModalComponent bind:this={modalAdd}>
+            <h1 style="text-align:center;">Add requirement</h1>
+
+            <h4>Requirement Name:</h4>
+            <Multiselect
+                small
+                bind:value={selectedRequirement}
+                options={optionsRequirements}
+                multiple={false}
+                closeOnSelect={true}
+                clearOnSelect={false}
+                placeholder="Select item to add"
+                trackBy="name"
+                label="name"
+            />
+
+            <h4>Requirement Amount</h4>
+            <input
+                type="number"
+                class="form-control"
+                bind:value={requirementAmountInput}
+                min="1"
+            />
+
+            <button
+                style="position:absolute;bottom: 1em;right:5%"
+                on:click={async () => {
+                    await addRequirementToList(items[0]);
+                }}>Add</button
+            >
+        </ModalComponent>
+
+        <button
+            on:click={() => showModal(items[0].name)}
+            class="btn btn-sm btn-danger rounded-0"
+            type="button"
+            data-toggle="tooltip"
+            data-placement="top"
+            title="Delete"
+            style="text-align:right;"
+        >
+            <i class="fa fa-sm fa-trash" style="padding: 0.5rem, 0.7rem;" />
+        </button>
+        <ModalComponent bind:this={modalcomponent}>
+            <h1 style="text-align:center;">Are you sure?</h1>
+            <button
+                style="position:absolute;bottom: 1em;right:5%"
+                on:click={async () => {
+                    await remove();
+                }}>Delete</button
+            >
+        </ModalComponent>
+    </div>
+</div>
+<!-- </form> -->
+
 <!-- list of requirements inside -->
 <h3>Requirements</h3>
 <table class="table table-hover">
