@@ -1,8 +1,8 @@
 import { RequirementsApiUrl } from "../../../constants"
 console.log("miciny", RequirementsApiUrl)
 //creates requirement with a name
-export const createRequirementsAsync = async function (requirementName) {
-    let response = await fetch(RequirementsApiUrl, {
+export const createRequirementsAsync = function (requirementName) {
+    return fetch(RequirementsApiUrl, {
         headers: { 'accept': "*/*", 'content-type': "application/json; charset=utf-8" },
         method: 'POST',
         body: JSON.stringify(requirementName)

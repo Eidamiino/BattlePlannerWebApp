@@ -1,4 +1,6 @@
 <script>
+    import Router, { push } from "svelte-spa-router";
+
     import {
         createRequirementsAsync,
         getRequirementsAsync,
@@ -18,17 +20,20 @@
     getItems();
     async function refreshList() {
         await getItems();
+        console.trace("poseru se a refreshuju list");
         location.href = "#/requirements/";
     }
 
-    const goSomewhere = async function (location) {
-        location.href = location;
-    };
-
     let text = "";
     const addItem = async function () {
+        console.log("Creating requirement...");
         await createRequirementsAsync(text);
+        console.log("Requirement created, updating URL...", text);
+
         location.href = "#/requirements/" + text;
+
+        // push(`/requirements/${text}`);
+
         text = "";
         modalcomponent.hide();
         getItems();
@@ -49,7 +54,7 @@
     $: {
         requirementName = params?.reqName;
         loadDataAsync(requirementName);
-        console.log(requirementName);
+        console.log("tehotnik", requirementName);
     }
 
     let modalcomponent;

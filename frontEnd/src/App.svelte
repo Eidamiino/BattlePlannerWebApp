@@ -39,7 +39,7 @@
     }
   }
   async function handleRedirectSearch(event) {
-    // console.log(event.detail.name);
+    console.log("mciinyobtyut", event.detail.name);
     push("/" + currentPage + "/" + event.detail.name);
   }
 
