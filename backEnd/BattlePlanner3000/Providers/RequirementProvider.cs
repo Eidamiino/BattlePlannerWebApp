@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System.Data;
 using BattlePlanner3000.Mappers;
+using Npgsql;
 
 namespace BattlePlanner3000.Providers;
 public class RequirementProvider
@@ -35,17 +36,27 @@ public class RequirementProvider
 
 	public async Task<List<Requirement>> FindRequirementAsync(string input)
 	{
-		var query = $"SELECT * FROM {Tables.Requirements} WHERE {Columns.Requirement.Title}='{input}'";
+		var query = $"SELECT * FROM {Tables.Requirements} WHERE {Columns.Requirement.Title}=@input";
+		var parameters = new NpgsqlParameter[]
+		{
+			new NpgsqlParameter("@input", NpgsqlTypes.NpgsqlDbType.Text) { Value = input }
+		};
 		var data = await dbProvider.QueryGetDataAsync(query,
-			(reader,columnIndexes)=> reader.GetRequirement(columnIndexes));
+			(reader, columnIndexes) => reader.GetRequirement(columnIndexes),
+			parameters);
 		return data;
 	}
-	
+
 	public async Task<List<Requirement>> SearchRequirementsAsync(string input)
 	{
 		var query = $"SELECT * FROM {Tables.Requirements} WHERE lower({Columns.Requirement.Title}) like '{input}%'";
+		var parameters = new NpgsqlParameter[]
+		{
+			new NpgsqlParameter("input", NpgsqlTypes.NpgsqlDbType.Text) { Value = input.ToLower() + "%" }
+		};
 		var data = await dbProvider.QueryGetDataAsync(query,
-			(reader,columnIndexes)=> RequirementMappers.GetRequirement(reader,columnIndexes));
+			(reader, columnIndexes) => RequirementMappers.GetRequirement(reader, columnIndexes),
+			parameters);
 		return data;
 	}
 

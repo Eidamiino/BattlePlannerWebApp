@@ -1,5 +1,6 @@
 ﻿using BattlePlanner3000.Mappers;
 using BattlePlanner3000.Models;
+using Npgsql;
 
 namespace BattlePlanner3000.Providers;
 
@@ -15,10 +16,10 @@ public class ResourceProvider
 	public async Task<List<Resource>> GetResourcesAsync()
 	{
 		List<Resource> ResourceList = new List<Resource>();
-		var query = $@"SELECT r.resource_id, rr.amount, req.title, r.title_resource, req.requirement_id 
-									FROM resource r
-									JOIN resource_requirement rr ON r.resource_id = rr.resource_id 
-                  JOIN requirement req ON rr.requirement_id = req.requirement_id
+		var query = $@"SELECT r.{Columns.Resource.Id}, rr.{Columns.ResourceRequirement.Amount}, req.{Columns.Requirement.Title}, r.{Columns.Resource.Title}, req.{Columns.Requirement.Id} 
+									FROM {Tables.Resources} r
+									JOIN {Tables.ResourceRequirements} rr ON r.{Columns.Resource.Id} = rr.{Columns.ResourceRequirement.ResourceId} 
+                  JOIN {Tables.Requirements} req ON rr.{Columns.ResourceRequirement.RequirementId} = req.{Columns.Requirement.Id}
 									order by {Columns.Resource.Title}";
 		var data = await dbProvider.QueryGetDataAsync(query,
 			(reader, columnIndexes) => ResourceMappers.GetResource(reader, columnIndexes, ResourceList));
@@ -29,16 +30,22 @@ public class ResourceProvider
 	public async Task<List<Resource>> FindResourceAsync(string input)
 	{
 		List<Resource> ResourceList = new List<Resource>();
-		var query = $@"SELECT r.resource_id, rr.amount, req.title, r.title_resource, req.requirement_id 
-									FROM resource r
-									JOIN resource_requirement rr ON r.resource_id = rr.resource_id 
-		              JOIN requirement req ON rr.requirement_id = req.requirement_id
-									where {Columns.Resource.Title}='{input}'
-									order by {Columns.ResourceRequirement.Amount} desc";
+		var query = $@"SELECT r.{Columns.Resource.Id}, rr.{Columns.ResourceRequirement.Amount}, req.{Columns.Requirement.Title}, r.{Columns.Resource.Title}, req.{Columns.Requirement.Id} 
+                    FROM {Tables.Resources} r
+                    JOIN {Tables.ResourceRequirements} rr ON r.{Columns.Resource.Id} = rr.{Columns.ResourceRequirement.ResourceId} 
+                    JOIN {Tables.Requirements} req ON rr.{Columns.ResourceRequirement.RequirementId} = req.{Columns.Requirement.Id}
+                    where {Columns.Resource.Title}=@input
+                    order by {Columns.ResourceRequirement.Amount} desc";
+		var parameters = new NpgsqlParameter[]
+		{
+			new NpgsqlParameter("@input", NpgsqlTypes.NpgsqlDbType.Text) { Value = input }
+		};
 		var data = await dbProvider.QueryGetDataAsync(query,
-			(reader, columnIndexes) => reader.GetResource(columnIndexes, ResourceList));
+			(reader, columnIndexes) => reader.GetResource(columnIndexes, ResourceList),
+			parameters);
 		return data;
 	}
+
 
 	public async Task<List<Unit>> GetUnitsWithResourceAsync(int resId)
 	{
@@ -54,16 +61,22 @@ public class ResourceProvider
 	public async Task<List<Resource>> SearchResourcesAsync(string input)
 	{
 		List<Resource> ResourceList = new List<Resource>();
-		var query = $@"select r.resource_id, rr.amount, req.title, r.title_resource, req.requirement_id
-									FROM resource r
-									JOIN resource_requirement rr ON r.resource_id = rr.resource_id 
-		              JOIN requirement req ON rr.requirement_id = req.requirement_id
-									WHERE lower({Columns.Resource.Title}) like lower('{input}%')
-									order by {Columns.Resource.Title}";
+		var query = $@"select r.{Columns.Resource.Id}, rr.{Columns.ResourceRequirement.Amount}, req.{Columns.Requirement.Title}, r.{Columns.Resource.Title}, req.{Columns.Requirement.Id}
+                    FROM {Tables.Resources} r
+                    JOIN {Tables.ResourceRequirements} rr ON r.{Columns.Resource.Id} = rr.{Columns.ResourceRequirement.ResourceId} 
+                    JOIN {Tables.Requirements} req ON rr.{Columns.ResourceRequirement.RequirementId} = req.{Columns.Requirement.Id}
+                    WHERE lower({Columns.Resource.Title}) like lower(@input)
+                    order by {Columns.Resource.Title}";
+		var parameters = new NpgsqlParameter[]
+		{
+			new NpgsqlParameter("@input", NpgsqlTypes.NpgsqlDbType.Text) { Value = input.ToLower() + "%" }
+		};
 		var data = await dbProvider.QueryGetDataAsync(query,
-			(reader, columnIndexes) => reader.GetResource(columnIndexes, ResourceList));
+			(reader, columnIndexes) => reader.GetResource(columnIndexes, ResourceList),
+			parameters);
 		return data;
 	}
+
 
 	public async Task InsertResourceAsync(string resourceName, int requirementId, int amount)
 	{

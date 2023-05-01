@@ -23,10 +23,40 @@ namespace BattlePlanner3000.Providers
 			return connection;
 		}
 
-		public async Task<List<T>> QueryGetDataAsync<T>(string query, Func<IDataReader, Dictionary<string, int>, T> mapper)
+		// public async Task<List<T>> QueryGetDataAsync<T>(string query, Func<IDataReader, Dictionary<string, int>, T> mapper)
+		// {
+		// 	await using var connection = await OpenConnectionAsync();
+		// 	var command = new NpgsqlCommand(query, connection);
+		// 	await using var dataReader = await command.ExecuteReaderAsync();
+		//
+		// 	var columns = dataReader.GetColumnSchema();
+		// 	var columnIndexes = columns.ToDictionary(x => x.ColumnName.ToLower(), x => x.ColumnOrdinal ?? -1);
+		//
+		// 	var result = dataReader.Select(x => mapper(x, columnIndexes)).ToList();
+		// 	return result;
+		// }
+		//
+		public async Task QueryExecuteAsync(string query)
 		{
 			await using var connection = await OpenConnectionAsync();
 			var command = new NpgsqlCommand(query, connection);
+			await command.ExecuteNonQueryAsync();
+		}
+		public async Task<List<T>> QueryGetDataAsync<T>(string query, Func<IDataReader, Dictionary<string, int>, T> mapper, params NpgsqlParameter[] parameters)
+		{
+			await using var connection = await OpenConnectionAsync();
+			var command = new NpgsqlCommand(query, connection);
+
+			if (parameters != null && parameters.Any())
+			{
+				command.Parameters.AddRange(parameters);
+			}
+			else
+			{
+				// Escape single quotes in non-parameterized queries
+				query = query.Replace("'", "''");
+			}
+
 			await using var dataReader = await command.ExecuteReaderAsync();
 
 			var columns = dataReader.GetColumnSchema();
@@ -34,13 +64,6 @@ namespace BattlePlanner3000.Providers
 
 			var result = dataReader.Select(x => mapper(x, columnIndexes)).ToList();
 			return result;
-		}
-
-		public async Task QueryExecuteAsync(string query)
-		{
-			await using var connection = await OpenConnectionAsync();
-			var command = new NpgsqlCommand(query, connection);
-			await command.ExecuteNonQueryAsync();
 		}
 
 
@@ -65,4 +88,5 @@ namespace BattlePlanner3000.Providers
 
 		}
 	}
+
 }
