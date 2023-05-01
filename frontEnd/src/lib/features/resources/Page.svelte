@@ -21,7 +21,9 @@
 
     async function refreshList() {
         await getItems();
-        location.href = "#/resources/";
+        location.href = "#/resources";
+
+        // location.href = window.location.origin + "/#/resources";
     }
 
     let selectItems = [];
@@ -84,50 +86,47 @@
             >
 
             <ModalComponent bind:this={modalcomponent}>
-                    <div class="form-group">
-                        <label for="resourceNameInput">Name</label>
-                        <input
-                            id="resourceNameInput"
-                            type="text"
-                            class="form-control"
-                            bind:value={resourceNameInput}
-                        />
-                    </div>
-                    <div class="form-group">
-                        <label for="resourceRequirementName"
-                            >Requirement Name</label
-                        >
-
-                        <Multiselect
-                            id="resourceRequirementName"
-                            small
-                            bind:value={selected}
-                            options={selectItems}
-                            multiple={false}
-                            closeOnSelect={true}
-                            clearOnSelect={false}
-                            placeholder="Select items to add"
-                            trackBy="name"
-                            label="name"
-                        />
-                    </div>
-                    <div class="form-group">
-                        <label for="requirementCapacity"
-                            >Requirement Amount</label
-                        >
-                        <input
-                            type="number"
-                            class="form-control"
-                            id="requirementCapacity"
-                            bind:value={resourceCapacityInput}
-                            min="1"
-                        />
-                    </div>
-                    <button
-                        on:click={() => addItemResource()}
-                        style="position:absolute;bottom: 1em;right:5%"
-                        >Submit</button
+                <div class="form-group">
+                    <label for="resourceNameInput">Name</label>
+                    <input
+                        id="resourceNameInput"
+                        type="text"
+                        class="form-control"
+                        bind:value={resourceNameInput}
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="resourceRequirementName">Requirement Name</label
                     >
+
+                    <Multiselect
+                        id="resourceRequirementName"
+                        small
+                        bind:value={selected}
+                        options={selectItems}
+                        multiple={false}
+                        closeOnSelect={true}
+                        clearOnSelect={false}
+                        placeholder="Select items to add"
+                        trackBy="name"
+                        label="name"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="requirementCapacity">Requirement Amount</label>
+                    <input
+                        type="number"
+                        class="form-control"
+                        id="requirementCapacity"
+                        bind:value={resourceCapacityInput}
+                        min="1"
+                    />
+                </div>
+                <button
+                    on:click={() => addItemResource()}
+                    style="position:absolute;bottom: 1em;right:5%"
+                    >Submit</button
+                >
             </ModalComponent>
 
             <div class="card-body p-0">

@@ -16,8 +16,8 @@
         if (selectedItem) {
             await deleteResourceAsync(selectedItem.name);
             selectedItem = null;
+            modalcomponent.hide();
             dispatch("needsRefreshList");
-            await modalcomponent.hide();
         }
     };
     let modalcomponent;
@@ -43,10 +43,7 @@
             <h1 style="text-align:center;">Are you sure?</h1>
             <button
                 style="position:absolute;bottom: 1em;right:5%"
-                on:click={async () => {
-                    console.log("removing:" + selectedItem.name);
-                    await remove();
-                }}>Delete</button
+                on:click={() => remove()}>Delete</button
             >
         </ModalComponent>
         <td class="title" style="border:0;"
