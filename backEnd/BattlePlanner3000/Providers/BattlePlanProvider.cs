@@ -16,10 +16,10 @@ public class BattlePlanProvider
 	public async Task<List<BattlePlan>> GetBattlePlanAsync()
 	{
 		List<BattlePlan> PlanList = new List<BattlePlan>();
-		var query = $@"SELECT b.battleplan_id, b.title_battleplan, b.duration, u.title_unit, u.unit_id
+		var query = $@"SELECT b.{Columns.BattlePlan.Id}, b.{Columns.BattlePlan.Title}, b.{Columns.BattlePlan.Duration}, u.{Columns.Unit.Title}, u.{Columns.Unit.Id}
 									FROM {Tables.BattlePlans} b
-									JOIN battleplan_unit bu ON b.battleplan_id= bu.battleplan_id
-                  JOIN unit u ON bu.unit_id= u.unit_id
+									JOIN {Tables.BattlePlanUnits} bu ON b.{Columns.BattlePlan.Id}= bu.{Columns.BattlePlanUnit.BattlePlanId}
+                  JOIN {Tables.Units} u ON bu.{Columns.BattlePlanUnit.UnitId}= u.{Columns.Unit.Id}
 									order by {Columns.BattlePlan.Title}";
 		var data = await dbProvider.QueryGetDataAsync(query, (reader, columnIndexes) => BattlePlanMappers.GetBattlePlan(reader, columnIndexes, PlanList));
 		return data;
@@ -29,16 +29,16 @@ public class BattlePlanProvider
 	{
 		BattlePlan plan = (await FindBattlePlanAsync(name)).Distinct().ToList()[0];
 		List<RequirementAmountTotal> summary = new List<RequirementAmountTotal>();
-		var query = $@"select r2.title, rr.requirement_id, sum(rr.amount) as dayAmount, sum(rr.amount*b.duration) as amount
-								from battleplan b
-								join battleplan_unit bu on b.battleplan_id = bu.battleplan_id
-								JOIN unit u ON bu.unit_id= u.unit_id
-								join unit_resource ur on u.unit_id = ur.unit_id
-								join resource r on ur.resource_id = r.resource_id
-								join resource_requirement rr on r.resource_id = rr.resource_id
-								join requirement r2 on rr.requirement_id = r2.requirement_id
-								where b.battleplan_id={plan.Id}
-								group by rr.requirement_id,r2.title";
+		var query = $@"select r2.{Columns.Requirement.Title}, rr.{Columns.ResourceRequirement.RequirementId}, sum(rr.{Columns.ResourceRequirement.Amount}) as dayAmount, sum(rr.{Columns.ResourceRequirement.Amount}*b.{Columns.BattlePlan.Duration}) as amount
+								from {Tables.BattlePlans} b
+								join {Tables.BattlePlanUnits} bu on b.{Columns.BattlePlan.Id} = bu.{Columns.BattlePlanUnit.BattlePlanId}
+								JOIN {Tables.Units} u ON bu.{Columns.BattlePlanUnit.UnitId}= u.{Columns.Unit.Id}
+								join {Tables.UnitResources} ur on u.{Columns.Unit.Id}= ur.{Columns.UnitResource.UnitId}
+								join {Tables.Resources} r on ur.{Columns.UnitResource.ResourceId}= r.{Columns.Resource.Id}
+								join {Tables.ResourceRequirements} rr on r.{Columns.Resource.Id}= rr.{Columns.ResourceRequirement.ResourceId}
+								join {Tables.Requirements} r2 on rr.{Columns.ResourceRequirement.RequirementId}= r2.{Columns.Requirement.Id}
+								where b.{Columns.BattlePlan.Id}={plan.Id}
+								group by rr.{Columns.ResourceRequirement.RequirementId},r2.{Columns.Requirement.Title}";
 		var data = await dbProvider.QueryGetDataAsync(query,
 			(reader, columnIndexes) => BattlePlanMappers.GetItemSummary(reader, columnIndexes, summary));
 		return data;
@@ -46,10 +46,10 @@ public class BattlePlanProvider
 	public async Task<List<BattlePlan>> FindBattlePlanAsync(string input)
 	{
 		List<BattlePlan> PlanList = new List<BattlePlan>();
-		var query = $@"SELECT b.battleplan_id, b.title_battleplan, b.duration, u.title_unit, u.unit_id
+		var query = $@"SELECT b.{Columns.BattlePlan.Id}, b.{Columns.BattlePlan.Title}, b.{Columns.BattlePlan.Duration}, u.{Columns.Unit.Title}, u.{Columns.Unit.Id}
 									FROM {Tables.BattlePlans} b
-									JOIN battleplan_unit bu ON b.battleplan_id= bu.battleplan_id
-                  JOIN unit u ON bu.unit_id= u.unit_id
+									JOIN {Tables.BattlePlanUnits} bu ON b.{Columns.BattlePlan.Id}= bu.{Columns.BattlePlanUnit.BattlePlanId}
+                  JOIN {Tables.Units} u ON bu.{Columns.BattlePlanUnit.UnitId}= u.{Columns.Unit.Id}
 									where {Columns.BattlePlan.Title}='{input}'
 									order by {Columns.BattlePlan.Title}";
 		var data = await dbProvider.QueryGetDataAsync(query, (reader, columnIndexes) => BattlePlanMappers.GetBattlePlan(reader, columnIndexes, PlanList));
@@ -59,10 +59,10 @@ public class BattlePlanProvider
 	public async Task<List<BattlePlan>> SearchBattlePlansAsync(string input)
 	{
 		List<BattlePlan> PlanList = new List<BattlePlan>();
-		var query = $@"SELECT b.battleplan_id, b.title_battleplan, b.duration, u.title_unit, u.unit_id
+		var query = $@"SELECT b.{Columns.BattlePlan.Id}, b.{Columns.BattlePlan.Title}, b.{Columns.BattlePlan.Duration}, u.{Columns.Unit.Title}, u.{Columns.Unit.Id}
 									FROM {Tables.BattlePlans} b
-									JOIN battleplan_unit bu ON b.battleplan_id= bu.battleplan_id
-                  JOIN unit u ON bu.unit_id= u.unit_id
+									JOIN {Tables.BattlePlanUnits} bu ON b.{Columns.BattlePlan.Id}= bu.{Columns.BattlePlanUnit.BattlePlanId}
+                  JOIN {Tables.Units} u ON bu.{Columns.BattlePlanUnit.UnitId}= u.{Columns.Unit.Id}
 									where lower({Columns.BattlePlan.Title}) like lower('{input}%')
 									order by {Columns.BattlePlan.Title}";
 		var data = await dbProvider.QueryGetDataAsync(query, (reader, columnIndexes) => BattlePlanMappers.GetBattlePlan(reader, columnIndexes, PlanList));
