@@ -73,21 +73,19 @@
                 /></button
             >
             <ModalComponent bind:this={modalcomponent}>
-                <form>
-                    <div class="form-group">
-                        <label for="requirementName">Name</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="requirementName"
-                            bind:value={text}
-                        />
-                    </div>
-                    <button
-                        style="position:absolute;bottom: 1em;right:5%"
-                        on:click={addItem}>Submit</button
-                    >
-                </form>
+                <div class="form-group">
+                    <label for="requirementName">Name</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="requirementName"
+                        bind:value={text}
+                    />
+                </div>
+                <button
+                    style="position:absolute;bottom: 1em;right:5%"
+                    on:click={addItem}>Submit</button
+                >
             </ModalComponent>
 
             <div class="card-body p-0">
