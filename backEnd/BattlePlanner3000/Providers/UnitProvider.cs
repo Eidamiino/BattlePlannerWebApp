@@ -1,5 +1,6 @@
 ﻿using BattlePlanner3000.Mappers;
 using BattlePlanner3000.Models;
+using Npgsql;
 
 namespace BattlePlanner3000.Providers;
 
@@ -15,10 +16,10 @@ public class UnitProvider
 	public async Task<List<Unit>> GetUnitsAsync()
 	{
 		List<Unit> UnitList = new List<Unit>();
-		var query = $@"SELECT u.unit_id, ur.amount, r.title_resource, u.title_unit, r.resource_id
-									FROM unit u
-									JOIN unit_resource ur ON u.unit_id= ur.unit_id
-                  JOIN resource r ON ur.resource_id= r.resource_id
+		var query = $@"SELECT u.{Columns.Unit.Id}, ur.{Columns.UnitResource.Amount}, r.{Columns.Resource.Title}, u.{Columns.Unit.Title}, r.{Columns.Resource.Id}
+									FROM {Tables.Units} u
+									JOIN {Tables.UnitResources} ur ON u.{Columns.Unit.Id}= ur.{Columns.UnitResource.UnitId}
+                  JOIN {Tables.Resources} r ON ur.{Columns.UnitResource.ResourceId}= r.{Columns.Resource.Id}
 									order by {Columns.Unit.Title}";
 		var data = await dbProvider.QueryGetDataAsync(query,
 			(reader, columnIndexes) => UnitMappers.GetUnit(reader, columnIndexes, UnitList));
@@ -28,28 +29,38 @@ public class UnitProvider
 	public async Task<List<Unit>> FindUnitAsync(string input)
 	{
 		List<Unit> UnitList = new List<Unit>();
-		var query = $@"SELECT u.unit_id, ur.amount, r.title_resource, u.title_unit, r.resource_id
-									FROM unit u
-									JOIN unit_resource ur ON u.unit_id= ur.unit_id
-                  JOIN resource r ON ur.resource_id= r.resource_id
+		var query = $@"SELECT u.{Columns.Unit.Id}, ur.{Columns.UnitResource.Amount}, r.{Columns.Resource.Title}, u.{Columns.Unit.Title}, r.{Columns.Resource.Id}
+									FROM {Tables.Units} u
+									JOIN {Tables.UnitResources} ur ON u.{Columns.Unit.Id}= ur.{Columns.UnitResource.UnitId}
+                  JOIN {Tables.Resources} r ON ur.{Columns.UnitResource.ResourceId}= r.{Columns.Resource.Id}
 									where {Columns.Unit.Title}='{input}'
 									order by {Columns.UnitResource.Amount} desc";
+		var parameters = new NpgsqlParameter[]
+		{
+			new NpgsqlParameter("@input", NpgsqlTypes.NpgsqlDbType.Text) { Value = input }
+		};
 		var data = await dbProvider.QueryGetDataAsync(query,
-			(reader, columnIndexes) => reader.GetUnit(columnIndexes, UnitList));
+			(reader, columnIndexes) => reader.GetUnit(columnIndexes, UnitList),
+			parameters);
 		return data;
 	}
 
 	public async Task<List<Unit>> SearchUnitsAsync(string input)
 	{
 		List<Unit> UnitList = new List<Unit>();
-		var query = $@"SELECT u.unit_id, ur.amount, r.title_resource, u.title_unit, r.resource_id
-									FROM unit u
-									JOIN unit_resource ur ON u.unit_id= ur.unit_id
-                  JOIN resource r ON ur.resource_id= r.resource_id
+		var query = $@"SELECT u.{Columns.Unit.Id}, ur.{Columns.UnitResource.Amount}, r.{Columns.Resource.Title}, u.{Columns.Unit.Title}, r.{Columns.Resource.Id}
+									FROM {Tables.Units} u
+									JOIN {Tables.UnitResources} ur ON u.{Columns.Unit.Id}= ur.{Columns.UnitResource.UnitId}
+                  JOIN {Tables.Resources} r ON ur.{Columns.UnitResource.ResourceId}= r.{Columns.Resource.Id}
 									where lower({Columns.Unit.Title}) like lower('{input}%')
 									order by {Columns.Unit.Title}";
+		var parameters = new NpgsqlParameter[]
+		{
+			new NpgsqlParameter("@input", NpgsqlTypes.NpgsqlDbType.Text) { Value = input.ToLower() + "%" }
+		};
 		var data = await dbProvider.QueryGetDataAsync(query,
-			(reader, columnIndexes) => reader.GetUnit(columnIndexes, UnitList));
+			(reader, columnIndexes) => reader.GetUnit(columnIndexes, UnitList),
+			parameters);
 		return data;
 	}
 	public async Task<List<BattlePlan>> GetPlansWithUnitAsync(int unitId)
