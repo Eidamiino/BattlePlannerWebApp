@@ -43,11 +43,6 @@ namespace BattlePlanner3000.Providers
 			await command.ExecuteNonQueryAsync();
 		}
 
-		public async Task<List<T>> GetAllItemsAsync<T>(string tableName, Func<IDataReader, Dictionary<string, int>, T> mapper)
-		{
-			var query = $"SELECT * FROM {tableName}";
-			return await QueryGetDataAsync(query, mapper);
-		}
 
 		public async Task<object?> InsertItemAsync(string tableName, Dictionary<string, object> values, string returning="")
 		{
