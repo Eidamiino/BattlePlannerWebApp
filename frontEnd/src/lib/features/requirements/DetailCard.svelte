@@ -15,9 +15,9 @@
     const remove = async function () {
         if (selectedItem) {
             await deleteRequirementAsync(selectedItem);
-            dispatch("needsRefresh");
             selectedItem = null;
-            modalcomponent.hide();
+            dispatch("needsRefreshGoHome");
+            await modalcomponent.hide();
         }
     };
     let modalcomponent;

@@ -19,8 +19,10 @@
     let items = [];
     getItems();
     async function refreshList() {
+        console.log("ctvrty");
         await getItems();
         location.href = "#/planBattle/";
+        console.log("paty");
     }
 
     let selectItems = [];
@@ -151,6 +153,7 @@
                     <DetailCard
                         items={detail}
                         on:needsRefresh={() => loadDataAsync(planName)}
+                        on:needsRefreshGoHome={() => refreshList()}
                     />
                 {/if}
             </div>

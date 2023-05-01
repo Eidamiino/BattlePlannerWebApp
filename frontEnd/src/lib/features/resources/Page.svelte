@@ -43,8 +43,8 @@
 
         resourceNameInput = "";
         resourceCapacityInput = 1;
-        await modalcomponent.hide();
-        await getItems();
+        modalcomponent.hide();
+        getItems();
     };
 
     let detail = "";

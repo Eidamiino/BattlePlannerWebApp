@@ -148,6 +148,7 @@
                     <DetailCard
                         items={detail}
                         on:needsRefresh={() => loadDataAsync(unitName)}
+                        on:needsRefreshGoHome={() => refreshList()}
                     />
                 {/if}
             </div>

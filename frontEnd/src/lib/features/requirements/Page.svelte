@@ -21,6 +21,10 @@
         location.href = "#/requirements/";
     }
 
+    const goSomewhere = async function (location) {
+        location.href = location;
+    };
+
     let text = "";
     const addItem = async function () {
         await createRequirementsAsync(text);
@@ -108,6 +112,7 @@
                     <DetailCard
                         items={detail}
                         on:needsRefresh={() => loadDataAsync(requirementName)}
+                        on:needsRefreshGoHome={() => refreshList()}
                     />
                 {/if}
             </div>

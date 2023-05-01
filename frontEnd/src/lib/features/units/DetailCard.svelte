@@ -25,17 +25,13 @@
 
     //remove unit
     let selectedItem = null;
-    const remove = function () {
+    const remove = async function () {
         if (selectedItem) {
-            deleteUnitAsync(selectedItem)
-                .then(() => {
-                    selectedItem = null;
-                    location.href = "#/units/";
-                    modalcomponent.hide();
-                })
-                .catch((error) => {
-                    console.error(error);
-                });
+            await deleteUnitAsync(selectedItem);
+            // location.href = "#/resources/";
+            selectedItem = null;
+            dispatch("needsRefreshGoHome");
+            await modalcomponent.hide();
         }
     };
 

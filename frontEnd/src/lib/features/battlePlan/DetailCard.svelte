@@ -33,9 +33,12 @@
     let selectedItem;
     const remove = async function () {
         if (selectedItem) {
+            console.log("prvni");
             await deletePlanAsync(selectedItem);
-            location.href = "#/planBattle/";
+            console.log("druhy");
             selectedItem = null;
+            dispatch("needsRefreshGoHome");
+            console.log("treti");
             await modalcomponent.hide();
         }
     };
