@@ -13,7 +13,7 @@
             await deletePlanAsync(selectedItem.name);
             selectedItem = null;
             dispatch("needsRefreshList");
-            await modalcomponent.hide();
+            modalcomponent.hide();
         }
     };
 

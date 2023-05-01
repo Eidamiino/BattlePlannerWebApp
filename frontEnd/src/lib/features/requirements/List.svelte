@@ -15,8 +15,8 @@
         if (selectedItem) {
             await deleteRequirementAsync(selectedItem.name);
             selectedItem = null;
+            modalcomponent.hide();
             dispatch("needsRefreshList");
-            await modalcomponent.hide();
         }
     };
     let modalcomponent;

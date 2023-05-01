@@ -77,7 +77,6 @@
                 /></button
             >
             <ModalComponent bind:this={modalcomponent}>
-                <form>
                     <div class="form-group">
                         <label for="unitNameInput">Name</label>
                         <input
@@ -118,7 +117,6 @@
                         style="position:absolute;bottom: 1em;right:5%"
                         >Submit</button
                     >
-                </form>
             </ModalComponent>
 
             <div class="card-body p-0">
