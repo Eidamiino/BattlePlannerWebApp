@@ -51,13 +51,14 @@
     let selectedUnit;
     const addUnitToList = async function (parentItem) {
         await addUnitAsync(parentItem.name, selectedUnit.id);
-        location.href = "#/planBattle/" + items[0].name;
+        dispatch("needsRefresh");
         await modalAdd.hide();
     };
     let modalAdd;
     const showModalAddPlan = async () => {
         await modalAdd.show();
     };
+
     //remove unit from plan
     let selectedUnitRemove = null;
     const removeResource = async function (parentItem) {
@@ -78,96 +79,94 @@
     };
 </script>
 
-
-    <div class="form-group row">
-        <label for="itemName" class="col-form-label pl-3 pr-3">Name: </label>
-        <div>
-            <input
-                type="text"
-                readonly
-                class="form-control-plaintext"
-                id="itemName"
-                value={items[0].name}
-                style="color:black;"
-            />
-        </div>
-        <!-- adding units -->
-        <div class="ml-auto" style="padding-right: 28px;">
-            <button
-                on:click={() => {
-                    showModalAddPlan();
-                }}
-                class="btn btn-sm btn-success rounded-0"
-                type="button"
-                data-toggle="tooltip"
-                data-placement="top"
-                title="Add"
-                style="text-align:right;"
-            >
-                <i class="fa fa-sm fa-plus" style="padding: 0.5rem, 0.7rem;" />
-            </button>
-
-            <ModalComponent bind:this={modalAdd}>
-                <h1 style="text-align:center;">Add Unit</h1>
-
-                <h4>Unit Name:</h4>
-                <Multiselect
-                    small
-                    bind:value={selectedUnit}
-                    options={optionsUnits}
-                    multiple={false}
-                    closeOnSelect={true}
-                    clearOnSelect={false}
-                    placeholder="Select item to add"
-                    trackBy="name"
-                    label="name"
-                />
-
-                <button
-                    style="position:absolute;bottom: 1em;right:5%"
-                    on:click={async () => {
-                        await addUnitToList(items[0]);
-                    }}>Add</button
-                >
-            </ModalComponent>
-            <!-- removing plans -->
-            <button
-                on:click={() => showModal(items[0].name)}
-                class="btn btn-danger btn-sm rounded-0"
-                type="button"
-                data-toggle="tooltip"
-                data-placement="top"
-                title="Delete"
-                style="text-align:right;"
-            >
-                <i class="fa fa-trash fa-sm" style="padding: 0.5rem, 0.7rem;" />
-            </button>
-            <ModalComponent bind:this={modalcomponent}>
-                <h1 style="text-align:center;">Are you sure?</h1>
-                <button
-                    style="position:absolute;bottom: 1em;right:5%"
-                    on:click={async () => {
-                        console.log("removing:" + selectedItem);
-                        await remove();
-                    }}>Delete</button
-                >
-            </ModalComponent>
-        </div>
+<div class="form-group row">
+    <label for="itemName" class="col-form-label pl-3 pr-3">Name: </label>
+    <div>
+        <input
+            type="text"
+            readonly
+            class="form-control-plaintext"
+            id="itemName"
+            value={items[0].name}
+            style="color:black;"
+        />
     </div>
-    <div class="form-group row">
-        <label for="itemName" class="col-form-label pl-3 pr-3">Days: </label>
-        <div class="">
-            <input
-                type="text"
-                readonly
-                class="form-control-plaintext"
-                id="itemName"
-                value={items[0].duration}
-                style="color:black;"
-            />
-        </div>
-    </div>
+    <!-- adding units -->
+    <div class="ml-auto" style="padding-right: 28px;">
+        <button
+            on:click={() => {
+                showModalAddPlan();
+            }}
+            class="btn btn-sm btn-success rounded-0"
+            type="button"
+            data-toggle="tooltip"
+            data-placement="top"
+            title="Add"
+            style="text-align:right;"
+        >
+            <i class="fa fa-sm fa-plus" style="padding: 0.5rem, 0.7rem;" />
+        </button>
 
+        <ModalComponent bind:this={modalAdd}>
+            <h1 style="text-align:center;">Add Unit</h1>
+
+            <h4>Unit Name:</h4>
+            <Multiselect
+                small
+                bind:value={selectedUnit}
+                options={optionsUnits}
+                multiple={false}
+                closeOnSelect={true}
+                clearOnSelect={false}
+                placeholder="Select item to add"
+                trackBy="name"
+                label="name"
+            />
+
+            <button
+                style="position:absolute;bottom: 1em;right:5%"
+                on:click={async () => {
+                    await addUnitToList(items[0]);
+                }}>Add</button
+            >
+        </ModalComponent>
+        <!-- removing plans -->
+        <button
+            on:click={() => showModal(items[0].name)}
+            class="btn btn-danger btn-sm rounded-0"
+            type="button"
+            data-toggle="tooltip"
+            data-placement="top"
+            title="Delete"
+            style="text-align:right;"
+        >
+            <i class="fa fa-trash fa-sm" style="padding: 0.5rem, 0.7rem;" />
+        </button>
+        <ModalComponent bind:this={modalcomponent}>
+            <h1 style="text-align:center;">Are you sure?</h1>
+            <button
+                style="position:absolute;bottom: 1em;right:5%"
+                on:click={async () => {
+                    console.log("removing:" + selectedItem);
+                    await remove();
+                }}>Delete</button
+            >
+        </ModalComponent>
+    </div>
+</div>
+<div class="form-group row">
+    <label for="itemName" class="col-form-label pl-3 pr-3">Days: </label>
+    <div class="">
+        <input
+            type="text"
+            readonly
+            class="form-control-plaintext"
+            id="itemName"
+            value={items[0].duration}
+            style="color:black;"
+        />
+    </div>
+</div>
 
 <!-- list of units -->
 <h3>Units</h3>
